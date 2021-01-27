@@ -1,0 +1,40 @@
+swagger:
+  title: IT Alley系统接口文档
+  description: IT Alley系统-分类&标签&文章&广告管理接口
+  exclude-path: /error # 剔除请求
+
+server:
+  port: 8001
+  servlet:
+    context-path: /article # 上下文件路径，请求前缀 ip:port/article
+
+spring:
+  application:
+    name: article-server # 应用名
+  # 数据源配置
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://127.0.0.1:3306/community_article?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8&allowMultiQueries=true
+    #mysql8版本以上驱动包指定新的驱动类
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    #   数据源其他配置, 在 DruidConfig配置类中手动绑定
+    initialSize: 8
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+
+mybatis-plus:
+  # community-api中，article已经依赖了api
+  type-aliases-package: com.shoukailiang.community.entities
+  # xxxMapper.xml 路径 com/shoukailiang/community/article/mapper/xml/CategoryMapper.xml
+  mapper-locations: classpath*:com/shoukailiang/community/article/mapper/**/*.xml
+
+# 日志级别，会打印sql语句
+logging:
+  level:
+    com.shoukailiang.community.article.mapper: debug
+
