@@ -13,6 +13,9 @@ import com.shoukailiang.community.util.base.Result;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+import java.util.List;
+
 
 @Service
 public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements ICategoryService {
@@ -32,5 +35,19 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         // 第一个参数page分页对象，第二个参数查询条件
         IPage<Category> data = baseMapper.selectPage(req.getPage(), wrapper);
         return Result.ok(data);
+    }
+
+    @Override
+    public boolean updateById(Category category) {
+        category.setUpdateDate(new Date());
+        return super.updateById(category);// 调用父类的更新
+    }
+
+    @Override
+    public Result findAllNormal() {
+        QueryWrapper<Category> wrapper = new QueryWrapper<>();
+        wrapper.eq("status",1);// 1是正常
+        List<Category> categories = baseMapper.selectList(wrapper);
+        return Result.ok(categories);
     }
 }

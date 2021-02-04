@@ -1,7 +1,7 @@
 swagger:
   title: IT Alley系统接口文档
   description: IT Alley系统-分类&标签&文章&广告管理接口
-  exclude-path: /error # 剔除请求
+  exclude-path: /error # 剔除请求,spring boot 默认会有这个请求，将它不显示在文档中
 
 server:
   port: 8001
