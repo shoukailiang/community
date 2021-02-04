@@ -11,6 +11,7 @@
         <module>community-util</module>
         <module>community-api</module>
         <module>community-article</module>
+        <module>community-generator</module>
     </modules>
     <packaging>pom</packaging>
 

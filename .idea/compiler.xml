@@ -6,9 +6,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="community-util" />
         <module name="community-api" />
+        <module name="community-util" />
         <module name="community-article" />
+        <module name="community-generator" />
       </profile>
     </annotationProcessing>
   </component>
@@ -16,6 +17,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="community-api" options="-parameters" />
       <module name="community-article" options="-parameters" />
+      <module name="community-generator" options="-parameters" />
       <module name="community-util" options="-parameters" />
     </option>
   </component>
