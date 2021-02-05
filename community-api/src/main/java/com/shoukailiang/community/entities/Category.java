@@ -1,14 +1,17 @@
 package com.shoukailiang.community.entities;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @ApiModel(value = "Category对象",description = "类别信息表")
 @Data
@@ -50,12 +53,21 @@ public class Category implements Serializable {
     /**
      * 创建时间
      */
+    @JsonIgnore
     @ApiModelProperty(value = "创建时间")
     private Date createDate;
 
     /**
      * 更新时间
      */
+    @JsonIgnore
     @ApiModelProperty(value = "更新时间")
     private Date updateDate;
+
+    /**
+     * 当前分类下的所有标签的接口
+     */
+    @ApiModelProperty(value="分类下的标签集合")
+    @TableField(exist = false)
+    private List<Label> labelList;
 }

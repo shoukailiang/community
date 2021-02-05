@@ -50,4 +50,10 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         List<Category> categories = baseMapper.selectList(wrapper);
         return Result.ok(categories);
     }
+
+    @Override
+    public Result findCategoryAndLabel() {
+        List<Category> categoryAndLabel = baseMapper.findCategoryAndLabel();
+        return Result.ok(categoryAndLabel);
+    }
 }

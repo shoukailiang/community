@@ -61,4 +61,11 @@ public class CategoryController {
     public Result list(){
         return categoryService.findAllNormal();
     }
+
+    @ApiOperation("询正常状态下的分类及分类下的所有标签")
+    @GetMapping("/label/list")
+    public Result findCategoryAndLabel(){
+        return categoryService.findCategoryAndLabel();
+    }
+
 }

@@ -1,5 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shoukailiang.community.article.mapper.CategoryMapper">
-
+<!--    分类及其所有标签-->
+    <resultMap id="categoryLabelMap" type="Category">
+<!--        映射主键-->
+        <id column="id" property="id"/>
+        <!--映射一对一-->
+        <result column="name" property="name"/>
+        <!--一对多 labelList属性  ofType 集合内部的类型-->
+        <collection property="labelList" javaType="list" ofType="Label">
+            <!-- 映射主键 -->
+            <id column="label_id" property="id"/>
+            <!-- 映射普通属性 -->
+            <result column="label_name" property="name"/>
+        </collection>
+    </resultMap>
+<!--    查询正常状态下的分类及其分类下的所有标签-->
+    <select id="findCategoryAndLabel" resultMap="categoryLabelMap">
+        SELECT
+            m1.id,
+            m1.`name`,
+            m2.id label_id,
+            m2.`name` label_name
+        FROM
+            community_category m1
+            LEFT JOIN community_label m2 ON m1.id = m2.category_id
+        WHERE m1.`status` = 1
+        ORDER BY m1.sort
+    </select>
 </mapper>
