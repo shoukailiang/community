@@ -53,14 +53,12 @@ public class Category implements Serializable {
     /**
      * 创建时间
      */
-    @JsonIgnore
     @ApiModelProperty(value = "创建时间")
     private Date createDate;
 
     /**
      * 更新时间
      */
-    @JsonIgnore
     @ApiModelProperty(value = "更新时间")
     private Date updateDate;
 

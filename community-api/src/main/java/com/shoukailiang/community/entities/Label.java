@@ -39,11 +39,9 @@ public class Label implements Serializable {
     @ApiModelProperty(value = "标签名称")
     private String name;
 
-    @JsonIgnore
     @ApiModelProperty(value = "创建时间")
     private Date createDate;
 
-    @JsonIgnore
     @ApiModelProperty(value = "更新时间")
     private Date updateDate;
 
