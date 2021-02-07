@@ -18,8 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sun.text.CollatorUtilities;
 
-import java.util.Collections;
-import java.util.Date;
+import java.util.*;
 
 /**
  * <p>
@@ -32,17 +31,18 @@ import java.util.Date;
 @Service
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements IArticleService {
     QueryWrapper<Article> queryWrapper = new QueryWrapper();
+
     @Override
     public Result queryPage(ArticleREQ req) {
-        if(req.getStatus()!=null){
-            queryWrapper.eq("status",req.getStatus());
+        if (req.getStatus() != null) {
+            queryWrapper.eq("status", req.getStatus());
         }
-        if(StringUtils.isNotEmpty(req.getTitle())){
-            queryWrapper.like("title",req.getTitle());
+        if (StringUtils.isNotEmpty(req.getTitle())) {
+            queryWrapper.like("title", req.getTitle());
         }
         queryWrapper.orderByDesc("update_date");
 
-        return Result.ok(baseMapper.selectPage(req.getPage(),queryWrapper));
+        return Result.ok(baseMapper.selectPage(req.getPage(), queryWrapper));
 
 
     }
@@ -57,7 +57,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Override
     public Result updateOrSave(Article article) {
         // id 不为空，是更新
-        if(StringUtils.isNotEmpty(article.getId())){
+        if (StringUtils.isNotEmpty(article.getId())) {
             // 更新，先删除文章标签中间表数据
             baseMapper.deleteArticleLabel(article.getId());
             // 设置更新时间
@@ -66,15 +66,15 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         // 如果文章是不公开的，则之直接审核通过,否则待审核
         // 0: 已删除, 1:未审核，2:审核通过，3：审核未通过
 
-        if(article.getIspublic()==0){ // 0：不公开，1：公开
+        if (article.getIspublic() == 0) { // 0：不公开，1：公开
             article.setStatus(ArticleStatusEnum.SUCCESS.getCode());
-        }else {
+        } else {
             article.setStatus(ArticleStatusEnum.WAIT.getCode());
         }
         super.saveOrUpdate(article);  // 不能放最后，mp有id update,无id insert;新增结束后，会把id放到article中
         // 吧新增标签的数据放到中间表中
-        if(CollectionUtils.isNotEmpty(article.getLabelIds())){
-            baseMapper.saveArticleLabel(article.getId(),article.getLabelIds());
+        if (CollectionUtils.isNotEmpty(article.getLabelIds())) {
+            baseMapper.saveArticleLabel(article.getId(), article.getLabelIds());
         }
         return Result.ok(article.getId());
     }
@@ -90,12 +90,12 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     public Result findListByUserId(ArticleUserREQ req) {
-        if(StringUtils.isBlank(req.getUserId())){
+        if (StringUtils.isBlank(req.getUserId())) {
             return Result.error("无效的用户");
         }
         QueryWrapper<Article> articleQueryWrapper = new QueryWrapper<>();
         articleQueryWrapper.eq("user_id", req.getUserId());
-        if(req.getIsPublic()!=null){
+        if (req.getIsPublic() != null) {
             // 注意数据库ispublic
             articleQueryWrapper.eq("ispublic", req.getIsPublic());
         }
@@ -107,41 +107,42 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     /**
-     *  更新点赞数，不需要更新时间
+     * 更新点赞数，不需要更新时间
+     *
      * @param id
      * @param count 有增有减
      * @return
      */
     @Override
     public Result updateThumhup(String id, int count) {
-        if(count!=-1&&count!=1){
+        if (count != -1 && count != 1) {
             return Result.error("无效操作");
         }
-        if(StringUtils.isBlank(id)){
+        if (StringUtils.isBlank(id)) {
             return Result.error("无效操作");
         }
         Article article = baseMapper.selectById(id);
-        if(null==article){
+        if (null == article) {
             return Result.error("文章不存在");
         }
-        if(article.getThumhup()<=0&&count==-1){
+        if (article.getThumhup() <= 0 && count == -1) {
             return Result.error("无效操作");
         }
-        article.setThumhup(article.getThumhup()+count);
+        article.setThumhup(article.getThumhup() + count);
         baseMapper.updateById(article);
         return Result.ok();
     }
 
     @Override
     public Result updateViewCount(String id) {
-        if(StringUtils.isBlank(id)) {
+        if (StringUtils.isBlank(id)) {
             return Result.error("无效操作");
         }
         Article article = baseMapper.selectById(id);
-        if(article == null) {
+        if (article == null) {
             return Result.error("文章不存在");
         }
-        article.setViewCount( article.getViewCount() + 1);
+        article.setViewCount(article.getViewCount() + 1);
         baseMapper.updateById(article);
         return Result.ok();
     }
@@ -150,5 +151,49 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     public Result findListByLabelIdOrCategoryId(ArticleListREQ req) {
         // 查询文章列表
         return Result.ok(baseMapper.findListByLabelIdOrCategoryId(req.getPage(), req));
+    }
+
+    @Override
+    public Result getArticleTotal() {
+        // 查询总文章数
+        QueryWrapper<Article> wrapper = new QueryWrapper();
+        // 状态是审核通过
+        wrapper.eq("status", ArticleStatusEnum.SUCCESS.getCode()); // 公开
+        wrapper.eq("ispublic", 1);
+        int total = baseMapper.selectCount(wrapper);
+        return Result.ok(total);
+    }
+
+    @Override
+    public Result selectCategoryTotal() {
+        List<Map<String, Object>> maps = baseMapper.selectCategoryTotal();
+        // 将分类名称提取到集合
+        List<Object> namelist = new ArrayList<>();
+        for (Map<String,Object> map:maps){
+            namelist.add(map.get("name"));
+        }
+        // 封装响应数据
+        Map<String, Object> data = new HashMap<>();
+        data.put("nameAndValueList",maps);
+        data.put("nameList",namelist);
+        return Result.ok(data);
+    }
+
+    @Override
+    public Result selectMonthArticleTotal() {
+        List<Map<String, Object>> maps = baseMapper.selectMonthAritcleTotal();
+        // 将年月提取到集合中
+        List<Object> yearMonthList = new ArrayList<>();
+        // 将每个月的文章数提取集合中
+        List<Object> aritcleTotalList = new ArrayList<>();
+        for(Map<String, Object> map: maps){
+            yearMonthList.add( map.get("year_month") );
+            aritcleTotalList.add( map.get("total") );
+        }
+        Map<String, Object> data = new HashMap<>();
+        data.put("yearMonthList", yearMonthList);
+        // aritcleTotalList 前端也是这个字段
+        data.put("aritcleTotalList", aritcleTotalList);
+        return Result.ok(data);
     }
 }

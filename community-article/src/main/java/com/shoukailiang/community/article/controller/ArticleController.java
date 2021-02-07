@@ -95,4 +95,21 @@ public class ArticleController {
     }
 
 
+    @ApiOperation("统计审核通过且公开的文章总记录数")
+    @GetMapping("/total")
+    public Result getArticleTotal() {
+        return articleService.getArticleTotal();
+    }
+
+    @ApiOperation("统计各分类下的文章数")
+    @GetMapping("/category/total")
+    public Result categoryTotal() {
+        return articleService.selectCategoryTotal();
+    }
+
+    @ApiOperation("查询近6个月发布的文章数")
+    @GetMapping("/month/total")
+    public Result monthArticleTotal() {
+        return articleService.selectMonthArticleTotal();
+    }
 }

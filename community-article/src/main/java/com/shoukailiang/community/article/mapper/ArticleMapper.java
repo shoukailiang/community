@@ -10,6 +10,7 @@ import com.shoukailiang.community.util.enums.ArticleStatusEnum;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -51,4 +52,15 @@ public interface ArticleMapper extends BaseMapper<Article> {
      */
     IPage<Article> findListByLabelIdOrCategoryId(IPage<Article> page, @Param("req") ArticleListREQ req);
 
+    /**
+     * 统计各分类下的文章数（将分类所属标签的文章整合在一起）
+     * @return
+     */
+    List<Map<String, Object>> selectCategoryTotal();
+
+    /**
+     * 统计近6个月的文章数
+     * @return
+     */
+    List<Map<String, Object>> selectMonthAritcleTotal();
 }

@@ -77,4 +77,10 @@
         </if>
             ORDER BY m3.update_date DESC
     </select>
+    <select id="selectCategoryTotal" resultType="map">
+        SELECT `name`, `value` FROM v_category_total
+    </select>
+    <select id="selectMonthAritcleTotal" resultType="map">
+        SELECT `year_month` , `total` FROM v_month_aritcle_total
+    </select>
 </mapper>

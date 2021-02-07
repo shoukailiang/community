@@ -75,4 +75,21 @@ public interface IArticleService extends IService<Article> {
      */
     Result findListByLabelIdOrCategoryId(ArticleListREQ req);
 
+    /**
+     * 查询文章总记录数
+     * @return
+     */
+    Result getArticleTotal();
+
+    /**
+     * 统计每个分类写下的文章数
+     * @return
+     */
+    Result selectCategoryTotal();
+
+    /**
+     * 统计近6个月的文章数
+     * @return
+     */
+    Result selectMonthArticleTotal();
 }
