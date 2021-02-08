@@ -9,15 +9,12 @@ import com.shoukailiang.community.entities.Article;
 import com.shoukailiang.community.article.mapper.ArticleMapper;
 import com.shoukailiang.community.article.service.IArticleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.shoukailiang.community.entities.Comment;
 import com.shoukailiang.community.util.base.Result;
 import com.shoukailiang.community.util.enums.ArticleStatusEnum;
-import feign.QueryMap;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sun.text.CollatorUtilities;
 
 import java.util.*;
 
@@ -31,10 +28,10 @@ import java.util.*;
  */
 @Service
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements IArticleService {
-    QueryWrapper<Article> queryWrapper = new QueryWrapper();
 
     @Override
     public Result queryPage(ArticleREQ req) {
+        QueryWrapper<Article> queryWrapper = new QueryWrapper();
         if (req.getStatus() != null) {
             queryWrapper.eq("status", req.getStatus());
         }
@@ -44,8 +41,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         queryWrapper.orderByDesc("update_date");
 
         return Result.ok(baseMapper.selectPage(req.getPage(), queryWrapper));
-
-
     }
 
     @Override
