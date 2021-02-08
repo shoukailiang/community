@@ -1,0 +1,17 @@
+{
+  "groups": [
+    {
+      "name": "community.article",
+      "type": "com.shoukailiang.community.util.properties.ArticleProperties",
+      "sourceType": "com.shoukailiang.community.util.properties.ArticleProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "community.article.aliyun",
+      "type": "com.shoukailiang.community.util.properties.AliyunProperties",
+      "sourceType": "com.shoukailiang.community.util.properties.ArticleProperties"
+    }
+  ],
+  "hints": []
+}

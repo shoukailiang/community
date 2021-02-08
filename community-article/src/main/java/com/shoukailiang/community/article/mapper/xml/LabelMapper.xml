@@ -7,13 +7,14 @@
         m1.`id`, m1.`category_id`, m1.`name`, m1.`create_date`, m1.`update_date`, m2.`name` category_name
         FROM community_label m1 JOIN community_category m2
         ON m1.category_id = m2.id
-        WHERE 1=1
-        <if test="req.name != null and req.name !=''">
-            and m1.name LIKE CONCAT('%', #{req.name}, '%')
-        </if>
-        <if test="req.categoryId != null and req.categoryId !=''">
-            and m1.category_id = #{req.categoryId}
-        </if>
+        <where>
+            <if test="req.name != null and req.name !=''">
+                and m1.name LIKE CONCAT('%', #{req.name}, '%')
+            </if>
+            <if test="req.categoryId != null and req.categoryId !=''">
+                and m1.category_id = #{req.categoryId}
+            </if>
+        </where>
         ORDER BY m1.`update_date` desc
     </select>
 </mapper>

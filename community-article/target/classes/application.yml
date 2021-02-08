@@ -38,3 +38,14 @@ logging:
   level:
     com.shoukailiang.community.article.mapper: debug
 
+# 阿里云
+community:
+  article:
+    #  阿里云配置
+    aliyun:
+      endpoint: https://oss-cn-hangzhou.aliyuncs.com # oss端点
+      accessKeyId: LTAI4GEVtbhGk488sdmRLKoF
+      accessKeySecret: m4mA3Isp0QnfAWmwNuWPnamkfDXH8q
+      bucketName: vue-community
+      # Bucket域名，访问文件时作为URL前缀，注意前面加上 https 和结尾加上
+      bucketDomain: https://vue-community.oss-cn-hangzhou.aliyuncs.com/
