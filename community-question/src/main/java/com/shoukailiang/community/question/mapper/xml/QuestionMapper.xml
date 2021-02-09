@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoukailiang.community.question.mapper.QuestionMapper">
+
+    <select id="findListByLabelId" resultType="Question">
+        SELECT DISTINCT
+            m1.*
+        FROM
+            community_question m1
+                LEFT JOIN community_question_label m2 ON m1.id = m2.question_id WHERE
+            m1.`status` != 0
+             AND m2.label_id = #{labelId}
+        ORDER BY m1.update_date DESC
+    </select>
+</mapper>

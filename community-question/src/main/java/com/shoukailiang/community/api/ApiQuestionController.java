@@ -1,0 +1,45 @@
+package com.shoukailiang.community.api;
+
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.shoukailiang.community.entities.Question;
+import com.shoukailiang.community.question.service.IQuestionService;
+import com.shoukailiang.community.util.base.BaseRequest;
+import com.shoukailiang.community.util.base.Result;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+@Api(value = "问答管理API接口", description = "问答管理API接口，不需要通过身份认证即可调用接口")
+@RestController
+@RequestMapping("/api/question")
+public class ApiQuestionController {
+    @Autowired
+    private IQuestionService questionService;
+
+    @ApiOperation("分页查询热门问答列表接口")
+    @PostMapping("/hot") // /api/question/hot
+    public Result findHostList(@RequestBody BaseRequest<Question> req) {
+        return questionService.findHotList(req);
+    }
+
+    @ApiOperation("分页查询最新问答列表")
+    @PostMapping("/new")
+    public Result findNewList(@RequestBody BaseRequest<Question> page) {
+        return questionService.findNewList(page);
+    }
+
+    @ApiOperation("分页查询等待回答列表")
+    @PostMapping("/wait")
+    public Result findWaitList(@RequestBody BaseRequest<Question> page) {
+        return questionService.findWaitList(page);
+    }
+    @ApiImplicitParam(name="labelId", value="标签ID", required=true)
+    @ApiOperation("根据标签ID分页查询问答列表接口")
+    @PostMapping("/list/{labelId}")
+    public Result findListByLabelId(@RequestBody BaseRequest<Question> req,
+                                    @PathVariable("labelId") String labelId) {
+        return questionService.findListByLabelId(req, labelId);
+    }
+}
