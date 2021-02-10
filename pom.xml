@@ -19,13 +19,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.9.RELEASE</version>
+        <version>2.3.2.RELEASE</version>
         <relativePath/>
     </parent>
     <!--依赖版本管理-->
     <properties>
-        <spring-cloud.version>Hoxton.SR5</spring-cloud.version>
-        <cloud-alibaba.version>2.2.0.RELEASE</cloud-alibaba.version>
+        <spring-cloud.version>Hoxton.SR7</spring-cloud.version>
+        <cloud-alibaba.version>2.2.1.RELEASE</cloud-alibaba.version>
         <mybatis-plus.version>3.3.1</mybatis-plus.version>
         <druid.version>1.1.21</druid.version>
         <kaptcha.version>2.3.2</kaptcha.version>
