@@ -1,10 +1,13 @@
 package com.shoukailiang.community.entities;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+import java.util.List;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -65,6 +68,13 @@ public class Question implements Serializable {
 
     @ApiModelProperty(value = "更新时间")
     private Date updateDate;
+
+    @ApiModelProperty(value = "所属标签ID集合")
+    @TableField(exist = false)
+    private List<String> labelIds;
+    @ApiModelProperty(value = "所属标签对象集合")
+    @TableField(exist = false)
+    private List<Label> labelList;
 
 
 }

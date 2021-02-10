@@ -2,6 +2,7 @@ package com.shoukailiang.community.question.service;
 
 import com.shoukailiang.community.entities.Replay;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.shoukailiang.community.util.base.Result;
 
 /**
  * <p>
@@ -12,5 +13,25 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2021-02-08
  */
 public interface IReplayService extends IService<Replay> {
+    /**
+     * 通过问题id递归查询所有评论
+     * @param questionId
+     * @return
+     */
+    Result findByQuestionId(String questionId);
+
+    /**
+     * 通过问题id递归删除所有评论
+     * @param id
+     * @return
+     */
+    Result deleteById(String id);
+
+    /**
+     * 新增回答并更新回答数量
+     * @param replay
+     * @return
+     */
+    Result add(Replay replay);
 
 }

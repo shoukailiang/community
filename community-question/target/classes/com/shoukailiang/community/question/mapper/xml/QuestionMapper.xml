@@ -2,6 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shoukailiang.community.question.mapper.QuestionMapper">
 
+
+
     <select id="findListByLabelId" resultType="Question">
         SELECT DISTINCT
             m1.*
@@ -12,4 +14,42 @@
              AND m2.label_id = #{labelId}
         ORDER BY m1.update_date DESC
     </select>
+    <select id="findQuestionAndLabelIdsById" resultMap="QuestionAndLabelIdsMap">
+        SELECT q.*, ql.label_id
+        FROM community_question q
+        LEFT JOIN community_question_label ql ON q.id = ql.question_id
+        WHERE q.id = #{id}
+    </select>
+
+    <resultMap id="QuestionAndLabelIdsMap" type="Question">
+        <!--映射主键-->
+        <id column="id" property="id"/>
+        <!--映射一对一-->
+        <result column="user_id" property="userId"/>
+        <result column="nick_name" property="nickName"/>
+        <result column="user_image" property="userImage"/>
+        <result column="title" property="title"/>
+        <result column="md_content" property="mdContent"/>
+        <result column="html_content" property="htmlContent"/>
+        <result column="view_count" property="viewCount"/>
+        <result column="thumhup" property="thumhup"/>
+        <result column="reply" property="reply"/>
+        <result column="status" property="status"/>
+        <result column="create_date" property="createDate"/>
+        <result column="update_date" property="updateDate"/>
+        <!--封装标签ID集合-->
+        <collection property="labelIds" javaType="list" ofType="string" >
+            <id column="label_id" property="id"/>
+        </collection>
+    </resultMap>
+
+    <delete id="deleteQuestionLabel">
+        DELETE FROM community_question_label where question_id = #{questionId}
+    </delete>
+    <insert id="saveQuestionLabel">
+        INSERT INTO community_question_label(id, question_id, label_id) VALUES
+        <foreach collection="labelIds" item="item" separator=",">
+            ('${@com.baomidou.mybatisplus.core.toolkit.IdWorker@getId()}', #{questionId}, #{item})
+        </foreach>
+    </insert>
 </mapper>
