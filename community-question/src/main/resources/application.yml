@@ -1,54 +1,54 @@
-swagger:
-  title: IT Alley系统接口文档
-  description: IT Alley系统-问答管理接口
-  exclude-path: /error # 剔除请求,spring boot 默认会有这个请求，将它不显示在文档中
-server:
-  port: 8002
-  servlet:
-    context-path: /question
-
-spring:
-  application:
-    name: question-server # 应用名
-  # 数据源配置
-  datasource:
-    username: root
-    password: 123456
-    url: jdbc:mysql://127.0.0.1:3306/community_question?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8&allowMultiQueries=true
-    #mysql8版本以上驱动包指定新的驱动类
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    #   数据源其他配置, 在 DruidConfig配置类中手动绑定
-    initialSize: 8
-    minIdle: 5
-    maxActive: 20
-    maxWait: 60000
-    timeBetweenEvictionRunsMillis: 60000
-    minEvictableIdleTimeMillis: 300000
-    validationQuery: SELECT 1 FROM DUAL
-  # nacos
-  cloud:
-    nacos:
-      discovery:
-        server-addr: localhost:8848 # 服务注册中心地址
-
-mybatis-plus:
-  type-aliases-package: com.shoukailiang.community.entities
-  # xxxMapper.xml 路径
-  mapper-locations: classpath*:com/shoukailiang/community/question/mapper/**/*.xml
-
-# 日志级别，会打印sql语句
-logging:
-  level:
-    com.shoukailiang.community.question.mapper: debug
-
-# 阿里云
-community:
-  article:
-    #  阿里云配置
-    aliyun:
-      endpoint: https://oss-cn-hangzhou.aliyuncs.com # oss端点
-      accessKeyId: LTAI4GEVtbhGk488sdmRLKoF
-      accessKeySecret: m4mA3Isp0QnfAWmwNuWPnamkfDXH8q
-      bucketName: vue-community
-      # Bucket域名，访问文件时作为URL前缀，注意前面加上 https 和结尾加上
-      bucketDomain: https://vue-community.oss-cn-hangzhou.aliyuncs.com/
+#swagger:
+#  title: IT Alley系统接口文档
+#  description: IT Alley系统-问答管理接口
+#  exclude-path: /error # 剔除请求,spring boot 默认会有这个请求，将它不显示在文档中
+#server:
+#  port: 8002
+#  servlet:
+#    context-path: /question
+#
+#spring:
+#  application:
+#    name: question-server # 应用名
+#  # 数据源配置
+#  datasource:
+#    username: root
+#    password: 123456
+#    url: jdbc:mysql://127.0.0.1:3306/community_question?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8&allowMultiQueries=true
+#    #mysql8版本以上驱动包指定新的驱动类
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    #   数据源其他配置, 在 DruidConfig配置类中手动绑定
+#    initialSize: 8
+#    minIdle: 5
+#    maxActive: 20
+#    maxWait: 60000
+#    timeBetweenEvictionRunsMillis: 60000
+#    minEvictableIdleTimeMillis: 300000
+#    validationQuery: SELECT 1 FROM DUAL
+#  # nacos
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: localhost:8848 # 服务注册中心地址
+#
+#mybatis-plus:
+#  type-aliases-package: com.shoukailiang.community.entities
+#  # xxxMapper.xml 路径
+#  mapper-locations: classpath*:com/shoukailiang/community/question/mapper/**/*.xml
+#
+## 日志级别，会打印sql语句
+#logging:
+#  level:
+#    com.shoukailiang.community.question.mapper: debug
+#
+## 阿里云
+#community:
+#  article:
+#    #  阿里云配置
+#    aliyun:
+#      endpoint: https://oss-cn-hangzhou.aliyuncs.com # oss端点
+#      accessKeyId: LTAI4GEVtbhGk488sdmRLKoF
+#      accessKeySecret: m4mA3Isp0QnfAWmwNuWPnamkfDXH8q
+#      bucketName: vue-community
+#      # Bucket域名，访问文件时作为URL前缀，注意前面加上 https 和结尾加上
+#      bucketDomain: https://vue-community.oss-cn-hangzhou.aliyuncs.com/

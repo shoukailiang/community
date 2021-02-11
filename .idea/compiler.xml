@@ -9,6 +9,7 @@
         <module name="community-api" />
         <module name="community-question" />
         <module name="community-util" />
+        <module name="community-system" />
         <module name="community-article" />
         <module name="community-generator" />
       </profile>
@@ -20,6 +21,7 @@
       <module name="community-article" options="-parameters" />
       <module name="community-generator" options="-parameters" />
       <module name="community-question" options="-parameters" />
+      <module name="community-system" options="-parameters" />
       <module name="community-util" options="-parameters" />
     </option>
   </component>

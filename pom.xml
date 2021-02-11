@@ -13,6 +13,7 @@
         <module>community-article</module>
         <module>community-generator</module>
         <module>community-question</module>
+        <module>community-system</module>
     </modules>
     <packaging>pom</packaging>
 

@@ -2,7 +2,9 @@ package com.shoukailiang.community.question.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.shoukailiang.community.entities.Label;
 import com.shoukailiang.community.entities.Question;
+import com.shoukailiang.community.feign.IFeignArticleController;
 import com.shoukailiang.community.question.mapper.QuestionMapper;
 import com.shoukailiang.community.question.req.QuestionUserREQ;
 import com.shoukailiang.community.question.service.IQuestionService;
@@ -11,11 +13,13 @@ import com.shoukailiang.community.util.base.BaseRequest;
 import com.shoukailiang.community.util.base.Result;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -27,6 +31,8 @@ import java.util.Date;
  */
 @Service
 public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> implements IQuestionService {
+    @Autowired
+    private IFeignArticleController feignArticleController;
 
     @Override
     public Result findHotList(BaseRequest<Question> req) {
@@ -76,9 +82,10 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         if(question == null) {
             return Result.error("未查询到相关问题信息");
         }
-        // TODO Feign 程调用 Article 微服务查询标签信息
+        //  Feign 程调用 Article 微服务查询标签信息
         if(CollectionUtils.isNotEmpty(question.getLabelIds())){
-
+            List<Label> labelListByIds = feignArticleController.getLabelListByIds(question.getLabelIds());
+            question.setLabelList(labelListByIds);
         }
         return Result.ok(question);
     }
