@@ -2,4 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shoukailiang.community.system.mapper.SysRoleMapper">
 
+
+    <delete id="deleteRoleMenuByRoleId">
+        DELETE
+        FROM sys_role_menu
+        WHERE role_id = #{roleId}
+    </delete>
+    <!--    根据角色id查询此角色拥有的权限菜单ids-->
+    <select id="findMenuIdsById" resultType="java.lang.String">
+        SELECT menu_id
+        FROM sys_role_menu
+        WHERE role_id = #{id}
+    </select>
+    <!--  新增角色菜单权限数据
+          foreach 标签：item "每个元素"， index "索引"， separator 标签体中整体内容以逗号分隔：(1, 1) , (1, 2)
+      -->
+    <insert id="saveRoleMenu">
+        INSERT INTO sys_role_menu(id, role_id, menu_id) VALUES
+        <foreach collection="menuIds" item="item" index="index" separator=",">
+            (
+            '${@com.baomidou.mybatisplus.core.toolkit.IdWorker@getId()}', #{roleId}, #{item}
+            )
+        </foreach>
+    </insert>
 </mapper>
