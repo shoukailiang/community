@@ -3,7 +3,8 @@ package com.shoukailiang.community.question.controller;
 
 import com.shoukailiang.community.entities.Replay;
 import com.shoukailiang.community.question.service.IReplayService;
-import com.shoukailiang.community.util.base.Result;
+import com.shoukailiang.community.util.base.ResultVO;
+import com.shoukailiang.community.util.base.ResultVOUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -29,13 +30,13 @@ public class ReplayController {
     @ApiImplicitParam(name="id", value="回答评论ID", required=true)
     @ApiOperation("删除回答评论接口")
     @DeleteMapping("/{id}")
-    public Result delete(@PathVariable("id") String id) {
+    public ResultVO delete(@PathVariable("id") String id) {
         return replayService.deleteById(id);
     }
 
     @ApiOperation("新增回答信息接口")
     @PostMapping
-    public Result add(@RequestBody Replay replay){
+    public ResultVO add(@RequestBody Replay replay){
         return replayService.add(replay);
     }
 }

@@ -3,7 +3,8 @@ package com.shoukailiang.community.article.service;
 import com.shoukailiang.community.article.req.LabelREQ;
 import com.shoukailiang.community.entities.Label;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.shoukailiang.community.util.base.Result;
+import com.shoukailiang.community.util.base.ResultVO;
+import com.shoukailiang.community.util.base.ResultVOUtil;
 
 /**
  * <p>
@@ -19,6 +20,6 @@ public interface ILabelService extends IService<Label> {
      * @param req
      * @return
      */
-    Result queryPage(LabelREQ req);
+    ResultVO queryPage(LabelREQ req);
 
 }

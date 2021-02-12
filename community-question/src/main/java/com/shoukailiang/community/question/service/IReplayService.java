@@ -2,7 +2,8 @@ package com.shoukailiang.community.question.service;
 
 import com.shoukailiang.community.entities.Replay;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.shoukailiang.community.util.base.Result;
+import com.shoukailiang.community.util.base.ResultVO;
+import com.shoukailiang.community.util.base.ResultVOUtil;
 
 /**
  * <p>
@@ -18,20 +19,20 @@ public interface IReplayService extends IService<Replay> {
      * @param questionId
      * @return
      */
-    Result findByQuestionId(String questionId);
+    ResultVO findByQuestionId(String questionId);
 
     /**
      * 通过问题id递归删除所有评论
      * @param id
      * @return
      */
-    Result deleteById(String id);
+    ResultVO deleteById(String id);
 
     /**
      * 新增回答并更新回答数量
      * @param replay
      * @return
      */
-    Result add(Replay replay);
+    ResultVO add(Replay replay);
 
 }

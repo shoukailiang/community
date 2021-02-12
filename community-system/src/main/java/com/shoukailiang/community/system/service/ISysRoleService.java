@@ -3,8 +3,8 @@ package com.shoukailiang.community.system.service;
 import com.shoukailiang.community.entities.SysRole;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.shoukailiang.community.system.req.SysRoleREQ;
-import com.shoukailiang.community.util.base.Result;
-import org.apache.ibatis.annotations.Param;
+import com.shoukailiang.community.util.base.ResultVO;
+import com.shoukailiang.community.util.base.ResultVOUtil;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public interface ISysRoleService extends IService<SysRole> {
      * @param req
      * @return
      */
-    Result queryPage(SysRoleREQ req);
+    ResultVO queryPage(SysRoleREQ req);
 
     /**
      * 1. 通过id删除角色信息表数据
@@ -30,14 +30,14 @@ public interface ISysRoleService extends IService<SysRole> {
      * @param id
      * @return
      */
-    Result deleteById(String id);
+    ResultVO deleteById(String id);
 
     /**
      * 根据角色id查询此角色拥有的权限菜单 ids
      * @param id  角色id
      * @return
      */
-    Result findMenuIdsById(String id);
+    ResultVO findMenuIdsById(String id);
 
     /**
      * 新增角色菜单权限数据到 sys_role_menu
@@ -45,6 +45,6 @@ public interface ISysRoleService extends IService<SysRole> {
      * @param menuIds
      * @return
      */
-    Result saveRoleMenu(String roleId, List<String> menuIds);
+    ResultVO saveRoleMenu(String roleId, List<String> menuIds);
 
 }

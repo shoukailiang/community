@@ -3,7 +3,8 @@ package com.shoukailiang.community.article.controller;
 
 import com.shoukailiang.community.article.service.ICommentService;
 import com.shoukailiang.community.entities.Comment;
-import com.shoukailiang.community.util.base.Result;
+import com.shoukailiang.community.util.base.ResultVO;
+import com.shoukailiang.community.util.base.ResultVOUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -28,14 +29,14 @@ public class CommentController {
     @ApiImplicitParam(name="id", value="评论ID", required=true)
     @ApiOperation("删除评论接口")
     @DeleteMapping("/{id}")
-    public Result delete(@PathVariable("id") String id) {
+    public ResultVO delete(@PathVariable("id") String id) {
         return commentService.deleteById(id);
     }
 
     @ApiOperation("新增评论信息接口")
     @PostMapping
-    public Result save(@RequestBody Comment comment) {
+    public ResultVO save(@RequestBody Comment comment) {
         commentService.save(comment);
-        return Result.ok();
+        return ResultVOUtil.success();
     }
 }

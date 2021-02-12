@@ -9,7 +9,8 @@ import com.shoukailiang.community.entities.Article;
 import com.shoukailiang.community.article.mapper.ArticleMapper;
 import com.shoukailiang.community.article.service.IArticleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.shoukailiang.community.util.base.Result;
+import com.shoukailiang.community.util.base.ResultVO;
+import com.shoukailiang.community.util.base.ResultVOUtil;
 import com.shoukailiang.community.util.enums.ArticleStatusEnum;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -30,7 +31,7 @@ import java.util.*;
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements IArticleService {
 
     @Override
-    public Result queryPage(ArticleREQ req) {
+    public ResultVO queryPage(ArticleREQ req) {
         QueryWrapper<Article> queryWrapper = new QueryWrapper();
         if (req.getStatus() != null) {
             queryWrapper.eq("status", req.getStatus());
@@ -40,18 +41,18 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         }
         queryWrapper.orderByDesc("update_date");
 
-        return Result.ok(baseMapper.selectPage(req.getPage(), queryWrapper));
+        return ResultVOUtil.success(baseMapper.selectPage(req.getPage(), queryWrapper));
     }
 
     @Override
-    public Result findArticleAndLabel(String id) {
+    public ResultVO findArticleAndLabel(String id) {
         Article article = baseMapper.findArticleAndLabelById(id);
-        return Result.ok(article);
+        return ResultVOUtil.success(article);
     }
 
     @Transactional
     @Override
-    public Result updateOrSave(Article article) {
+    public ResultVO updateOrSave(Article article) {
         // id 不为空，是更新
         if (StringUtils.isNotEmpty(article.getId())) {
             // 更新，先删除文章标签中间表数据
@@ -72,22 +73,22 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         if (CollectionUtils.isNotEmpty(article.getLabelIds())) {
             baseMapper.saveArticleLabel(article.getId(), article.getLabelIds());
         }
-        return Result.ok(article.getId());
+        return ResultVOUtil.success(article.getId());
     }
 
     @Override
-    public Result updateStatus(String id, ArticleStatusEnum statusEnum) {
+    public ResultVO updateStatus(String id, ArticleStatusEnum statusEnum) {
         Article article = baseMapper.selectById(id);
         article.setStatus(statusEnum.getCode());
         article.setUpdateDate(new Date());
         baseMapper.updateById(article);
-        return Result.ok();
+        return ResultVOUtil.success();
     }
 
     @Override
-    public Result findListByUserId(ArticleUserREQ req) {
+    public ResultVO findListByUserId(ArticleUserREQ req) {
         if (StringUtils.isBlank(req.getUserId())) {
-            return Result.error("无效的用户");
+            return ResultVOUtil.error("无效的用户");
         }
         QueryWrapper<Article> articleQueryWrapper = new QueryWrapper<>();
         articleQueryWrapper.eq("user_id", req.getUserId());
@@ -98,7 +99,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         // 排序
         articleQueryWrapper.orderByDesc("update_date");
         IPage<Article> page = baseMapper.selectPage(req.getPage(), articleQueryWrapper);
-        return Result.ok(page);
+        return ResultVOUtil.success(page);
 
     }
 
@@ -110,58 +111,58 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
      * @return
      */
     @Override
-    public Result updateThumhup(String id, int count) {
+    public ResultVO updateThumhup(String id, int count) {
         if (count != -1 && count != 1) {
-            return Result.error("无效操作");
+            return ResultVOUtil.error("无效操作");
         }
         if (StringUtils.isBlank(id)) {
-            return Result.error("无效操作");
+            return ResultVOUtil.error("无效操作");
         }
         Article article = baseMapper.selectById(id);
         if (null == article) {
-            return Result.error("文章不存在");
+            return ResultVOUtil.error("文章不存在");
         }
         if (article.getThumhup() <= 0 && count == -1) {
-            return Result.error("无效操作");
+            return ResultVOUtil.error("无效操作");
         }
         article.setThumhup(article.getThumhup() + count);
         baseMapper.updateById(article);
-        return Result.ok();
+        return ResultVOUtil.success();
     }
 
     @Override
-    public Result updateViewCount(String id) {
+    public ResultVO updateViewCount(String id) {
         if (StringUtils.isBlank(id)) {
-            return Result.error("无效操作");
+            return ResultVOUtil.error("无效操作");
         }
         Article article = baseMapper.selectById(id);
         if (article == null) {
-            return Result.error("文章不存在");
+            return ResultVOUtil.error("文章不存在");
         }
         article.setViewCount(article.getViewCount() + 1);
         baseMapper.updateById(article);
-        return Result.ok();
+        return ResultVOUtil.success();
     }
 
     @Override
-    public Result findListByLabelIdOrCategoryId(ArticleListREQ req) {
+    public ResultVO findListByLabelIdOrCategoryId(ArticleListREQ req) {
         // 查询文章列表
-        return Result.ok(baseMapper.findListByLabelIdOrCategoryId(req.getPage(), req));
+        return ResultVOUtil.success(baseMapper.findListByLabelIdOrCategoryId(req.getPage(), req));
     }
 
     @Override
-    public Result getArticleTotal() {
+    public ResultVO getArticleTotal() {
         // 查询总文章数
         QueryWrapper<Article> wrapper = new QueryWrapper();
         // 状态是审核通过
         wrapper.eq("status", ArticleStatusEnum.SUCCESS.getCode()); // 公开
         wrapper.eq("ispublic", 1);
         int total = baseMapper.selectCount(wrapper);
-        return Result.ok(total);
+        return ResultVOUtil.success(total);
     }
 
     @Override
-    public Result selectCategoryTotal() {
+    public ResultVO selectCategoryTotal() {
         List<Map<String, Object>> maps = baseMapper.selectCategoryTotal();
         // 将分类名称提取到集合
         List<Object> namelist = new ArrayList<>();
@@ -172,11 +173,11 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         Map<String, Object> data = new HashMap<>();
         data.put("nameAndValueList",maps);
         data.put("nameList",namelist);
-        return Result.ok(data);
+        return ResultVOUtil.success(data);
     }
 
     @Override
-    public Result selectMonthArticleTotal() {
+    public ResultVO selectMonthArticleTotal() {
         List<Map<String, Object>> maps = baseMapper.selectMonthAritcleTotal();
         // 将年月提取到集合中
         List<Object> yearMonthList = new ArrayList<>();
@@ -190,7 +191,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         data.put("yearMonthList", yearMonthList);
         // aritcleTotalList 前端也是这个字段
         data.put("aritcleTotalList", aritcleTotalList);
-        return Result.ok(data);
+        return ResultVOUtil.success(data);
     }
 
 

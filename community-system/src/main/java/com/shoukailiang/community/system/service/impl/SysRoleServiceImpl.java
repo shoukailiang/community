@@ -7,7 +7,10 @@ import com.shoukailiang.community.system.mapper.SysRoleMapper;
 import com.shoukailiang.community.system.req.SysRoleREQ;
 import com.shoukailiang.community.system.service.ISysRoleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.shoukailiang.community.util.base.Result;
+import com.shoukailiang.community.util.base.ResultVO;
+import com.shoukailiang.community.util.base.ResultVOUtil;
+import com.shoukailiang.community.util.enums.ResultEnum;
+import com.shoukailiang.community.util.exception.CommunityException;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
@@ -27,7 +30,7 @@ import java.util.List;
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements ISysRoleService {
 
     @Override
-    public Result queryPage(SysRoleREQ req) {
+    public ResultVO queryPage(SysRoleREQ req) {
         QueryWrapper<SysRole> wrapper = new QueryWrapper();
         // 条件查询
         if (StringUtils.isNotEmpty(req.getName())) {
@@ -35,33 +38,37 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         }
         wrapper.orderByAsc("update_date");
         IPage<SysRole> sysRoleIPage = baseMapper.selectPage(req.getPage(), wrapper);
-        return Result.ok(sysRoleIPage);
+        return ResultVOUtil.success(sysRoleIPage);
     }
 
     @Transactional
     @Override
-    public Result deleteById(String id) {
+    public ResultVO deleteById(String id) {
         // 1. 通过角色 id 删除角色信息表数据
         baseMapper.deleteById(id);
         // 2. 通过角色 id 删除角色菜单关系表数据
         baseMapper.deleteRoleMenuByRoleId(id);
-        return Result.ok();
+        return ResultVOUtil.success();
     }
 
     @Override
-    public Result findMenuIdsById(String id) {
+    public ResultVO findMenuIdsById(String id) {
         List<String> menuIdsById = baseMapper.findMenuIdsById(id);
-        return Result.ok(menuIdsById);
+        return ResultVOUtil.success(menuIdsById);
     }
 
     @Transactional
     @Override
-    public Result saveRoleMenu(String roleId, List<String> menuIds) {
+    public ResultVO saveRoleMenu(String roleId, List<String> menuIds) {
+        SysRole sysRole = baseMapper.selectById(roleId);
+        if(sysRole==null){
+            throw new CommunityException(ResultEnum.NOT_ROLE.getCode(),ResultEnum.NOT_ROLE.getMessage());
+        }
         // 1. 先删除角色菜单关系表数据
         baseMapper.deleteRoleMenuByRoleId(roleId); // 2. 再保存新的角色菜单关系表数据
         if (CollectionUtils.isNotEmpty(menuIds)) {
             baseMapper.saveRoleMenu(roleId, menuIds);
         }
-        return Result.ok();
+        return ResultVOUtil.success();
     }
 }

@@ -3,7 +3,8 @@ package com.shoukailiang.community.article.controller;
 import com.shoukailiang.community.article.req.CategoryREQ;
 import com.shoukailiang.community.article.service.ICategoryService;
 import com.shoukailiang.community.entities.Category;
-import com.shoukailiang.community.util.base.Result;
+import com.shoukailiang.community.util.base.ResultVO;
+import com.shoukailiang.community.util.base.ResultVOUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -24,47 +25,47 @@ public class CategoryController {
      */
     @ApiOperation("根据分类名称与状态查询分类接口")
     @PostMapping("/search")
-    public Result search(@RequestBody CategoryREQ req){
+    public ResultVO search(@RequestBody CategoryREQ req){
         return categoryService.queryPage(req);
     }
 
     @ApiOperation("根据类别详情接口")
     @ApiImplicitParam(name = "id",value = "类别id",required = true)
     @GetMapping("/{id}")
-    public Result view(@PathVariable("id") String id){
+    public ResultVO view(@PathVariable("id") String id){
         Category category = categoryService.getById(id);
-        return Result.ok(category);
+        return ResultVOUtil.success(category);
     }
     @ApiOperation("修改类别详情接口")
     @PutMapping   //category
-    public Result update(@RequestBody Category category){
+    public ResultVO update(@RequestBody Category category){
         categoryService.updateById(category);
-        return Result.ok();
+        return ResultVOUtil.success();
     }
     @ApiOperation("新增类别详情接口")
     @PostMapping //category
-    public Result save(@RequestBody Category category){
+    public ResultVO save(@RequestBody Category category){
         categoryService.save(category);
-        return Result.ok();
+        return ResultVOUtil.success();
     }
 
     @ApiOperation("删除类别详情接口")
     @ApiImplicitParam(name = "id",value = "类别id",required = true)
     @DeleteMapping("/{id}")//category/1
-    public Result delete(@PathVariable("id") String id){
+    public ResultVO delete(@PathVariable("id") String id){
         categoryService.removeById(id);
-        return Result.ok();
+        return ResultVOUtil.success();
     }
 
     @ApiOperation("查询所有正常状态的分类接口")
     @GetMapping("/list")
-    public Result list(){
+    public ResultVO list(){
         return categoryService.findAllNormal();
     }
 
     @ApiOperation("询正常状态下的分类及分类下的所有标签")
     @GetMapping("/label/list")
-    public Result findCategoryAndLabel(){
+    public ResultVO findCategoryAndLabel(){
         return categoryService.findCategoryAndLabel();
     }
 

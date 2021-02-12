@@ -7,7 +7,8 @@ import com.shoukailiang.community.article.mapper.AdvertMapper;
 import com.shoukailiang.community.article.service.IAdvertService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shoukailiang.community.util.aliyun.AliyunUtil;
-import com.shoukailiang.community.util.base.Result;
+import com.shoukailiang.community.util.base.ResultVO;
+import com.shoukailiang.community.util.base.ResultVOUtil;
 import com.shoukailiang.community.util.properties.ArticleProperties;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class AdvertServiceImpl extends ServiceImpl<AdvertMapper, Advert> impleme
     private ArticleProperties articleProperties;
 
     @Override
-    public Result queryPage(AdvertREQ req) {
+    public ResultVO queryPage(AdvertREQ req) {
         QueryWrapper<Advert> wrapper = new QueryWrapper();
         if(req.getStatus() != null) {
             wrapper.eq("status", req.getStatus());
@@ -38,13 +39,13 @@ public class AdvertServiceImpl extends ServiceImpl<AdvertMapper, Advert> impleme
         }
         wrapper.orderByDesc("status").orderByAsc("sort");
         // 分页对象
-        return Result.ok(baseMapper.selectPage(req.getPage(), wrapper));
+        return ResultVOUtil.success(baseMapper.selectPage(req.getPage(), wrapper));
     }
 
 
     @Transactional
     @Override
-    public Result deleteById(String id) {
+    public ResultVO deleteById(String id) {
         // 1. 先通过广告id查询图片url
         String imageUrl = baseMapper.selectById(id).getImageUrl();
         // 2. 先删除表中的广告信息
@@ -52,15 +53,15 @@ public class AdvertServiceImpl extends ServiceImpl<AdvertMapper, Advert> impleme
         // 3. 删除oss上的图片
         if(StringUtils.isNotEmpty(imageUrl)) {
             AliyunUtil.delete(imageUrl, articleProperties.getAliyun()); }
-        return Result.ok();
+        return ResultVOUtil.success();
     }
 
     @Override
-    public Result findByPosition(int position) {
+    public ResultVO findByPosition(int position) {
         QueryWrapper<Advert> wrapper = new QueryWrapper<>();
         wrapper.eq("position", position);
         wrapper.eq("status", 1); // 正常
         wrapper.orderByAsc("sort"); // 升序
-        return Result.ok(baseMapper.selectList(wrapper));
+        return ResultVOUtil.success(baseMapper.selectList(wrapper));
     }
 }

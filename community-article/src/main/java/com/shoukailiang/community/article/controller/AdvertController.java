@@ -4,7 +4,8 @@ package com.shoukailiang.community.article.controller;
 import com.shoukailiang.community.article.req.AdvertREQ;
 import com.shoukailiang.community.article.service.IAdvertService;
 import com.shoukailiang.community.entities.Advert;
-import com.shoukailiang.community.util.base.Result;
+import com.shoukailiang.community.util.base.ResultVO;
+import com.shoukailiang.community.util.base.ResultVOUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -31,14 +32,14 @@ public class AdvertController {
 
     @ApiOperation("根据广告标题与状态查询广告分页列表接口")
     @PostMapping("/search")
-    public Result search(@RequestBody AdvertREQ req) {
+    public ResultVO search(@RequestBody AdvertREQ req) {
         return advertService.queryPage(req);
     }
 
     @ApiImplicitParam(name="id", value="广告ID", required=true)
     @ApiOperation("删除广告接口")
     @DeleteMapping("/{id}")
-    public Result delete(@PathVariable("id") String id) {
+    public ResultVO delete(@PathVariable("id") String id) {
         return advertService.deleteById(id);
     }
 
@@ -46,23 +47,23 @@ public class AdvertController {
     @ApiImplicitParam(name = "id", value = "广告ID", required = true)
     @ApiOperation("查询广告详情接口")
     @GetMapping("/{id}")
-    public Result view(@PathVariable("id") String id) {
+    public ResultVO view(@PathVariable("id") String id) {
         Advert byId = advertService.getById(id);
-        return Result.ok(byId);
+        return ResultVOUtil.success(byId);
     }
 
     @ApiOperation("修改广告信息接口")
     @PutMapping
-    public Result update(@RequestBody Advert advert) {
+    public ResultVO update(@RequestBody Advert advert) {
         advert.setUpdateDate(new Date());
         advertService.updateById(advert);
-        return Result.ok();
+        return ResultVOUtil.success();
     }
 
     @ApiOperation("新增广告信息接口")
     @PostMapping
-    public Result save(@RequestBody Advert advert) {
+    public ResultVO save(@RequestBody Advert advert) {
         advertService.save(advert);
-        return Result.ok();
+        return ResultVOUtil.success();
     }
 }

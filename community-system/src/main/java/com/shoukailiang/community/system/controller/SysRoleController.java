@@ -4,7 +4,8 @@ package com.shoukailiang.community.system.controller;
 import com.shoukailiang.community.entities.SysRole;
 import com.shoukailiang.community.system.req.SysRoleREQ;
 import com.shoukailiang.community.system.service.ISysRoleService;
-import com.shoukailiang.community.util.base.Result;
+import com.shoukailiang.community.util.base.ResultVO;
+import com.shoukailiang.community.util.base.ResultVOUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -33,36 +34,36 @@ public class SysRoleController {
 
     @ApiOperation("根据角色名称查询列表接口")
     @PostMapping("/search")
-    public Result search(@RequestBody SysRoleREQ req) {
+    public ResultVO search(@RequestBody SysRoleREQ req) {
         return sysRoleService.queryPage(req);
     }
 
     @ApiOperation("新增角色信息接口")
     @PostMapping
-    public Result save(@RequestBody SysRole sysRole) {
+    public ResultVO save(@RequestBody SysRole sysRole) {
         sysRoleService.save(sysRole);
-        return Result.ok();
+        return ResultVOUtil.success();
     }
 
     @ApiOperation("查询角色详情接口")
     @ApiImplicitParam(name = "id", value = "角色ID", required = true)
     @GetMapping("/{id}")
-    public Result view(@PathVariable("id") String id) {
-        return Result.ok(sysRoleService.getById(id));
+    public ResultVO view(@PathVariable("id") String id) {
+        return ResultVOUtil.success(sysRoleService.getById(id));
     }
 
     @ApiOperation("修改角色信息接口")
     @PutMapping
-    public Result update(@RequestBody SysRole sysRole) {
+    public ResultVO update(@RequestBody SysRole sysRole) {
         sysRole.setUpdateDate(new Date());
         sysRoleService.updateById(sysRole);
-        return Result.ok();
+        return ResultVOUtil.success();
     }
 
     @ApiOperation("通过角色ID删除角色接口")
     @ApiImplicitParam(name = "id", value = "角色ID", required = true)
     @DeleteMapping("/{id}")
-    public Result delete(@PathVariable("id") String id) {
+    public ResultVO delete(@PathVariable("id") String id) {
         return sysRoleService.deleteById(id);
     }
 
@@ -70,7 +71,7 @@ public class SysRoleController {
     @ApiOperation("根据角色id查询拥有的菜单ids接口")
     @ApiImplicitParam(name = "id", value = "角色ID", required = true)
     @GetMapping("/{id}/menu/ids")
-    public Result findMenuIdsById(@PathVariable("id") String id) {
+    public ResultVO findMenuIdsById(@PathVariable("id") String id) {
         return sysRoleService.findMenuIdsById(id);
     }
 
@@ -80,7 +81,7 @@ public class SysRoleController {
     })
     @ApiOperation("新增角色菜单权限数据接口")
     @PostMapping("/{id}/menu/save")
-    public Result saveRoleMenu(@PathVariable("id") String id, @RequestBody List<String> menuIds) {
+    public ResultVO saveRoleMenu(@PathVariable("id") String id, @RequestBody List<String> menuIds) {
         return sysRoleService.saveRoleMenu(id, menuIds);
     }
 

@@ -2,7 +2,8 @@ package com.shoukailiang.community.article.service;
 
 import com.shoukailiang.community.entities.Comment;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.shoukailiang.community.util.base.Result;
+import com.shoukailiang.community.util.base.ResultVO;
+import com.shoukailiang.community.util.base.ResultVOUtil;
 
 /**
  * <p>
@@ -19,13 +20,13 @@ public interface ICommentService extends IService<Comment> {
      * @param articleId
      * @return
      */
-    Result findByArticleId(String articleId);
+    ResultVO findByArticleId(String articleId);
 
     /**
      * 通过评论id递归删除
      * @param id
      * @return
      */
-    Result deleteById(String id);
+    ResultVO deleteById(String id);
 
 }

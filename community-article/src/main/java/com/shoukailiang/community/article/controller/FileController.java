@@ -1,7 +1,8 @@
 package com.shoukailiang.community.article.controller;
 
 import com.shoukailiang.community.util.aliyun.AliyunUtil;
-import com.shoukailiang.community.util.base.Result;
+import com.shoukailiang.community.util.base.ResultVO;
+import com.shoukailiang.community.util.base.ResultVOUtil;
 import com.shoukailiang.community.util.enums.PlatformEnum;
 import com.shoukailiang.community.util.properties.AliyunProperties;
 import com.shoukailiang.community.util.properties.ArticleProperties;
@@ -25,20 +26,20 @@ public class FileController {
 
     @ApiOperation("上传文件到OSS服务器")
     @PostMapping("/upload") // /article/file/upload
-    public Result upload(@RequestParam("file") MultipartFile file) {
+    public ResultVO upload(@RequestParam("file") MultipartFile file) {
         // 获取阿里云 OSS 相关配置信息
         AliyunProperties aliyun = articleProperties.getAliyun();
 
-        Result result = AliyunUtil.uploadFileToOss(PlatformEnum.ARTICEL, file, aliyun);
+        ResultVO result = AliyunUtil.uploadFileToOss(PlatformEnum.ARTICEL, file, aliyun);
         return result;
     }
 
     @ApiImplicitParam(name = "fileUrl", value = "要删除的文件URL", required = true)
     @ApiOperation("根据文件URL删除在OSS服务器中对应文件")
     @DeleteMapping("/delete") // /article/file/delete
-    public Result delete(@RequestParam(value = "fileUrl", required = true)
+    public ResultVO delete(@RequestParam(value = "fileUrl", required = true)
                                  String fileUrl) {
-        Result delete = AliyunUtil.delete(fileUrl, articleProperties.getAliyun());
+        ResultVO delete = AliyunUtil.delete(fileUrl, articleProperties.getAliyun());
         return delete;
     }
 

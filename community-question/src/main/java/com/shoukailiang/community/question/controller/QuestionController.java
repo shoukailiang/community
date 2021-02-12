@@ -4,7 +4,8 @@ package com.shoukailiang.community.question.controller;
 import com.shoukailiang.community.entities.Question;
 import com.shoukailiang.community.question.req.QuestionUserREQ;
 import com.shoukailiang.community.question.service.IQuestionService;
-import com.shoukailiang.community.util.base.Result;
+import com.shoukailiang.community.util.base.ResultVO;
+import com.shoukailiang.community.util.base.ResultVOUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -30,22 +31,22 @@ public class QuestionController {
 
     @ApiOperation("新增问题信息接口")
     @PostMapping
-    public Result save(@RequestBody Question question) {
-        Result result = questionService.updateOrSave(question);
+    public ResultVO save(@RequestBody Question question) {
+        ResultVO result = questionService.updateOrSave(question);
         return result;
     }
 
     @ApiOperation("修改问题信息接口")
     @PutMapping
-    public Result update(@RequestBody Question question) {
-        Result result = questionService.updateOrSave(question);
+    public ResultVO update(@RequestBody Question question) {
+        ResultVO result = questionService.updateOrSave(question);
         return result;
     }
 
     @ApiImplicitParam(name="id", value="问题ID", required=true)
     @ApiOperation("删除问题接口")
     @DeleteMapping("/{id}")
-    public Result delete(@PathVariable("id") String id) {
+    public ResultVO delete(@PathVariable("id") String id) {
         return questionService.deleteById(id);
     }
 
@@ -56,20 +57,20 @@ public class QuestionController {
     })
     @ApiOperation("更新点赞数")
     @PutMapping("/thumb/{id}/{count}")
-    public Result updateThumhup(@PathVariable("id") String id,@PathVariable("count") int count) {
+    public ResultVO updateThumhup(@PathVariable("id") String id, @PathVariable("count") int count) {
         return questionService.updateThumhup(id, count);
     }
 
 
     @ApiOperation("根据用户ID查询问题列表")
     @PostMapping("/user")
-    public Result findListByUserId(@RequestBody QuestionUserREQ req) {
+    public ResultVO findListByUserId(@RequestBody QuestionUserREQ req) {
         return questionService.findListByUserId(req);
     }
 
     @ApiOperation("查询提问总记录数")
     @GetMapping("/total")
-    public Result questionTotal() {
+    public ResultVO questionTotal() {
         return questionService.getQuestionTotal();
     }
 

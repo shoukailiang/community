@@ -7,7 +7,8 @@ import com.shoukailiang.community.system.mapper.SysMenuMapper;
 import com.shoukailiang.community.system.req.SysMenuREQ;
 import com.shoukailiang.community.system.service.ISysMenuService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.shoukailiang.community.util.base.Result;
+import com.shoukailiang.community.util.base.ResultVO;
+import com.shoukailiang.community.util.base.ResultVOUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +28,7 @@ import java.util.List;
 public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> implements ISysMenuService {
 
     @Override
-    public Result queryList(SysMenuREQ req) {
+    public ResultVO queryList(SysMenuREQ req) {
         QueryWrapper<SysMenu> wrapper = new QueryWrapper<>();
         if(StringUtils.isNotEmpty(req.getName())){
             wrapper.like("name",req.getName());
@@ -38,7 +39,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         List<SysMenu> menuList = baseMapper.selectList(wrapper);
         // 封装树状菜单并响应
         List<SysMenu> data = this.buildTree(menuList);
-        return Result.ok(data);
+        return ResultVOUtil.success(data);
     }
 
 
@@ -92,7 +93,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Transactional
     @Override
-    public Result deleteById(String id) {
+    public ResultVO deleteById(String id) {
         // TODO 如果菜单已经被引用了，那么不能直接删掉，比如菜单已经给了角色了
         // 删除当前资源
         baseMapper.deleteById(id);
@@ -100,7 +101,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         // TODO SysMenu::getChildren 只会删除子菜单，不会删除子菜单的子菜单
         wrapper.eq(SysMenu::getParentId,id);
         baseMapper.delete(wrapper);
-        return Result.ok();
+        return ResultVOUtil.success();
     }
 
 }

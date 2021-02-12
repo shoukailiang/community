@@ -10,7 +10,8 @@ import com.shoukailiang.community.question.req.QuestionUserREQ;
 import com.shoukailiang.community.question.service.IQuestionService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shoukailiang.community.util.base.BaseRequest;
-import com.shoukailiang.community.util.base.Result;
+import com.shoukailiang.community.util.base.ResultVO;
+import com.shoukailiang.community.util.base.ResultVOUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
     private IFeignArticleController feignArticleController;
 
     @Override
-    public Result findHotList(BaseRequest<Question> req) {
+    public ResultVO findHotList(BaseRequest<Question> req) {
         QueryWrapper<Question> wrapper = new QueryWrapper<>();
         //  非删除问题
         wrapper.in("status", Arrays.asList(1, 2));
@@ -43,71 +44,71 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         wrapper.orderByDesc("reply");
         // 分页查询热门回答列表
         IPage<Question> data = baseMapper.selectPage(req.getPage(), wrapper);
-        return Result.ok(data);
+        return ResultVOUtil.success(data);
     }
 
     @Override
-    public Result findNewList(BaseRequest<Question> req) {
+    public ResultVO findNewList(BaseRequest<Question> req) {
         QueryWrapper<Question> wrapper = new QueryWrapper<>();
         wrapper.in("status", Arrays.asList(1, 2));
         wrapper.orderByDesc("update_date");
         IPage<Question> data = baseMapper.selectPage(req.getPage(), wrapper);
-        return Result.ok(data);
+        return ResultVOUtil.success(data);
     }
 
     @Override
-    public Result findWaitList(BaseRequest<Question> req) {
+    public ResultVO findWaitList(BaseRequest<Question> req) {
         QueryWrapper<Question> wrapper = new QueryWrapper<>();
         wrapper.in("status", Arrays.asList(1, 2));
         // 查询回复数为0，按  问题创建时间 降序排列
         wrapper.eq("reply", 0);
         wrapper.orderByDesc("create_date");
         IPage<Question> data = baseMapper.selectPage(req.getPage(), wrapper);
-        return Result.ok(data);
+        return ResultVOUtil.success(data);
     }
 
     @Override
-    public Result findListByLabelId(BaseRequest<Question> req, String labelId) {
+    public ResultVO findListByLabelId(BaseRequest<Question> req, String labelId) {
         if(StringUtils.isEmpty(labelId)) {
-            return Result.ok("标签ID不能为空");
+            return ResultVOUtil.success("标签ID不能为空");
         }
         IPage<Question> data = baseMapper.findListByLabelId(req.getPage(), labelId);
-        return Result.ok(data);
+        return ResultVOUtil.success(data);
     }
 
     @Override
-    public Result findById(String id) {
+    public ResultVO findById(String id) {
         // 1. 查询问题详情与标签ids
         Question question = baseMapper.findQuestionAndLabelIdsById(id);
         if(question == null) {
-            return Result.error("未查询到相关问题信息");
+            return ResultVOUtil.error("未查询到相关问题信息");
         }
         //  Feign 程调用 Article 微服务查询标签信息
         if(CollectionUtils.isNotEmpty(question.getLabelIds())){
             List<Label> labelListByIds = feignArticleController.getLabelListByIds(question.getLabelIds());
             question.setLabelList(labelListByIds);
         }
-        return Result.ok(question);
+        return ResultVOUtil.success(question);
     }
 
     @Override
-    public Result updateViewCount(String id) {
+    public ResultVO updateViewCount(String id) {
         if(StringUtils.isBlank(id)) {
-            return Result.error("无效操作");
+            return ResultVOUtil.error("无效操作");
         }
         Question question = baseMapper.selectById(id);
         if(question == null) {
-            return Result.error("问题不存在");
+            return ResultVOUtil.error("问题不存在");
         }
         question.setViewCount( question.getViewCount() + 1);
         // 不用设置更新时间，更新时间是编辑后才设置
         baseMapper.updateById(question);
-        return Result.ok();
+        return ResultVOUtil.success();
     }
 
     @Transactional
     @Override
-    public Result updateOrSave(Question question) {
+    public ResultVO updateOrSave(Question question) {
         // 1. id 不为空，是更新操作
         if(StringUtils.isNotEmpty(question.getId())) {
             // 更新：先删除问题标签中间表数据，再新增到中间表
@@ -121,39 +122,39 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
             baseMapper.saveQuestionLabel(question.getId(), question.getLabelIds());
         }
 
-        return Result.ok(question.getId());
+        return ResultVOUtil.success(question.getId());
 
     }
 
     @Override
-    public Result deleteById(String id) {
+    public ResultVO deleteById(String id) {
         return this.updateStatus(id, 0); // 0 已删除
     }
 
     @Override
-    public Result updateThumhup(String id, int count) {
+    public ResultVO updateThumhup(String id, int count) {
         if(count != -1 && count != 1) {
-            return Result.error("无效操作");
+            return ResultVOUtil.error("无效操作");
         }
         if(StringUtils.isBlank(id)) {
-            return Result.error("无效操作");
+            return ResultVOUtil.error("无效操作");
         }
         Question question = baseMapper.selectById(id);
         if(question == null) {
-            return Result.error("问题不存在");
+            return ResultVOUtil.error("问题不存在");
         }
         if(question.getThumhup() <= 0 && count == -1) {
-            return Result.error("无效操作");
+            return ResultVOUtil.error("无效操作");
         }
         question.setThumhup( question.getThumhup() + count );
         baseMapper.updateById(question);
-        return Result.ok();
+        return ResultVOUtil.success();
     }
 
     @Override
-    public Result findListByUserId(QuestionUserREQ req) {
+    public ResultVO findListByUserId(QuestionUserREQ req) {
         if(StringUtils.isEmpty(req.getUserId())) {
-            return Result.error("无效用户信息");
+            return ResultVOUtil.error("无效用户信息");
         }
         QueryWrapper<Question> wrapper = new QueryWrapper<>();
         wrapper.in("status", Arrays.asList(1, 2));
@@ -162,23 +163,23 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         // 排序
         wrapper.orderByDesc("update_date");
         IPage<Question> data = baseMapper.selectPage(req.getPage(), wrapper);
-        return Result.ok(data);
+        return ResultVOUtil.success(data);
     }
 
     @Override
-    public Result getQuestionTotal() {
+    public ResultVO getQuestionTotal() {
         // 查询总提问数
         QueryWrapper<Question> wrapper = new QueryWrapper();
         wrapper.in( "status", Arrays.asList(1, 2) );
         int total = baseMapper.selectCount(wrapper);
-        return Result.ok(total);
+        return ResultVOUtil.success(total);
     }
 
-    public Result updateStatus(String id, Integer status) {
+    public ResultVO updateStatus(String id, Integer status) {
         Question question = baseMapper.selectById(id);
         question.setStatus(status);
         question.setUpdateDate(new Date());
         baseMapper.updateById(question);
-        return Result.ok();
+        return ResultVOUtil.success();
     }
 }

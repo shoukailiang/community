@@ -1,13 +1,13 @@
 package com.shoukailiang.community.article.service.impl;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.shoukailiang.community.article.req.LabelREQ;
 import com.shoukailiang.community.entities.Label;
 import com.shoukailiang.community.article.mapper.LabelMapper;
 import com.shoukailiang.community.article.service.ILabelService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.shoukailiang.community.util.base.Result;
+import com.shoukailiang.community.util.base.ResultVO;
+import com.shoukailiang.community.util.base.ResultVOUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -24,9 +24,9 @@ import java.util.Date;
 public class LabelServiceImpl extends ServiceImpl<LabelMapper, Label> implements ILabelService {
 
     @Override
-    public Result queryPage(LabelREQ req) {
+    public ResultVO queryPage(LabelREQ req) {
         IPage<Label> page = baseMapper.queryPage(req.getPage(), req);
-        return Result.ok(page);
+        return ResultVOUtil.success(page);
     }
 
     /**

@@ -4,7 +4,8 @@ import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.common.comm.ResponseMessage;
 import com.aliyun.oss.model.PutObjectResult;
-import com.shoukailiang.community.util.base.Result;
+import com.shoukailiang.community.util.base.ResultVO;
+import com.shoukailiang.community.util.base.ResultVOUtil;
 import com.shoukailiang.community.util.enums.PlatformEnum;
 import com.shoukailiang.community.util.properties.AliyunProperties;
 import org.apache.commons.lang.time.DateFormatUtils;
@@ -25,7 +26,7 @@ public final class AliyunUtil {
      * @param aliyun AliyunProperties 阿里云配置
      * @return
      */
-    public static Result uploadFileToOss(PlatformEnum platformEnum, MultipartFile file, AliyunProperties aliyun ) {
+    public static ResultVO uploadFileToOss(PlatformEnum platformEnum, MultipartFile file, AliyunProperties aliyun ) {
         // 上传
         // 上传文件所在目录名，当天上传的文件放到当天日期的目录下。
         String folderName = platformEnum.name().toLowerCase() + "/" + DateFormatUtils.format(new Date(), "yyyyMMdd");
@@ -52,15 +53,15 @@ public final class AliyunUtil {
                 // 上传成功
 
                 // 返回上传文件的访问完整路径
-                return Result.ok( aliyun.getBucketDomain() + filePath );
+                return ResultVOUtil.success( aliyun.getBucketDomain() + filePath );
             }else {
                 // 上传失败，OOS服务端会响应状态码和错误信息
                 String errorMsg = "响应的错误状态码是【" + response.getStatusCode() +"】，" +
                         "错误信息【"+response.getErrorResponseAsString()+"】";
-                return Result.error(errorMsg);
+                return ResultVOUtil.error(errorMsg);
             }
         } catch (Exception e) {
-            return Result.error(e.getMessage());
+            return ResultVOUtil.error(e.getMessage());
         } finally {
             if (ossClient != null) {
                 // 关闭OSSClient。
@@ -73,7 +74,7 @@ public final class AliyunUtil {
      * 根据文件url删除
      * @param fileUrl
      */
-    public static Result delete(String fileUrl, AliyunProperties aliyun) {
+    public static ResultVO delete(String fileUrl, AliyunProperties aliyun) {
         // 去除文件 url 中的 Bucket域名
         String filePath = fileUrl.replace(aliyun.getBucketDomain(), "");
 
@@ -82,9 +83,9 @@ public final class AliyunUtil {
             ossClient = new OSSClientBuilder().build(aliyun.getEndpoint(), aliyun.getAccessKeyId(), aliyun.getAccessKeySecret());
             // 删除
             ossClient.deleteObject(aliyun.getBucketName(), filePath);
-            return Result.ok();
+            return ResultVOUtil.success();
         } catch (Exception e) {
-            return Result.error("删除失败："+e.getMessage());
+            return ResultVOUtil.error("删除失败："+e.getMessage());
         }finally {
             if (ossClient != null) {
                 ossClient.shutdown();

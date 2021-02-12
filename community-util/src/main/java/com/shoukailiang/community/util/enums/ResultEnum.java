@@ -20,8 +20,9 @@ public enum ResultEnum {
 
     AUTH_USERNAME_NONE(1405, "用户名不能为空"), AUTH_PASSWORD_NONE(1406, "密码不能为空"),
 
-    MENU_NO(306, "没此权限，请联系管理员！");
+    MENU_NO(306, "没此权限，请联系管理员！"),
+    NOT_ROLE(307, "没有这个角色，非法操作！");
 
     private Integer code;
-    private String desc;
+    private String message;
 }

@@ -7,7 +7,8 @@ import com.shoukailiang.community.question.mapper.QuestionMapper;
 import com.shoukailiang.community.question.mapper.ReplayMapper;
 import com.shoukailiang.community.question.service.IReplayService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.shoukailiang.community.util.base.Result;
+import com.shoukailiang.community.util.base.ResultVO;
+import com.shoukailiang.community.util.base.ResultVOUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,19 +32,19 @@ public class ReplayServiceImpl extends ServiceImpl<ReplayMapper, Replay> impleme
     private QuestionMapper questionMapper;
 
     @Override
-    public Result findByQuestionId(String questionId) {
+    public ResultVO findByQuestionId(String questionId) {
         if(StringUtils.isBlank(questionId)) {
-            return Result.error("问题ID不能为空");
+            return ResultVOUtil.error("问题ID不能为空");
         }
         List<Replay> list = baseMapper.findByQuestionId(questionId);
-        return Result.ok(list);
+        return ResultVOUtil.success(list);
     }
 
     @Transactional
     @Override
-    public Result deleteById(String id) {
+    public ResultVO deleteById(String id) {
         if(StringUtils.isBlank(id)) {
-            return Result.error("回答评论ID不能为空");
+            return ResultVOUtil.error("回答评论ID不能为空");
         }
         // 要删除的回答评论ID
         ArrayList<String> ids = new ArrayList<>();
@@ -61,11 +62,11 @@ public class ReplayServiceImpl extends ServiceImpl<ReplayMapper, Replay> impleme
             question.setReply(question.getReply() - size);
             questionMapper.updateById(question);
         }
-        return Result.ok();
+        return ResultVOUtil.success();
     }
     @Transactional
     @Override
-    public Result add(Replay replay) {
+    public ResultVO add(Replay replay) {
         // 新增到回答表
         boolean ok = this.save(replay);       // 更新问题表中的回答数量
         if(ok) {
@@ -74,7 +75,7 @@ public class ReplayServiceImpl extends ServiceImpl<ReplayMapper, Replay> impleme
             question.setReply(question.getReply() + 1);
             questionMapper.updateById(question);
         }
-        return Result.ok();
+        return ResultVOUtil.success();
     }
 
     /**

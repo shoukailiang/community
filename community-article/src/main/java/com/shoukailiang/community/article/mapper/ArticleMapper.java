@@ -2,11 +2,8 @@ package com.shoukailiang.community.article.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.shoukailiang.community.article.req.ArticleListREQ;
-import com.shoukailiang.community.article.req.ArticleREQ;
 import com.shoukailiang.community.entities.Article;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.shoukailiang.community.util.base.Result;
-import com.shoukailiang.community.util.enums.ArticleStatusEnum;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

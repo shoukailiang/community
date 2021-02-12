@@ -1,7 +1,8 @@
 package com.shoukailiang.community.article.api;
 
 import com.shoukailiang.community.article.service.ICategoryService;
-import com.shoukailiang.community.util.base.Result;
+import com.shoukailiang.community.util.base.ResultVO;
+import com.shoukailiang.community.util.base.ResultVOUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +22,13 @@ public class ApiCategoryController {
 
     @ApiOperation("查询所有正常状态的分类的公开接口")
     @GetMapping("/list")
-    public Result list(){
+    public ResultVO list(){
         return categoryService.findAllNormal();
     }
 
     @ApiOperation("询正常状态下的分类及分类下的所有标签的公开接口")
     @GetMapping("/label/list")
-    public Result findCategoryAndLabel(){
+    public ResultVO findCategoryAndLabel(){
         return categoryService.findCategoryAndLabel();
     }
 }

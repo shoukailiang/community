@@ -1,8 +1,8 @@
 package com.shoukailiang.community.article.api;
 
-import com.shoukailiang.community.article.service.IArticleService;
 import com.shoukailiang.community.article.service.ICommentService;
-import com.shoukailiang.community.util.base.Result;
+import com.shoukailiang.community.util.base.ResultVO;
+import com.shoukailiang.community.util.base.ResultVOUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -22,7 +22,7 @@ public class ApiCommentController {
     @ApiOperation("通过文章ID递归查询所有评论")
     @ApiImplicitParam(name="articleId", value="文章ID", required=true)
     @GetMapping("/list/{articleId}")
-    public Result findByArticleId(@PathVariable("articleId") String articleId) {
+    public ResultVO findByArticleId(@PathVariable("articleId") String articleId) {
         return commentService.findByArticleId(articleId);
     }
 }

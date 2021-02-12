@@ -3,7 +3,8 @@ package com.shoukailiang.community.system.service;
 import com.shoukailiang.community.entities.SysMenu;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.shoukailiang.community.system.req.SysMenuREQ;
-import com.shoukailiang.community.util.base.Result;
+import com.shoukailiang.community.util.base.ResultVO;
+import com.shoukailiang.community.util.base.ResultVOUtil;
 
 /**
  * <p>
@@ -19,12 +20,12 @@ public interface ISysMenuService extends IService<SysMenu> {
      * @param req
      * @return
      */
-    Result queryList(SysMenuREQ req);
+    ResultVO queryList(SysMenuREQ req);
 
     /**
      * 通过菜单资源id删除权限数据
      * @param id 菜单资源id
      * @return
      */
-    Result deleteById(String id);
+    ResultVO deleteById(String id);
 }

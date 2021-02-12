@@ -1,7 +1,8 @@
 package com.shoukailiang.community.api;
 
 import com.shoukailiang.community.question.service.IReplayService;
-import com.shoukailiang.community.util.base.Result;
+import com.shoukailiang.community.util.base.ResultVO;
+import com.shoukailiang.community.util.base.ResultVOUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -20,7 +21,7 @@ public class ApiReplayController {
     @ApiOperation("通过问题ID递归查询所有评论")
     @ApiImplicitParam(name="questionId", value="问题ID", required=true)
     @GetMapping("/list/{questionId}")
-    public Result findByQuestionId(@PathVariable("questionId") String questionId) {
+    public ResultVO findByQuestionId(@PathVariable("questionId") String questionId) {
         return replayService.findByQuestionId(questionId);
     }
 }

@@ -5,7 +5,8 @@ import com.shoukailiang.community.entities.Comment;
 import com.shoukailiang.community.article.mapper.CommentMapper;
 import com.shoukailiang.community.article.service.ICommentService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.shoukailiang.community.util.base.Result;
+import com.shoukailiang.community.util.base.ResultVO;
+import com.shoukailiang.community.util.base.ResultVOUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
@@ -31,13 +32,13 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
      * @return
      */
     @Override
-    public Result findByArticleId(String articleId) {
+    public ResultVO findByArticleId(String articleId) {
         if(StringUtils.isBlank(articleId)){
-            Result.error("文章id不能为空");
+            ResultVOUtil.error("文章id不能为空");
         }
         List<Comment> comments = baseMapper.findByArticleId(articleId);
 
-        return Result.ok(comments);
+        return ResultVOUtil.success(comments);
     }
 
     /**
@@ -47,9 +48,9 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
      */
     @Transactional
     @Override
-    public Result deleteById(String id) {
+    public ResultVO deleteById(String id) {
         if(StringUtils.isBlank(id)) {
-            return Result.error("评论ID不能为空");
+            return ResultVOUtil.error("评论ID不能为空");
         }
         // 要删除的所有评论id
         ArrayList<String> ids = new ArrayList<>();
@@ -59,7 +60,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         this.getIds(ids, id);
         //批量删除集合中的id
         baseMapper.deleteBatchIds(ids);
-        return Result.ok();
+        return ResultVOUtil.success();
     }
 
     /**

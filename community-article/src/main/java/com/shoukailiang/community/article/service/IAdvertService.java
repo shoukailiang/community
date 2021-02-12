@@ -3,7 +3,8 @@ package com.shoukailiang.community.article.service;
 import com.shoukailiang.community.article.req.AdvertREQ;
 import com.shoukailiang.community.entities.Advert;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.shoukailiang.community.util.base.Result;
+import com.shoukailiang.community.util.base.ResultVO;
+import com.shoukailiang.community.util.base.ResultVOUtil;
 
 /**
  * <p>
@@ -19,7 +20,7 @@ public interface IAdvertService extends IService<Advert> {
      * @param req
      * @return
      */
-    Result queryPage(AdvertREQ req);
+    ResultVO queryPage(AdvertREQ req);
 
 
     /**
@@ -27,7 +28,7 @@ public interface IAdvertService extends IService<Advert> {
      * @param id
      * @return
      */
-    Result deleteById(String id);
+    ResultVO deleteById(String id);
 
 
     /**
@@ -35,5 +36,5 @@ public interface IAdvertService extends IService<Advert> {
      * @param position
      * @return
      */
-    Result findByPosition(int position);
+    ResultVO findByPosition(int position);
 }
