@@ -83,4 +83,9 @@
     <select id="selectMonthAritcleTotal" resultType="map">
         SELECT `year_month` , `total` FROM v_month_aritcle_total
     </select>
+<!--    mybatis是默认不支持执行多条 update ，需要在 propertes 或者 yml 配置文件中配置的数据库 URL后面追加 &allowMultiQueries=true-->
+    <update id="updateUserInfo">
+        UPDATE community_article SET nick_name = #{nickName}, user_image = #{userImage}     WHERE user_id = #{userId};
+        UPDATE community_comment SET nick_name = #{nickName}, user_image = #{userImage}     WHERE user_id = #{userId};
+    </update>
 </mapper>

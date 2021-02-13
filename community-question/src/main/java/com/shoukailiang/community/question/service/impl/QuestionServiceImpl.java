@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.shoukailiang.community.entities.Label;
 import com.shoukailiang.community.entities.Question;
 import com.shoukailiang.community.feign.IFeignArticleController;
+import com.shoukailiang.community.feign.req.UserInfoREQ;
 import com.shoukailiang.community.question.mapper.QuestionMapper;
 import com.shoukailiang.community.question.req.QuestionUserREQ;
 import com.shoukailiang.community.question.service.IQuestionService;
@@ -69,7 +70,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
 
     @Override
     public ResultVO findListByLabelId(BaseRequest<Question> req, String labelId) {
-        if(StringUtils.isEmpty(labelId)) {
+        if (StringUtils.isEmpty(labelId)) {
             return ResultVOUtil.success("标签ID不能为空");
         }
         IPage<Question> data = baseMapper.findListByLabelId(req.getPage(), labelId);
@@ -80,11 +81,11 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
     public ResultVO findById(String id) {
         // 1. 查询问题详情与标签ids
         Question question = baseMapper.findQuestionAndLabelIdsById(id);
-        if(question == null) {
+        if (question == null) {
             return ResultVOUtil.error("未查询到相关问题信息");
         }
         //  Feign 程调用 Article 微服务查询标签信息
-        if(CollectionUtils.isNotEmpty(question.getLabelIds())){
+        if (CollectionUtils.isNotEmpty(question.getLabelIds())) {
             List<Label> labelListByIds = feignArticleController.getLabelListByIds(question.getLabelIds());
             question.setLabelList(labelListByIds);
         }
@@ -93,14 +94,14 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
 
     @Override
     public ResultVO updateViewCount(String id) {
-        if(StringUtils.isBlank(id)) {
+        if (StringUtils.isBlank(id)) {
             return ResultVOUtil.error("无效操作");
         }
         Question question = baseMapper.selectById(id);
-        if(question == null) {
+        if (question == null) {
             return ResultVOUtil.error("问题不存在");
         }
-        question.setViewCount( question.getViewCount() + 1);
+        question.setViewCount(question.getViewCount() + 1);
         // 不用设置更新时间，更新时间是编辑后才设置
         baseMapper.updateById(question);
         return ResultVOUtil.success();
@@ -110,7 +111,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
     @Override
     public ResultVO updateOrSave(Question question) {
         // 1. id 不为空，是更新操作
-        if(StringUtils.isNotEmpty(question.getId())) {
+        if (StringUtils.isNotEmpty(question.getId())) {
             // 更新：先删除问题标签中间表数据，再新增到中间表
             baseMapper.deleteQuestionLabel(question.getId());
             question.setUpdateDate(new Date());
@@ -118,7 +119,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         // 2. 更新或保存到文章信息表（不能放到最后，因为新增后，要返回新增id到question.id里）
         super.saveOrUpdate(question);
         // 3. 新增到文章标签中间表
-        if(CollectionUtils.isNotEmpty(question.getLabelIds())) {
+        if (CollectionUtils.isNotEmpty(question.getLabelIds())) {
             baseMapper.saveQuestionLabel(question.getId(), question.getLabelIds());
         }
 
@@ -133,27 +134,27 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
 
     @Override
     public ResultVO updateThumhup(String id, int count) {
-        if(count != -1 && count != 1) {
+        if (count != -1 && count != 1) {
             return ResultVOUtil.error("无效操作");
         }
-        if(StringUtils.isBlank(id)) {
+        if (StringUtils.isBlank(id)) {
             return ResultVOUtil.error("无效操作");
         }
         Question question = baseMapper.selectById(id);
-        if(question == null) {
+        if (question == null) {
             return ResultVOUtil.error("问题不存在");
         }
-        if(question.getThumhup() <= 0 && count == -1) {
+        if (question.getThumhup() <= 0 && count == -1) {
             return ResultVOUtil.error("无效操作");
         }
-        question.setThumhup( question.getThumhup() + count );
+        question.setThumhup(question.getThumhup() + count);
         baseMapper.updateById(question);
         return ResultVOUtil.success();
     }
 
     @Override
     public ResultVO findListByUserId(QuestionUserREQ req) {
-        if(StringUtils.isEmpty(req.getUserId())) {
+        if (StringUtils.isEmpty(req.getUserId())) {
             return ResultVOUtil.error("无效用户信息");
         }
         QueryWrapper<Question> wrapper = new QueryWrapper<>();
@@ -170,10 +171,11 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
     public ResultVO getQuestionTotal() {
         // 查询总提问数
         QueryWrapper<Question> wrapper = new QueryWrapper();
-        wrapper.in( "status", Arrays.asList(1, 2) );
+        wrapper.in("status", Arrays.asList(1, 2));
         int total = baseMapper.selectCount(wrapper);
         return ResultVOUtil.success(total);
     }
+
 
     public ResultVO updateStatus(String id, Integer status) {
         Question question = baseMapper.selectById(id);
@@ -182,4 +184,10 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         baseMapper.updateById(question);
         return ResultVOUtil.success();
     }
+
+    @Override
+    public boolean updateUserInfo(UserInfoREQ req) {
+        return baseMapper.updateUserInfo(req);
+    }
+
 }

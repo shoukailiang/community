@@ -1,10 +1,30 @@
 package com.shoukailiang.community.system.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.shoukailiang.community.entities.SysUser;
+import com.shoukailiang.community.feign.IFeignArticleController;
+import com.shoukailiang.community.feign.IFeignQuestionController;
+import com.shoukailiang.community.feign.req.UserInfoREQ;
 import com.shoukailiang.community.system.mapper.SysUserMapper;
+import com.shoukailiang.community.system.req.SysUserCheckPasswordREQ;
+import com.shoukailiang.community.system.req.SysUserREQ;
+import com.shoukailiang.community.system.req.SysUserUpdatePasswordREQ;
 import com.shoukailiang.community.system.service.ISysUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.shoukailiang.community.util.base.ResultVO;
+import com.shoukailiang.community.util.base.ResultVOUtil;
+import com.shoukailiang.community.util.enums.ResultEnum;
+import com.shoukailiang.community.util.exception.CommunityException;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -17,4 +37,143 @@ import org.springframework.stereotype.Service;
 @Service
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements ISysUserService {
 
+    @Override
+    public ResultVO queryPage(SysUserREQ req) {
+        QueryWrapper<SysUser> wrapper = new QueryWrapper();
+        // 条件查询
+        if (StringUtils.isNotEmpty(req.getUsername())) {
+            wrapper.like("username", req.getUsername());
+        }
+        if (StringUtils.isNotEmpty(req.getMobile())) {
+            wrapper.like("mobile", req.getMobile());
+        }
+        wrapper.orderByDesc("update_date");
+        IPage<SysUser> data = baseMapper.selectPage(req.getPage(), wrapper);
+        return ResultVOUtil.success(data);
+    }
+
+    @Override
+    public ResultVO findRoleIdsById(String id) {
+        return ResultVOUtil.success(baseMapper.findRoleIdsById(id));
+    }
+
+    @Transactional
+    @Override
+    public ResultVO saveUserRole(String userId, List<String> roleIds) {
+        SysUser sysUser = baseMapper.selectById(userId);
+        if (sysUser == null) {
+            throw new CommunityException(ResultEnum.NOT_USER.getCode(), ResultEnum.NOT_USER.getMessage());
+        }
+        // 1. 先删除用户角色关系表数据
+        baseMapper.deleteUserRoleByUserId(userId); // 2. 再保存新的用户角色关系数据
+        if (CollectionUtils.isNotEmpty(roleIds)) {
+            baseMapper.saveUserRole(userId, roleIds);
+        }
+        return ResultVOUtil.success();
+    }
+
+    @Override
+    public ResultVO deleteById(String id) {
+        // 将 `is_enabled` 状态更新为 0 表示删除
+        SysUser sysUser = baseMapper.selectById(id);
+        if (sysUser == null) {
+            return ResultVOUtil.error("用户不存在，删除失败");
+        }
+        sysUser.setIsEnabled(0);
+        sysUser.setUpdateDate(new Date());
+        baseMapper.updateById(sysUser);
+        return ResultVOUtil.success();
+    }
+
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Override
+    public ResultVO checkPassword(SysUserCheckPasswordREQ req) {
+        if (StringUtils.isEmpty(req.getUserId())) {
+            return ResultVOUtil.error("用户ID不能为空,请重试");
+        }
+        if (StringUtils.isEmpty(req.getOldPassword())) {
+            return ResultVOUtil.error("原密码不能为空,请重试");
+        }
+        SysUser sysUser = baseMapper.selectById(req.getUserId());
+        if (sysUser == null) {
+            return ResultVOUtil.error("用户不存在,请重试");
+        }
+        if (!passwordEncoder.matches(req.getOldPassword(), sysUser.getPassword())) {
+            return ResultVOUtil.error("原密码输入错误");
+        }
+        return ResultVOUtil.success();
+    }
+
+    @Override
+    public ResultVO updatePassword(SysUserUpdatePasswordREQ req) {
+        if (StringUtils.isEmpty(req.getUserId())) {
+            return ResultVOUtil.error("用户ID不能为空,请重试");
+        }
+        if (StringUtils.isEmpty(req.getNewPassword())) {
+            return ResultVOUtil.error("新密码不能为空,请重试");
+        }
+        if (StringUtils.isEmpty(req.getRepPassword())) {
+            return ResultVOUtil.error("确认密码不能为空,请重试");
+        }
+        if (!req.getNewPassword().equals(req.getRepPassword())) {
+            return ResultVOUtil.error("密码不一致,请重试");
+        }
+        SysUser sysUser = baseMapper.selectById(req.getUserId());
+        if (sysUser == null) {
+            return ResultVOUtil.error("用户不存在,请重试");
+        }
+        // 旧密码
+        if (StringUtils.isNotEmpty(req.getOldPassword())) {
+            if (!passwordEncoder.matches(req.getOldPassword(), sysUser.getPassword())) {
+                return ResultVOUtil.error("原密码输入错误");
+            }
+        }
+        // 新密码加密
+        sysUser.setPassword(passwordEncoder.encode(req.getNewPassword()));
+        sysUser.setUpdateDate(new Date());
+        baseMapper.updateById(sysUser);
+        return ResultVOUtil.success();
+    }
+
+
+    @Autowired
+    private IFeignArticleController feignArticleController;
+
+    @Autowired
+    private IFeignQuestionController feignQuestionController;
+
+    @Transactional
+    @Override
+    public ResultVO update(SysUser sysUser) {
+        // 1. 查询原用户信息
+        SysUser user = baseMapper.selectById(sysUser.getId());
+        if (user == null) {
+            return ResultVOUtil.error("更新的用户不存在");
+        }
+        // 2. 判断更新的信息中昵称和头像是否被改变
+        if (!StringUtils.equals(sysUser.getNickName(), user.getNickName())
+                || !StringUtils.equals(sysUser.getImageUrl(), user.getImageUrl())) {
+            // 其中一个不相等，则更新用户信息
+            // 2.1 调用文章微服务接口更新用户信息
+            UserInfoREQ req = new UserInfoREQ(sysUser.getId(), sysUser.getNickName(), sysUser.getImageUrl());
+            feignArticleController.updateUserInfo(req);
+            // 2.2 调用问答微服务接口更新用户信息
+            feignQuestionController.updateUserInfo(req);
+        }
+        // 3. 更新用户信息表
+        sysUser.setUpdateDate(new Date());
+        baseMapper.updateById(sysUser);
+        return ResultVOUtil.success();
+    }
+
+    @Override
+    public ResultVO getUserTotal() {
+        QueryWrapper<SysUser> wrapper = new QueryWrapper<>();     // 帐户是否可用(1 可用，0 删除用户)
+        wrapper.eq("is_enabled", 1);
+        Integer total = baseMapper.selectCount(wrapper);
+        return ResultVOUtil.success(total);
+    }
 }

@@ -52,4 +52,10 @@
             ('${@com.baomidou.mybatisplus.core.toolkit.IdWorker@getId()}', #{questionId}, #{item})
         </foreach>
     </insert>
+
+
+    <update id="updateUserInfo">
+        UPDATE community_question SET nick_name = #{nickName}, user_image = #{userImage}     WHERE user_id = #{userId};
+        UPDATE community_replay SET nick_name = #{nickName}, user_image = #{userImage}     WHERE user_id = #{userId};
+    </update>
 </mapper>

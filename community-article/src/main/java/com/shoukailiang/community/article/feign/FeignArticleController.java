@@ -1,8 +1,10 @@
 package com.shoukailiang.community.article.feign;
 
+import com.shoukailiang.community.article.service.IArticleService;
 import com.shoukailiang.community.article.service.ILabelService;
 import com.shoukailiang.community.entities.Label;
 import com.shoukailiang.community.feign.IFeignArticleController;
+import com.shoukailiang.community.feign.req.UserInfoREQ;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,5 +21,13 @@ public class FeignArticleController implements IFeignArticleController {
     public List<Label> getLabelListByIds(List<String> labelIds) {
         List<Label> labels = labelService.listByIds(labelIds);
         return labels;
+    }
+
+    @Autowired
+    private IArticleService articleService;
+
+    @Override
+    public boolean updateUserInfo(UserInfoREQ req) {
+        return articleService.updateUserInfo(req);
     }
 }

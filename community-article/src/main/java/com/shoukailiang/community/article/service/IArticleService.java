@@ -5,6 +5,7 @@ import com.shoukailiang.community.article.req.ArticleREQ;
 import com.shoukailiang.community.article.req.ArticleUserREQ;
 import com.shoukailiang.community.entities.Article;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.shoukailiang.community.feign.req.UserInfoREQ;
 import com.shoukailiang.community.util.base.ResultVO;
 import com.shoukailiang.community.util.base.ResultVOUtil;
 import com.shoukailiang.community.util.enums.ArticleStatusEnum;
@@ -95,4 +96,10 @@ public interface IArticleService extends IService<Article> {
     ResultVO selectMonthArticleTotal();
 
 
+    /**
+     * 更新文章和评论的中的用户信息
+     * @param req
+     * @return
+     */
+    boolean updateUserInfo(UserInfoREQ req);
 }

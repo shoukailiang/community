@@ -2,6 +2,7 @@ package com.shoukailiang.community.question.service;
 
 import com.shoukailiang.community.entities.Question;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.shoukailiang.community.feign.req.UserInfoREQ;
 import com.shoukailiang.community.question.req.QuestionUserREQ;
 import com.shoukailiang.community.util.base.BaseRequest;
 import com.shoukailiang.community.util.base.ResultVO;
@@ -94,4 +95,11 @@ public interface IQuestionService extends IService<Question> {
      * @return
      */
     ResultVO getQuestionTotal();
+
+    /**
+     * 更新问题与回答表中的用户信息
+     * @param req
+     * @return
+     */
+    boolean updateUserInfo(UserInfoREQ req);
 }

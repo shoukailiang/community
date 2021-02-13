@@ -9,6 +9,7 @@ import com.shoukailiang.community.entities.Article;
 import com.shoukailiang.community.article.mapper.ArticleMapper;
 import com.shoukailiang.community.article.service.IArticleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.shoukailiang.community.feign.req.UserInfoREQ;
 import com.shoukailiang.community.util.base.ResultVO;
 import com.shoukailiang.community.util.base.ResultVOUtil;
 import com.shoukailiang.community.util.enums.ArticleStatusEnum;
@@ -194,6 +195,10 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         return ResultVOUtil.success(data);
     }
 
+    @Override
+    public boolean updateUserInfo(UserInfoREQ req) {
+        return baseMapper.updateUserInfo(req);
+    }
 
 
 }
