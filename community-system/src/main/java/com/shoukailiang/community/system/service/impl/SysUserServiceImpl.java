@@ -7,6 +7,7 @@ import com.shoukailiang.community.feign.IFeignArticleController;
 import com.shoukailiang.community.feign.IFeignQuestionController;
 import com.shoukailiang.community.feign.req.UserInfoREQ;
 import com.shoukailiang.community.system.mapper.SysUserMapper;
+import com.shoukailiang.community.system.req.RegisterREQ;
 import com.shoukailiang.community.system.req.SysUserCheckPasswordREQ;
 import com.shoukailiang.community.system.req.SysUserREQ;
 import com.shoukailiang.community.system.req.SysUserUpdatePasswordREQ;
@@ -16,6 +17,7 @@ import com.shoukailiang.community.util.base.ResultVO;
 import com.shoukailiang.community.util.base.ResultVOUtil;
 import com.shoukailiang.community.util.enums.ResultEnum;
 import com.shoukailiang.community.util.exception.CommunityException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,7 @@ import java.util.List;
  * @author shoukailiang
  * @since 2021-02-11
  */
+@Slf4j
 @Service
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements ISysUserService {
 
@@ -175,5 +178,44 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         wrapper.eq("is_enabled", 1);
         Integer total = baseMapper.selectCount(wrapper);
         return ResultVOUtil.success(total);
+    }
+
+    @Override
+    public ResultVO checkUsername(String username) {
+        QueryWrapper<SysUser> wrapper = new QueryWrapper<>();
+        wrapper.eq("username", username);
+        SysUser sysUser = baseMapper.selectOne(wrapper);
+        // 查询到则存在，存在 data=true 已被注册，不存在 data=false 未被注册
+        return ResultVOUtil.success(sysUser == null ? false : true);
+    }
+
+    @Override
+    public ResultVO register(RegisterREQ req) {
+        if (StringUtils.isEmpty(req.getUsername())) {
+            return ResultVOUtil.error("用户名不能为空，请重试");
+        }
+        if (StringUtils.isEmpty(req.getPassword())) {
+            return ResultVOUtil.error("密码不能为空，请重试");
+        }
+//        log.debug(String.valueOf(req));
+        if (StringUtils.isEmpty(req.getRepPassword())) {
+            return ResultVOUtil.error("确认密码不能为空，请重试");
+        }
+        if (!StringUtils.equals(req.getPassword(), req.getRepPassword())) {
+            return ResultVOUtil.error("两次输入的密码不一致");
+        }
+        ResultVO resultVO = this.checkUsername(req.getUsername());
+        if ((Boolean) resultVO.getData()) {
+            return ResultVOUtil.error("用户已被注册，请更换个用户名");
+        }
+        // 校验都通过，新增用户信息
+        SysUser sysUser = new SysUser();
+        sysUser.setUsername(req.getUsername());
+        // 默认昵称和用户名一样
+        sysUser.setNickName(req.getUsername());
+        sysUser.setPassword(passwordEncoder.encode(req.getPassword()));
+        // 提交用户信息
+        this.save(sysUser);
+        return ResultVOUtil.success();
     }
 }

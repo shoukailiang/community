@@ -1,5 +1,6 @@
 package com.shoukailiang.community.util.base;
 
+import com.alibaba.fastjson.JSON;
 import com.shoukailiang.community.util.enums.ResultEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -42,5 +43,20 @@ public final class ResultVOUtil implements Serializable {
         log.debug("返回错误：code={}, message={}", ResultEnum.ERROR.getCode(), msg);
         return error(ResultEnum.ERROR.getCode(), msg);
     }
+
+    public static ResultVO build(Integer code, String msg) {
+        log.debug("返回结果：code={}, message={}", code, msg);
+        return new ResultVO(code, msg, null);
+    }
+
+    public static ResultVO build(ResultEnum resultEnum) {
+        log.debug("返回结果：code={}, message={}", resultEnum.getCode(), resultEnum.getMessage());
+        return new ResultVO(resultEnum.getCode(), resultEnum.getMessage(), null);
+    }
+
+    public String toJsonString() {
+        return JSON.toJSONString(this);
+    }
+
 
 }

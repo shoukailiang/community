@@ -2,6 +2,7 @@ package com.shoukailiang.community.system.controller;
 
 
 import com.shoukailiang.community.entities.SysUser;
+import com.shoukailiang.community.system.req.RegisterREQ;
 import com.shoukailiang.community.system.req.SysUserCheckPasswordREQ;
 import com.shoukailiang.community.system.req.SysUserREQ;
 import com.shoukailiang.community.system.req.SysUserUpdatePasswordREQ;
@@ -110,4 +111,8 @@ public class SysUserController {
     public ResultVO userTotal() {
         return sysUserService.getUserTotal();
     }
+
+
+
+
 }

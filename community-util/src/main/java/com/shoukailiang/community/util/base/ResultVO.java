@@ -1,10 +1,14 @@
 package com.shoukailiang.community.util.base;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ResultVO<T> implements Serializable {
 
     private static final long serialVersionUID = 6775184589222575187L;

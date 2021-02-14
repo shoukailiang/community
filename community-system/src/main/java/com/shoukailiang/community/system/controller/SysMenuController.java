@@ -69,4 +69,11 @@ public class SysMenuController {
         return ResultVOUtil.success();
     }
 
+    @ApiImplicitParam(name = "userId", value = "用户ID", required = true)
+    @ApiOperation("通过用户id查询所拥有的权限菜单树和按钮")
+    @GetMapping("/user/{userId}") // get方式 /menu/user/{userId}
+    public ResultVO findUserMenuTreeAndButton(@PathVariable("userId") String userId) {
+        return sysMenuService.findUserMenuTree(userId);
+    }
+
 }

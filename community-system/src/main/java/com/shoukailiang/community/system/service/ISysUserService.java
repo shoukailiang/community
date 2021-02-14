@@ -2,6 +2,7 @@ package com.shoukailiang.community.system.service;
 
 import com.shoukailiang.community.entities.SysUser;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.shoukailiang.community.system.req.RegisterREQ;
 import com.shoukailiang.community.system.req.SysUserCheckPasswordREQ;
 import com.shoukailiang.community.system.req.SysUserREQ;
 import com.shoukailiang.community.system.req.SysUserUpdatePasswordREQ;
@@ -73,4 +74,20 @@ public interface ISysUserService extends IService<SysUser> {
      * @return
      */
     ResultVO getUserTotal();
+
+    /**
+     * 检查用户是否存在
+     * @param username
+     * @return
+     */
+    ResultVO checkUsername(String username);
+
+    /**
+     * 注册
+     * @param req
+     * @return
+     */
+    ResultVO register(RegisterREQ req);
+
+
 }
