@@ -1,5 +1,6 @@
 package com.shoukailiang.community.system.service;
 
+import com.shoukailiang.community.entities.SysMenu;
 import com.shoukailiang.community.entities.SysUser;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.shoukailiang.community.system.req.RegisterREQ;
@@ -88,6 +89,13 @@ public interface ISysUserService extends IService<SysUser> {
      * @return
      */
     ResultVO register(RegisterREQ req);
+
+    /**
+     * 通过用户名查询用户信息
+     * @param username
+     * @return
+     */
+    SysUser findByUsername(String username);
 
 
 }

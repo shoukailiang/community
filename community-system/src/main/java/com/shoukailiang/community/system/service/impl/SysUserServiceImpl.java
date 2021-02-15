@@ -2,6 +2,7 @@ package com.shoukailiang.community.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.shoukailiang.community.entities.SysMenu;
 import com.shoukailiang.community.entities.SysUser;
 import com.shoukailiang.community.feign.IFeignArticleController;
 import com.shoukailiang.community.feign.IFeignQuestionController;
@@ -218,4 +219,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         this.save(sysUser);
         return ResultVOUtil.success();
     }
+
+    @Override
+    public SysUser findByUsername(String username) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("username", username);
+        return baseMapper.selectOne(queryWrapper);
+    }
+
+
 }

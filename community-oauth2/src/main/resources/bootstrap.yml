@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: auth-server # 当前服务的应用名 ,与nacos中的dataid的前缀匹配
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848 # 注册中心地址
+      config:
+        server-addr: localhost:8848 # 配置中心地址
+        file-extension: yml # 配置中心的配置格式 oauth2-server.yml
+  profiles:
+    active: dev

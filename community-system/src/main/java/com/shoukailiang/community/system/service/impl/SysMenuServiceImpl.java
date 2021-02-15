@@ -141,4 +141,15 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         return ResultVOUtil.success(data);
     }
 
+    @Override
+    public List<SysMenu> findByUserId(String userId) {
+        // 通过用户id查询权限信息
+        List<SysMenu> menuList = baseMapper.findByUserId(userId);
+        if( CollectionUtils.isEmpty(menuList)
+                || menuList.get(0) == null ) {
+            return null;
+        }
+        return menuList;
+    }
+
 }

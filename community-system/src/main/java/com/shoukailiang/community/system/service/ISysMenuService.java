@@ -6,6 +6,8 @@ import com.shoukailiang.community.system.req.SysMenuREQ;
 import com.shoukailiang.community.util.base.ResultVO;
 import com.shoukailiang.community.util.base.ResultVOUtil;
 
+import java.util.List;
+
 /**
  * <p>
  * 菜单信息表 服务类
@@ -35,4 +37,11 @@ public interface ISysMenuService extends IService<SysMenu> {
      * @return
      */
     ResultVO findUserMenuTree(String userId);
+
+    /**
+     * 通过用户id查询拥有权限
+     * @param userId
+     * @return
+     */
+    List<SysMenu> findByUserId(String userId);
 }
