@@ -53,10 +53,4 @@ public final class ResultVOUtil implements Serializable {
         log.debug("返回结果：code={}, message={}", resultEnum.getCode(), resultEnum.getMessage());
         return new ResultVO(resultEnum.getCode(), resultEnum.getMessage(), null);
     }
-
-    public String toJsonString() {
-        return JSON.toJSONString(this);
-    }
-
-
 }

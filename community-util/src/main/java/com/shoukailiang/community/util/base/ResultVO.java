@@ -1,5 +1,6 @@
 package com.shoukailiang.community.util.base;
 
+import com.alibaba.fastjson.JSON;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,4 +27,8 @@ public class ResultVO<T> implements Serializable {
      * 具体内容
      **/
     private T Data;
+
+    public String toJsonString() {
+        return JSON.toJSONString(this);
+    }
 }

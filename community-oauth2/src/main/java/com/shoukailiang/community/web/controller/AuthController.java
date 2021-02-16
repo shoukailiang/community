@@ -22,7 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 @RestController
 public class AuthController {
-    Logger logger = LoggerFactory.getLogger(getClass());
 
     private static final String HEADER_TYPE = "Basic ";
 
@@ -61,7 +60,7 @@ public class AuthController {
             if (clientDetails == null) {
                 throw new UnsupportedOperationException("clientId对应的配置信息不存在：" + clientId);
             }
-            // 校验客户端密码是否有效
+            // 校验客户端密码是否有效(clientDetails.getClientSecret())相当于数据库中的)
             if (!passwordEncoder.matches(clientSecret, clientDetails.getClientSecret())) {
                 throw new UnsupportedOperationException("无效clientSecret");
             }
@@ -69,7 +68,7 @@ public class AuthController {
             // 获取新的认证信息
             return authService.refreshToken(header, refreshToken);
         } catch (Exception e) {
-            logger.error("refreshToken={}", e.getMessage(), e);
+            log.error("refreshToken={}", e.getMessage(), e);
             return ResultVOUtil.error("新令牌获取失败：" + e.getMessage());
         }
 
