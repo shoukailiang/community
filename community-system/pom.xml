@@ -35,11 +35,11 @@
             <artifactId>spring-security-crypto</artifactId>
         </dependency>
 
-        <!-- Spring Security、OAuth2 和JWT等
+        <!-- Spring Security、OAuth2 和JWT等-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-oauth2</artifactId>
-        </dependency>-->
+        </dependency>
 
         <!--热部署 ctrl+f9-->
         <dependency>
