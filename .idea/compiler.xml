@@ -13,6 +13,7 @@
         <module name="community-util" />
         <module name="community-system" />
         <module name="community-article" />
+        <module name="community-gateway" />
         <module name="community-generator" />
       </profile>
     </annotationProcessing>
@@ -21,6 +22,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="community-api" options="-parameters" />
       <module name="community-article" options="-parameters" />
+      <module name="community-gateway" options="-parameters" />
       <module name="community-generator" options="-parameters" />
       <module name="community-oauth2" options="-parameters" />
       <module name="community-question" options="-parameters" />

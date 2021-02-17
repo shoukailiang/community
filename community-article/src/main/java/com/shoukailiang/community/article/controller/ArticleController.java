@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -31,6 +32,8 @@ public class ArticleController {
     @Autowired
     private IArticleService articleService;
 
+    // 在请求方法之前会校验用户是否有对应的权限，如果有则可以调用到此方法，没有则调用失败
+//    @PreAuthorize("hasAuthority('article:search')")
     @ApiOperation("根据文章标题与状态查询文章分页列表接口")
     @PostMapping("/search")
     public ResultVO search(@RequestBody ArticleREQ req){
@@ -38,6 +41,8 @@ public class ArticleController {
     }
 
 
+    // 有查看或者审核权限即可调用此接口
+//    @PreAuthorize("hasAnyAuthority('article:view', 'article:audit')")
     @ApiOperation("查询文章详情")
     @ApiImplicitParam(name = "id",value = "文章id",required = true)
     @GetMapping("/{id}")
@@ -64,6 +69,7 @@ public class ArticleController {
         return articleService.updateStatus(id, ArticleStatusEnum.DELETE);
     }
 
+//    @PreAuthorize("hasAuthority('article:audit')")
     @ApiImplicitParam(name = "id",value = "文章id",required = true)
     @ApiOperation("审核通过文章接口")
     @GetMapping("/audit/success/{id}")
@@ -71,6 +77,7 @@ public class ArticleController {
         return articleService.updateStatus(id, ArticleStatusEnum.SUCCESS);
     }
 
+//    @PreAuthorize("hasAuthority('article:audit')")
     @ApiImplicitParam(name = "id",value = "文章id",required = true)
     @ApiOperation("审核不通过文章接口")
     @GetMapping("/audit/fail/{id}")

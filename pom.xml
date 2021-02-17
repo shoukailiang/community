@@ -15,6 +15,7 @@
         <module>community-question</module>
         <module>community-system</module>
         <module>community-oauth2</module>
+        <module>community-gateway</module>
     </modules>
     <packaging>pom</packaging>
 
