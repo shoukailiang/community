@@ -1,6 +1,8 @@
 package com.shoukailiang.community.article.api;
 
 import com.shoukailiang.community.article.req.ArticleListREQ;
+import com.shoukailiang.community.article.req.ArticleREQ;
+import com.shoukailiang.community.article.req.SearchREQ;
 import com.shoukailiang.community.article.service.IArticleService;
 import com.shoukailiang.community.util.base.ResultVO;
 import com.shoukailiang.community.util.base.ResultVOUtil;
@@ -35,5 +37,12 @@ public class ApiArticleController {
     @PostMapping("/list")
     public ResultVO list(@RequestBody ArticleListREQ req) {
         return articleService.findListByLabelIdOrCategoryId(req);
+    }
+
+    @ApiOperation("前端文章搜索搜索")
+    @GetMapping("/search/{title}/{current}/{size}")
+    public ResultVO search(
+            @PathVariable("title") String title,@PathVariable("current") Long current,@PathVariable("size") Long size){
+        return articleService.queryPage(title,current,size);
     }
 }

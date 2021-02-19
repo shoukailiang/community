@@ -2,9 +2,11 @@ package com.shoukailiang.community.article.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shoukailiang.community.article.req.ArticleListREQ;
 import com.shoukailiang.community.article.req.ArticleREQ;
 import com.shoukailiang.community.article.req.ArticleUserREQ;
+import com.shoukailiang.community.article.req.SearchREQ;
 import com.shoukailiang.community.entities.Article;
 import com.shoukailiang.community.article.mapper.ArticleMapper;
 import com.shoukailiang.community.article.service.IArticleService;
@@ -13,6 +15,7 @@ import com.shoukailiang.community.feign.req.UserInfoREQ;
 import com.shoukailiang.community.util.base.ResultVO;
 import com.shoukailiang.community.util.base.ResultVOUtil;
 import com.shoukailiang.community.util.enums.ArticleStatusEnum;
+import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
@@ -198,6 +201,26 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Override
     public boolean updateUserInfo(UserInfoREQ req) {
         return baseMapper.updateUserInfo(req);
+    }
+
+    /**
+     * search
+     * @param
+     * @return
+     */
+    @Override
+    public ResultVO queryPage(String title, Long current, Long size) {
+        QueryWrapper<Article> queryWrapper = new QueryWrapper();
+        if (StringUtils.isNotEmpty(title)) {
+            queryWrapper.like("title", title).or().like("nick_name",title);
+        }
+        queryWrapper.eq("status",2).eq("ispublic",1);
+        queryWrapper.orderByDesc("update_date");
+
+
+        Page<Article> articlePage = new Page<Article>().setCurrent(current).setSize(size);
+        Page<Article> articlePage1 = baseMapper.selectPage(articlePage, queryWrapper);
+        return ResultVOUtil.success(articlePage1);
     }
 
 

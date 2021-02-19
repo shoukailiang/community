@@ -3,6 +3,7 @@ package com.shoukailiang.community.article.service;
 import com.shoukailiang.community.article.req.ArticleListREQ;
 import com.shoukailiang.community.article.req.ArticleREQ;
 import com.shoukailiang.community.article.req.ArticleUserREQ;
+import com.shoukailiang.community.article.req.SearchREQ;
 import com.shoukailiang.community.entities.Article;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.shoukailiang.community.feign.req.UserInfoREQ;
@@ -102,4 +103,13 @@ public interface IArticleService extends IService<Article> {
      * @return
      */
     boolean updateUserInfo(UserInfoREQ req);
+
+    /**
+     * search
+     * @param title
+     * @param current
+     * @param size
+     * @return
+     */
+    ResultVO queryPage(String title, Long current, Long size);
 }
