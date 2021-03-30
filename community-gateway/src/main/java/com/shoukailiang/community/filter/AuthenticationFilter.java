@@ -16,6 +16,9 @@ import reactor.core.publisher.Mono;
 
 import java.nio.charset.StandardCharsets;
 
+/**
+ * api统一网关拦截器，用于验证请求的请求头是否有 `Authorization`
+ */
 @Component
 public class AuthenticationFilter implements GlobalFilter, Ordered {
 
@@ -42,6 +45,8 @@ public class AuthenticationFilter implements GlobalFilter, Ordered {
         }
 
         // 请求头信息
+        // 获取token时，要带上Authorization : Basic client_id 和client_secret
+        // 请求应用接口时，要带上Authorization Bearer token
         String authorization = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
         if(StringUtils.isEmpty(authorization)) {
             // 没有带authorization请求头，则响应错误信息

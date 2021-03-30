@@ -82,7 +82,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             // 组合请求对象，去获取令牌
             TokenRequest tokenRequest =
                     new TokenRequest(MapUtils.EMPTY_MAP, clientId,
-                            clientDetails.getScope(), "custom");
+                            clientDetails.getScope(), "custom");// 自定义
 
             OAuth2Request oAuth2Request =
                     tokenRequest.createOAuth2Request(clientDetails);

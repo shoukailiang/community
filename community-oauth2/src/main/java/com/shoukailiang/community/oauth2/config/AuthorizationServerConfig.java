@@ -35,18 +35,19 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     }
 
     /**
-     * 配置被允许访问认证服务的客户端信息：数据库方式管理客户端信息
-     *
+     * 配置被允许访问认证服务的客户端信息：数据库方式
+     * 如：门户客户端，后台客户端
      * @param clients
      * @throws Exception
      */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+        // jdbc管理客户端
         clients.withClientDetails(jdbcClientDetailsService());
     }
 
 
-    @Autowired // 在SpringSecurityConfig中已经添加到容器中了
+    @Autowired // 在SpringSecurityConfig中已经添加到容器中了，密码模式需要
     private AuthenticationManager authenticationManager;
 
     @Autowired
@@ -56,7 +57,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Resource
     private TokenStore tokenStore;
 
-
+    // jwt 转换器
     @Resource
     private JwtAccessTokenConverter jwtAccessTokenConverter;
 

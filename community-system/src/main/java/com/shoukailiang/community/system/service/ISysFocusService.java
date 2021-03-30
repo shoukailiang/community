@@ -18,4 +18,6 @@ public interface ISysFocusService extends IService<SysFocus> {
     List<SysFocus> findById(String UserId);
 
     void focus(SysFocus sysFocus);
+
+    boolean Isfocus(SysFocus sysFocus);
 }

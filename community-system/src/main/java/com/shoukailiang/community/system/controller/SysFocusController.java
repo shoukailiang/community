@@ -40,4 +40,12 @@ public class SysFocusController {
         sysFocusService.focus(sysFocus);
         return ResultVOUtil.success();
     }
+
+    // 查询是否关注
+    @ApiOperation("是否关注")
+    @PostMapping("/isfocus")
+    public ResultVO Isfocus(@RequestBody SysFocus sysFocus){
+        boolean isfocus = sysFocusService.Isfocus(sysFocus);
+        return ResultVOUtil.success(isfocus);
+    }
 }

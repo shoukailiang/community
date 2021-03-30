@@ -25,7 +25,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     /**
      * 资源服务器的安全配置
-     *
+     * 进行权限规则配置，指定哪些请求接口需要认证后才能访问，哪些不需要，放行了swagger的接口
      * @param http
      * @throws Exception
      */

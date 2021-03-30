@@ -30,4 +30,15 @@ public class SysFocusServiceImpl extends ServiceImpl<SysFocusMapper, SysFocus> i
             baseMapper.delete(wrapper);
         }
     }
+
+    @Override
+    public boolean Isfocus(SysFocus sysFocus) {
+        QueryWrapper<SysFocus> wrapper = new QueryWrapper<>();
+        wrapper.eq("user_id",sysFocus.getUserId());
+        wrapper.eq("focus_id",sysFocus.getFocusId());
+        if(baseMapper.selectOne(wrapper)!=null){
+            return true;
+        }
+        return false;
+    }
 }
