@@ -41,4 +41,22 @@ public class SysFocusServiceImpl extends ServiceImpl<SysFocusMapper, SysFocus> i
         }
         return false;
     }
+
+    @Override
+    public int findByUserIdNum(String id) {
+        QueryWrapper<SysFocus> wrapper = new QueryWrapper<>();
+        wrapper.eq("user_id",id);
+        Integer integer = baseMapper.selectCount(wrapper);
+        return integer;
+    }
+
+    @Override
+    public int findByFocusNum(String id) {
+        QueryWrapper<SysFocus> wrapper = new QueryWrapper<>();
+        wrapper.eq("focus_id",id);
+        Integer integer = baseMapper.selectCount(wrapper);
+        return integer;
+    }
+
+
 }

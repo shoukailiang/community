@@ -20,4 +20,8 @@ public interface ISysFocusService extends IService<SysFocus> {
     void focus(SysFocus sysFocus);
 
     boolean Isfocus(SysFocus sysFocus);
+
+    int findByUserIdNum(String id);
+
+    int findByFocusNum(String id);
 }

@@ -32,7 +32,6 @@ public class SysFocusController {
     @GetMapping("/{id}")
     public ResultVO findById(@PathVariable("id") String id) {
         return ResultVOUtil.success(sysFocusService.findById(id));
-
     }
     @ApiOperation("关注用户")
     @PostMapping
@@ -47,5 +46,18 @@ public class SysFocusController {
     public ResultVO Isfocus(@RequestBody SysFocus sysFocus){
         boolean isfocus = sysFocusService.Isfocus(sysFocus);
         return ResultVOUtil.success(isfocus);
+    }
+    @ApiOperation("查询已关注个数")
+    @ApiImplicitParam(name = "id", value = "用户id", required = true)
+    @GetMapping("/userId/{id}")
+    public ResultVO findByUserIdNum(@PathVariable("id") String id) {
+        return ResultVOUtil.success(sysFocusService.findByUserIdNum(id));
+    }
+
+    @ApiOperation("查询粉丝数个数")
+    @ApiImplicitParam(name = "id", value = "用户id", required = true)
+    @GetMapping("/focusId/{id}")
+    public ResultVO findByFocusNum(@PathVariable("id") String id) {
+        return ResultVOUtil.success(sysFocusService.findByFocusNum(id));
     }
 }
