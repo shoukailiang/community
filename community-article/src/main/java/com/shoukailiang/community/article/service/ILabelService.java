@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.shoukailiang.community.util.base.ResultVO;
 import com.shoukailiang.community.util.base.ResultVOUtil;
 
+import java.util.List;
+
 /**
  * <p>
  * 标签表 服务类
@@ -21,5 +23,11 @@ public interface ILabelService extends IService<Label> {
      * @return
      */
     ResultVO queryPage(LabelREQ req);
+
+    /**
+     * 热门标签
+     * @return
+     */
+    List<Label> findHotTag();
 
 }

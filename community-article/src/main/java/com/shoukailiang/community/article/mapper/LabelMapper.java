@@ -6,6 +6,8 @@ import com.shoukailiang.community.entities.Label;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * <p>
  * 标签表 Mapper 接口
@@ -27,4 +29,9 @@ public interface LabelMapper extends BaseMapper<Label> {
     IPage<Label> queryPage(IPage<Label> page, @Param("req") LabelREQ req);
 
 
+    /**
+     * 热门标签
+     * @return
+     */
+    List<Label> selectHotTag();
 }

@@ -112,4 +112,10 @@ public interface IArticleService extends IService<Article> {
      * @return
      */
     ResultVO queryPage(String title, Long current, Long size);
+
+    /**
+     * 查找热门文章
+     * @return
+     */
+    ResultVO findHotList();
 }

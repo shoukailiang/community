@@ -11,6 +11,7 @@ import com.shoukailiang.community.util.base.ResultVOUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -27,6 +28,13 @@ public class LabelServiceImpl extends ServiceImpl<LabelMapper, Label> implements
     public ResultVO queryPage(LabelREQ req) {
         IPage<Label> page = baseMapper.queryPage(req.getPage(), req);
         return ResultVOUtil.success(page);
+    }
+
+
+    @Override
+    public List<Label> findHotTag() {
+        List<Label> hotTagList =  baseMapper.selectHotTag();
+        return hotTagList;
     }
 
     /**

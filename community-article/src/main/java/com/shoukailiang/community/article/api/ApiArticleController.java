@@ -39,6 +39,12 @@ public class ApiArticleController {
         return articleService.findListByLabelIdOrCategoryId(req);
     }
 
+    @ApiOperation("热门文章")
+    @GetMapping("/hotlist")
+    public ResultVO hotlist() {
+        return articleService.findHotList();
+    }
+
     @ApiOperation("前端文章搜索搜索")
     @GetMapping("/search/{title}/{current}/{size}")
     public ResultVO search(

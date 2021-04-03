@@ -223,5 +223,12 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         return ResultVOUtil.success(articlePage1);
     }
 
+    @Override
+    public ResultVO findHotList() {
+        QueryWrapper<Article> queryWrapper = new QueryWrapper();
+        queryWrapper.orderByDesc("thumhup+view_count").last("limit 10");
+        return ResultVOUtil.success(baseMapper.selectList(queryWrapper));
+    }
+
 
 }
