@@ -2,7 +2,9 @@ package com.shoukailiang.community.system.service;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.shoukailiang.community.dto.FocusUser;
 import com.shoukailiang.community.entities.SysFocus;
+import com.shoukailiang.community.entities.SysUser;
 
 import java.util.List;
 
@@ -24,4 +26,8 @@ public interface ISysFocusService extends IService<SysFocus> {
     int findByUserIdNum(String id);
 
     int findByFocusNum(String id);
+
+    List<FocusUser> findFansList(String id);
+
+    List<FocusUser> findFocusList(String id);
 }

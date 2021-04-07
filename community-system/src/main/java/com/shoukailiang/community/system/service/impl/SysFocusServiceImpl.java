@@ -2,12 +2,20 @@ package com.shoukailiang.community.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.shoukailiang.community.dto.FocusUser;
 import com.shoukailiang.community.entities.SysFocus;
+import com.shoukailiang.community.entities.SysUser;
 import com.shoukailiang.community.system.mapper.SysFocusMapper;
+import com.shoukailiang.community.system.mapper.SysUserMapper;
 import com.shoukailiang.community.system.service.ISysFocusService;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class SysFocusServiceImpl extends ServiceImpl<SysFocusMapper, SysFocus> implements ISysFocusService {
 
@@ -18,12 +26,20 @@ public class SysFocusServiceImpl extends ServiceImpl<SysFocusMapper, SysFocus> i
         return baseMapper.selectList(wrapper);
     }
 
+    /**
+     * 2 不能关注自己，1关注成功，0取消关注
+     * @param sysFocus
+     * @return
+     */
     @Override
     public void focus(SysFocus sysFocus) {
         QueryWrapper<SysFocus> wrapper = new QueryWrapper<>();
         wrapper.eq("user_id",sysFocus.getUserId());
         wrapper.eq("focus_id",sysFocus.getFocusId());
         SysFocus sysFocus1 = baseMapper.selectOne(wrapper);
+        if(sysFocus.getFocusId().equals(sysFocus.getUserId())){
+            return ;
+        }
         if(sysFocus1==null){
             super.save(sysFocus);
         }else {
@@ -58,5 +74,27 @@ public class SysFocusServiceImpl extends ServiceImpl<SysFocusMapper, SysFocus> i
         return integer;
     }
 
+    @Autowired
+    private SysUserMapper sysUserMapper;
 
+    @Override
+    public List<FocusUser> findFansList(String id) {
+
+        List<String> fans= baseMapper.selectFans(id);
+        List<SysUser> sysUsers = sysUserMapper.selectBatchIds(fans);
+        List<FocusUser> focusUsers = sysUsers.stream().map(e->
+                new FocusUser(e.getId(),e.getUsername(),e.getNickName(),e.getImageUrl(),e.getMobile(),e.getEmail())
+        ).collect(Collectors.toList());
+        return focusUsers;
+    }
+
+    @Override
+    public List<FocusUser> findFocusList(String id) {
+        List<String> focus= baseMapper.selectFocus(id);
+        List<SysUser> sysUsers = sysUserMapper.selectBatchIds(focus);
+        List<FocusUser> focusUsers = sysUsers.stream().map(e->
+            new FocusUser(e.getId(),e.getUsername(),e.getNickName(),e.getImageUrl(),e.getMobile(),e.getEmail())
+        ).collect(Collectors.toList());
+        return focusUsers;
+    }
 }

@@ -3,4 +3,10 @@
 <mapper namespace="com.shoukailiang.community.system.mapper.SysFocusMapper">
 
 
+    <select id="selectFans" resultType="java.lang.String">
+        select user_id from sys_focus where focus_id = #{id}
+    </select>
+    <select id="selectFocus" resultType="java.lang.String">
+        select focus_id from sys_focus where user_id = #{id}
+    </select>
 </mapper>

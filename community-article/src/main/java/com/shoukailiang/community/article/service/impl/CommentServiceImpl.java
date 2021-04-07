@@ -5,10 +5,12 @@ import com.shoukailiang.community.entities.Comment;
 import com.shoukailiang.community.article.mapper.CommentMapper;
 import com.shoukailiang.community.article.service.ICommentService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.shoukailiang.community.feign.IFeignSystemController;
 import com.shoukailiang.community.util.base.ResultVO;
 import com.shoukailiang.community.util.base.ResultVOUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +27,7 @@ import java.util.List;
  */
 @Service
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements ICommentService {
+
 
     /**
      * 通过文章id查询所有评论

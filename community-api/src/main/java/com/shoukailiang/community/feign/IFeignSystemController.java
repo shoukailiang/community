@@ -22,4 +22,5 @@ public interface IFeignSystemController {
     @ApiOperation("Feign接口-通过用户ID查询拥有权限")
     @GetMapping("/api/feign/menu/{userId}")
     List<SysMenu> findMenuListByUserId(@PathVariable("userId") String userId);
+
 }

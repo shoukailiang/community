@@ -1,7 +1,9 @@
 package com.shoukailiang.community.system.controller;
 
 
+import com.shoukailiang.community.dto.FocusUser;
 import com.shoukailiang.community.entities.SysFocus;
+import com.shoukailiang.community.entities.SysUser;
 import com.shoukailiang.community.system.service.impl.SysFocusServiceImpl;
 import com.shoukailiang.community.util.base.ResultVO;
 import com.shoukailiang.community.util.base.ResultVOUtil;
@@ -10,6 +12,8 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -59,5 +63,21 @@ public class SysFocusController {
     @GetMapping("/focusId/{id}")
     public ResultVO findByFocusNum(@PathVariable("id") String id) {
         return ResultVOUtil.success(sysFocusService.findByFocusNum(id));
+    }
+
+    @ApiOperation("查询我的粉丝列表")
+    @ApiImplicitParam(name = "id", value = "用户id", required = true)
+    @GetMapping("/fans/{id}")
+    public ResultVO findFansList(@PathVariable("id") String id) {
+        List<FocusUser> FansList = sysFocusService.findFansList(id);
+        return ResultVOUtil.success(FansList);
+    }
+
+    @ApiOperation("查询我的关注")
+    @ApiImplicitParam(name = "id", value = "用户id", required = true)
+    @GetMapping("/myfocus/{id}")
+    public ResultVO findFocusList(@PathVariable("id") String id) {
+        List<FocusUser> FansList = sysFocusService.findFocusList(id);
+        return ResultVOUtil.success(FansList);
     }
 }

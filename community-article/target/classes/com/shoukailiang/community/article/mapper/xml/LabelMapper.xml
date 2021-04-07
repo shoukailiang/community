@@ -18,6 +18,8 @@
         ORDER BY m1.`update_date` desc
     </select>
     <select id="selectHotTag" resultType="Label">
-        SELECT label_id as id,community_label.`name` FROM `community_article_label` LEFT JOIN community_label ON community_article_label.label_id = community_label.id GROUP BY label_id ORDER BY count(label_id) desc
+        SELECT label_id as id,community_label.`name` FROM `community_article_label`
+            LEFT JOIN community_label ON community_article_label.label_id = community_label.id
+        GROUP BY label_id ORDER BY count(label_id) desc limit 10
     </select>
 </mapper>

@@ -46,6 +46,14 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.databene</groupId>
+            <artifactId>contiperf</artifactId>
+            <version>2.1.0</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
     <!-- 打包插件 -->
     <build>

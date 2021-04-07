@@ -30,28 +30,21 @@ public final class AliyunUtil {
         // 上传
         // 上传文件所在目录名，当天上传的文件放到当天日期的目录下。
         String folderName = platformEnum.name().toLowerCase() + "/" + DateFormatUtils.format(new Date(), "yyyyMMdd");
-
         // 保存到 OSS 中的文件名，采用 UUID 命名。
         String fileName = UUID.randomUUID().toString().replace("-", "");
-
         // 从原始文件名中，获取文件扩展名
         String fileExtensionName = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-
         // 文件在 OSS 中存储的完整路径
         String filePath = folderName + "/" + fileName + fileExtensionName;
-
         OSS ossClient = null;
         try {
             // 获取 OSS 客户端实例
             ossClient = new OSSClientBuilder().build(aliyun.getEndpoint(), aliyun.getAccessKeyId(), aliyun.getAccessKeySecret());
-
             // 上传文件到OSS 并响应结果
             PutObjectResult putObjectResult = ossClient.putObject(aliyun.getBucketName(), filePath, file.getInputStream());
-
             ResponseMessage response = putObjectResult.getResponse();
             if(response == null) {
                 // 上传成功
-
                 // 返回上传文件的访问完整路径
                 return ResultVOUtil.success( aliyun.getBucketDomain() + filePath );
             }else {

@@ -3,6 +3,7 @@ package com.shoukailiang.community.article.controller;
 
 import com.shoukailiang.community.article.service.ICommentService;
 import com.shoukailiang.community.entities.Comment;
+import com.shoukailiang.community.feign.IFeignSystemController;
 import com.shoukailiang.community.util.base.ResultVO;
 import com.shoukailiang.community.util.base.ResultVOUtil;
 import io.swagger.annotations.Api;
@@ -25,6 +26,10 @@ import org.springframework.web.bind.annotation.*;
 public class CommentController {
     @Autowired
     private ICommentService commentService;
+
+    @Autowired
+    private IFeignSystemController feignSystemController;
+
 
     @ApiImplicitParam(name="id", value="评论ID", required=true)
     @ApiOperation("删除评论接口")
