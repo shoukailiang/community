@@ -8,6 +8,8 @@ import com.shoukailiang.community.entities.SysUser;
 import com.shoukailiang.community.system.mapper.SysFocusMapper;
 import com.shoukailiang.community.system.mapper.SysUserMapper;
 import com.shoukailiang.community.system.service.ISysFocusService;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class SysFocusServiceImpl extends ServiceImpl<SysFocusMapper, SysFocus> implements ISysFocusService {
 
@@ -81,20 +84,26 @@ public class SysFocusServiceImpl extends ServiceImpl<SysFocusMapper, SysFocus> i
     public List<FocusUser> findFansList(String id) {
 
         List<String> fans= baseMapper.selectFans(id);
+        if(CollectionUtils.isEmpty(fans)){
+            return null;
+        }
         List<SysUser> sysUsers = sysUserMapper.selectBatchIds(fans);
-        List<FocusUser> focusUsers = sysUsers.stream().map(e->
+        List<FocusUser> users = sysUsers.stream().map(e->
                 new FocusUser(e.getId(),e.getUsername(),e.getNickName(),e.getImageUrl(),e.getMobile(),e.getEmail())
         ).collect(Collectors.toList());
-        return focusUsers;
+        return users;
     }
 
     @Override
     public List<FocusUser> findFocusList(String id) {
         List<String> focus= baseMapper.selectFocus(id);
+        if(CollectionUtils.isEmpty(focus)){
+            return null;
+        }
         List<SysUser> sysUsers = sysUserMapper.selectBatchIds(focus);
-        List<FocusUser> focusUsers = sysUsers.stream().map(e->
+        List<FocusUser> users = sysUsers.stream().map(e->
             new FocusUser(e.getId(),e.getUsername(),e.getNickName(),e.getImageUrl(),e.getMobile(),e.getEmail())
         ).collect(Collectors.toList());
-        return focusUsers;
+        return users;
     }
 }
