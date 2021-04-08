@@ -9,6 +9,6 @@ spring:
         server-addr: 127.0.0.1:8848 # 配置中心地址 nacos server
         file-extension: yml # 配置中心的配置后缀
   profiles:
-    active: dev # 指定环境为开发环境，即读取 gateway-server-dev.yml
+    active: prod
 
 

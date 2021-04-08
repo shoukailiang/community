@@ -9,4 +9,4 @@ spring:
         server-addr: localhost:8848 # 配置中心地址
         file-extension: yml # 配置中心的配置格式 system-server.yml
   profiles:
-    active: dev # 指定环境为开发环境，所以会选择nacos中的system-server-dev.yml
+    active: prod
