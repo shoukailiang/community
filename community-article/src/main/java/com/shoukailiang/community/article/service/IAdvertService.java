@@ -15,13 +15,6 @@ import com.shoukailiang.community.util.base.ResultVOUtil;
  * @since 2021-02-08
  */
 public interface IAdvertService extends IService<Advert> {
-    /**
-     * 分页查询广告列表
-     * @param req
-     * @return
-     */
-    ResultVO queryPage(AdvertREQ req);
-
 
     /**
      * 删除广告即oss图片

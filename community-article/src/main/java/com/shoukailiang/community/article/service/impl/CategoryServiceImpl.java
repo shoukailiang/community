@@ -18,29 +18,7 @@ import java.util.List;
 
 @Service
 public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements ICategoryService {
-    @Override
-    public ResultVO queryPage(CategoryREQ req) {
-        // 查询条件对象
-        QueryWrapper<Category> wrapper = new QueryWrapper<>();
-        // 分类名称，状态
-        if (StringUtils.isNotEmpty(req.getName())) {
-            wrapper.like("name", req.getName());
-        }
-        if (req.getStatus() != null) {
-            wrapper.eq("status", req.getStatus());
-        }
 
-        wrapper.orderByDesc("status").orderByAsc("sort");
-        // 第一个参数page分页对象，第二个参数查询条件
-        IPage<Category> data = baseMapper.selectPage(req.getPage(), wrapper);
-        return ResultVOUtil.success(data);
-    }
-
-    @Override
-    public boolean updateById(Category category) {
-        category.setUpdateDate(new Date());
-        return super.updateById(category);// 调用父类的更新
-    }
 
     @Override
     public ResultVO findAllNormal() {

@@ -1,22 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shoukailiang.community.article.mapper.LabelMapper">
-<!--    条件 分类查询所有标签,由于在application中配置了类型别名包，所以返回类型不是全线名了-->
-    <select id="queryPage" resultType="Label">
-        SELECT
-        m1.`id`, m1.`category_id`, m1.`name`, m1.`create_date`, m1.`update_date`, m2.`name` category_name
-        FROM community_label m1 JOIN community_category m2
-        ON m1.category_id = m2.id
-        <where>
-            <if test="req.name != null and req.name !=''">
-                and m1.name LIKE CONCAT('%', #{req.name}, '%')
-            </if>
-            <if test="req.categoryId != null and req.categoryId !=''">
-                and m1.category_id = #{req.categoryId}
-            </if>
-        </where>
-        ORDER BY m1.`update_date` desc
-    </select>
     <select id="selectHotTag" resultType="Label">
         SELECT label_id as id,community_label.`name` FROM `community_article_label`
             LEFT JOIN community_label ON community_article_label.label_id = community_label.id

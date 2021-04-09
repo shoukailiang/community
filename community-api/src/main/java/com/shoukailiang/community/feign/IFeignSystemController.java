@@ -1,6 +1,5 @@
 package com.shoukailiang.community.feign;
 
-import com.shoukailiang.community.entities.SysMenu;
 import com.shoukailiang.community.entities.SysUser;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -17,10 +16,4 @@ public interface IFeignSystemController {
     @ApiOperation("Feign接口-通过用户名查询用户信息")
     @GetMapping("/api/feign/user/{username}")
     SysUser findUserByUsername(@PathVariable("username") String username);
-
-    @ApiImplicitParam(name = "userId", value = "用户ID", required = true)
-    @ApiOperation("Feign接口-通过用户ID查询拥有权限")
-    @GetMapping("/api/feign/menu/{userId}")
-    List<SysMenu> findMenuListByUserId(@PathVariable("userId") String userId);
-
 }

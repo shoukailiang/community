@@ -11,13 +11,6 @@ import com.shoukailiang.community.util.base.ResultVOUtil;
  */
 public interface ICategoryService extends IService<Category> {
     /**
-     * 分页查询分类信息
-     * @param req 查询条件
-     * @return
-     */
-    ResultVO queryPage(CategoryREQ req);
-
-    /**
      * 查询正常状态的分类
      * @return
      */

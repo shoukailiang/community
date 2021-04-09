@@ -3,24 +3,5 @@
 <mapper namespace="com.shoukailiang.community.system.mapper.SysUserMapper">
 
 
-    <select id="findRoleIdsById" resultType="String">
-        SELECT role_id
-        FROM sys_user_role
-        WHERE user_id = #{id}
-    </select>
 
-    <delete id="deleteUserRoleByUserId">
-        DELETE
-        FROM sys_user_role
-        WHERE user_id = #{userId}
-    </delete>
-
-    <insert id="saveUserRole">
-        INSERT INTO sys_user_role(id, user_id, role_id) VALUES
-        <foreach collection="roleIds" item="item" index="index" separator=",">
-            (
-            '${@com.baomidou.mybatisplus.core.toolkit.IdWorker@getId()}', #{userId}, #{item}
-            )
-        </foreach>
-    </insert>
 </mapper>

@@ -28,20 +28,6 @@ public class AdvertServiceImpl extends ServiceImpl<AdvertMapper, Advert> impleme
     @Autowired
     private ArticleProperties articleProperties;
 
-    @Override
-    public ResultVO queryPage(AdvertREQ req) {
-        QueryWrapper<Advert> wrapper = new QueryWrapper();
-        if(req.getStatus() != null) {
-            wrapper.eq("status", req.getStatus());
-        }
-        if(StringUtils.isNotEmpty(req.getTitle())) {
-            wrapper.like("title", req.getTitle());
-        }
-        wrapper.orderByDesc("status").orderByAsc("sort");
-        // 分页对象
-        return ResultVOUtil.success(baseMapper.selectPage(req.getPage(), wrapper));
-    }
-
 
     @Transactional
     @Override

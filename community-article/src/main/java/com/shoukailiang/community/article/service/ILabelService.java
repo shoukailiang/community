@@ -17,12 +17,6 @@ import java.util.List;
  * @since 2021-02-05
  */
 public interface ILabelService extends IService<Label> {
-    /**
-     * 条件与分页查询标签列表
-     * @param req
-     * @return
-     */
-    ResultVO queryPage(LabelREQ req);
 
     /**
      * 热门标签

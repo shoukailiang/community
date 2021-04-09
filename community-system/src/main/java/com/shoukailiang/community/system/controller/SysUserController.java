@@ -43,42 +43,6 @@ public class SysUserController {
         return sysUserService.queryPage(req);
     }
 
-    @ApiImplicitParam(name = "id", value = "用户Id", required = true)
-    @ApiOperation("根据用户id查询所拥有的角色ids接口")
-    @GetMapping("/{id}/role/ids")
-    public ResultVO findRoleIdsById(@PathVariable("id") String id) {
-        return sysUserService.findRoleIdsById(id);
-    }
-
-
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "用户Id", required = true),
-            @ApiImplicitParam(name = "roleIds", value = "角色Id集合", required = true, allowMultiple = true, dataType = "String"),
-    })
-    @ApiOperation("新增用户角色关系数据接口")
-    @PostMapping("/{id}/role/save") // /user/9/role/save
-    public ResultVO saveUserRole(@PathVariable("id") String id, @RequestBody List<String> roleIds) {
-        return sysUserService.saveUserRole(id, roleIds);
-    }
-
-    @ApiOperation("通过用户ID删除用户接口")
-    @ApiImplicitParam(name = "id", value = "用户ID", required = true)
-    @DeleteMapping("/{id}")
-    public ResultVO delete(@PathVariable("id") String id) {
-        return sysUserService.deleteById(id);
-    }
-
-
-    @ApiOperation("新增用户信息接口")
-    @PostMapping // 请求地址 /user
-    public ResultVO save(@RequestBody SysUser sysUser) {
-        // 密码加密处理
-        String password = passwordEncoder.encode(sysUser.getPassword());
-        sysUser.setPassword(password);
-        // 新增
-        sysUserService.save(sysUser);
-        return ResultVOUtil.success();
-    }
 
     @ApiOperation("查询用户详情接口")
     @ApiImplicitParam(name = "id", value = "用户ID", required = true)

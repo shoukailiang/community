@@ -24,12 +24,6 @@ import java.util.List;
 @Service
 public class LabelServiceImpl extends ServiceImpl<LabelMapper, Label> implements ILabelService {
 
-    @Override
-    public ResultVO queryPage(LabelREQ req) {
-        IPage<Label> page = baseMapper.queryPage(req.getPage(), req);
-        return ResultVOUtil.success(page);
-    }
-
 
     @Override
     public List<Label> findHotTag() {

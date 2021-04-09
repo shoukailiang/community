@@ -35,20 +35,6 @@ import java.util.*;
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements IArticleService {
 
     @Override
-    public ResultVO queryPage(ArticleREQ req) {
-        QueryWrapper<Article> queryWrapper = new QueryWrapper();
-        if (req.getStatus() != null) {
-            queryWrapper.eq("status", req.getStatus());
-        }
-        if (StringUtils.isNotEmpty(req.getTitle())) {
-            queryWrapper.like("title", req.getTitle());
-        }
-        queryWrapper.orderByDesc("update_date");
-
-        return ResultVOUtil.success(baseMapper.selectPage(req.getPage(), queryWrapper));
-    }
-
-    @Override
     public ResultVO findArticleAndLabel(String id) {
         Article article = baseMapper.findArticleAndLabelById(id);
         return ResultVOUtil.success(article);
@@ -78,15 +64,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             baseMapper.saveArticleLabel(article.getId(), article.getLabelIds());
         }
         return ResultVOUtil.success(article.getId());
-    }
-
-    @Override
-    public ResultVO updateStatus(String id, ArticleStatusEnum statusEnum) {
-        Article article = baseMapper.selectById(id);
-        article.setStatus(statusEnum.getCode());
-        article.setUpdateDate(new Date());
-        baseMapper.updateById(article);
-        return ResultVOUtil.success();
     }
 
     @Override

@@ -21,13 +21,6 @@ import com.shoukailiang.community.util.enums.ArticleStatusEnum;
  */
 public interface IArticleService extends IService<Article> {
     /**
-     * 条件分页查询文章列表
-     * @param req
-     * @return
-     */
-    ResultVO queryPage(ArticleREQ req);
-
-    /**
      *  通过文章id查询文章详情与标签
      * @param id
      * @return
@@ -40,14 +33,6 @@ public interface IArticleService extends IService<Article> {
      * @return
      */
     ResultVO updateOrSave(Article article);
-
-    /**
-     * 修改文章状态
-     * @param id
-     * @param statusEnum
-     * @return
-     */
-    ResultVO updateStatus(String id, ArticleStatusEnum statusEnum);
 
     /**
      * 根据用户id查询公开或为公开的问文章列表
