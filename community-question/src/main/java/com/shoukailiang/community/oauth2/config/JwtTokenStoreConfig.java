@@ -43,6 +43,7 @@ public class JwtTokenStoreConfig {
     /**
      * 定制 AccessToken 转换器，让额外添加的用户信息（userinfo）在资源服务中获取
      * 使得资源服务器中可以获取认证用户详情
+     * 解决资源服务器获取获取信息的时候没有userInfo
      */
     private class CustomAccessTokenConverter extends DefaultAccessTokenConverter {
         @Override
