@@ -1,7 +1,8 @@
 package com.shoukailiang.community.feign;
 
-import com.shoukailiang.community.entities.SysMenu;
 import com.shoukailiang.community.entities.SysUser;
+import com.shoukailiang.community.util.base.ResultVO;
+import com.shoukailiang.community.util.base.ResultVOUtil;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -18,9 +19,9 @@ public interface IFeignSystemController {
     @GetMapping("/api/feign/user/{username}")
     SysUser findUserByUsername(@PathVariable("username") String username);
 
-    @ApiImplicitParam(name = "userId", value = "用户ID", required = true)
-    @ApiOperation("Feign接口-通过用户ID查询拥有权限")
-    @GetMapping("/api/feign/menu/{userId}")
-    List<SysMenu> findMenuListByUserId(@PathVariable("userId") String userId);
 
+    @ApiImplicitParam(name = "id", value = "用户id", required = true)
+    @ApiOperation("Feign接口-查询相关角色")
+    @GetMapping("/api/feign/getRoleById/{id}")
+    String findRoleById(@PathVariable("id") String id);
 }

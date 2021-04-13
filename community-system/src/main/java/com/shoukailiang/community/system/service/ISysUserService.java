@@ -1,6 +1,5 @@
 package com.shoukailiang.community.system.service;
 
-import com.shoukailiang.community.entities.SysMenu;
 import com.shoukailiang.community.entities.SysUser;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.shoukailiang.community.system.req.RegisterREQ;
@@ -34,13 +33,6 @@ public interface ISysUserService extends IService<SysUser> {
      */
     ResultVO findRoleIdsById(String id);
 
-    /**
-     * 新增用户角色关系数据到 sys_user_role
-     * @param userId
-     * @param roleIds
-     * @return
-     */
-    ResultVO saveUserRole(String userId, List<String> roleIds);
 
     /**
      * 假删除，将 `is_enabled` 状态更新为 `0`

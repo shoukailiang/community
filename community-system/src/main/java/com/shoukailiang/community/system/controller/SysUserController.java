@@ -51,16 +51,6 @@ public class SysUserController {
     }
 
 
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "用户Id", required = true),
-            @ApiImplicitParam(name = "roleIds", value = "角色Id集合", required = true, allowMultiple = true, dataType = "String"),
-    })
-    @ApiOperation("新增用户角色关系数据接口")
-    @PostMapping("/{id}/role/save") // /user/9/role/save
-    public ResultVO saveUserRole(@PathVariable("id") String id, @RequestBody List<String> roleIds) {
-        return sysUserService.saveUserRole(id, roleIds);
-    }
-
     @ApiOperation("通过用户ID删除用户接口")
     @ApiImplicitParam(name = "id", value = "用户ID", required = true)
     @DeleteMapping("/{id}")

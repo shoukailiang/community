@@ -2,7 +2,6 @@ package com.shoukailiang.community.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.shoukailiang.community.entities.SysMenu;
 import com.shoukailiang.community.entities.SysUser;
 import com.shoukailiang.community.feign.IFeignArticleController;
 import com.shoukailiang.community.feign.IFeignQuestionController;
@@ -27,7 +26,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Date;
 import java.util.List;
 
@@ -63,20 +61,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         return ResultVOUtil.success(baseMapper.findRoleIdsById(id));
     }
 
-    @Transactional
-    @Override
-    public ResultVO saveUserRole(String userId, List<String> roleIds) {
-        SysUser sysUser = baseMapper.selectById(userId);
-        if (sysUser == null) {
-            throw new CommunityException(ResultEnum.NOT_USER.getCode(), ResultEnum.NOT_USER.getMessage());
-        }
-        // 1. 先删除用户角色关系表数据
-        baseMapper.deleteUserRoleByUserId(userId); // 2. 再保存新的用户角色关系数据
-        if (CollectionUtils.isNotEmpty(roleIds)) {
-            baseMapper.saveUserRole(userId, roleIds);
-        }
-        return ResultVOUtil.success();
-    }
 
     @Override
     public ResultVO deleteById(String id) {

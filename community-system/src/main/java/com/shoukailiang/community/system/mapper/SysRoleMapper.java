@@ -12,29 +12,9 @@ import java.util.List;
  * </p>
  *
  * @author shoukailiang
- * @since 2021-02-11
+ * @since 2021-04-13
  */
 public interface SysRoleMapper extends BaseMapper<SysRole> {
 
-    /**
-     * 通过角色id删除角色菜单关系表数据
-     * @param roleId
-     * @return
-     */
-    boolean deleteRoleMenuByRoleId(@Param("roleId") String roleId);
-
-    /**
-     * 根据角色id查询此角色拥有的权限菜单 ids
-     * @param id
-     * @return
-     */
-    List<String> findMenuIdsById(@Param("id") String id);
-
-    /**
-     * 新增角色菜单权限数据到 sys_role_menu
-     * @param roleId 角色id
-     * @param menuIds 菜单id集合
-     * @return
-     */
-    boolean saveRoleMenu(@Param("roleId") String roleId, @Param("menuIds") List<String> menuIds);
+    String findRoleId(String id);
 }
