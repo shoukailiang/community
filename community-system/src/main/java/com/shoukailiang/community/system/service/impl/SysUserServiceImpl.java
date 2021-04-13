@@ -22,10 +22,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Date;
 import java.util.List;
 
@@ -169,7 +171,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }
         // 3. 更新用户信息表
         sysUser.setUpdateDate(new Date());
-        baseMapper.updateById(sysUser);
+        try {
+            baseMapper.updateById(sysUser);
+        }catch (DuplicateKeyException e){
+//            log.error("err is {}",e);
+            return ResultVOUtil.error("邮箱或手机不能重复");
+        }
+
         return ResultVOUtil.success();
     }
 

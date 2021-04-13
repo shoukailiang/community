@@ -24,7 +24,7 @@ public interface ArticleMapper extends BaseMapper<Article> {
      * @param id
      * @return
      */
-    Article findArticleAndLabelById(String id);
+    Article findArticleAndLabelById(@Param("id") String id);
 
     /**
      * 通过文章id删除标签（中间表）。@Param 在xml配置文件中直接应用这个别名，理论上一个参数不用加，但为了统一，都加上了

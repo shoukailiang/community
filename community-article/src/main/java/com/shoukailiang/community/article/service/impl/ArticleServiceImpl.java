@@ -212,7 +212,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     public ResultVO queryPage(String title, Long current, Long size) {
         QueryWrapper<Article> queryWrapper = new QueryWrapper();
         if (StringUtils.isNotEmpty(title)) {
-            queryWrapper.like("title", title).or().like("nick_name",title);
+            queryWrapper.like("title", title);
         }
         queryWrapper.eq("status",2).eq("ispublic",1);
         queryWrapper.orderByDesc("update_date");
