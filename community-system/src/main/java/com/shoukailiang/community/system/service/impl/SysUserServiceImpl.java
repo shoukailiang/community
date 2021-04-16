@@ -159,7 +159,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             baseMapper.updateById(sysUser);
         }catch (DuplicateKeyException e){
 //            log.error("err is {}",e);
-            return ResultVOUtil.error("邮箱或手机不能重复");
+            return ResultVOUtil.error("邮箱手机或用户名不能重复");
         }
 
         return ResultVOUtil.success();
