@@ -2,8 +2,8 @@ package com.shoukailiang.community.oauth2.service;
 
 import com.shoukailiang.community.entities.SysUser;
 import com.shoukailiang.community.feign.IFeignSystemController;
-import io.swagger.models.auth.In;
-import org.apache.commons.collections.CollectionUtils;
+import com.shoukailiang.community.util.enums.ResultEnum;
+import com.shoukailiang.community.util.exception.CommunityException;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -27,12 +27,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // 1. 判断用户名是否为空
         if (StringUtils.isEmpty(username)) {
-            throw new BadCredentialsException("用户名不能为空");
+//            throw new BadCredentialsException("用户名不能为空");
+            throw new CommunityException(ResultEnum.USERNAME_ERROR);
         }
         // 2. 通过用户名查询数据库中的用户信息
         SysUser sysUser = feignSystemController.findUserByUsername(username);
         if (sysUser == null) {
-            throw new BadCredentialsException("用户名或密码错误");
+            throw new CommunityException(ResultEnum.NO_USER);
         }
 
         // 3. 通过用户id去查询数据库的拥有的权限信息

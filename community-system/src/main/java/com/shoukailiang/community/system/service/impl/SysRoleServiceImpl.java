@@ -25,7 +25,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     @Override
     public String findRoleById(String id) {
         String roleId = baseMapper.findRoleId(id);
-        log.error("skl {}", roleId);
+        //log.error("skl {}", roleId);
         if(StringUtils.isNotEmpty(roleId)){
             return roleId;
         }

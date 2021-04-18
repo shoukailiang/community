@@ -1,6 +1,7 @@
 package com.shoukailiang.community.oauth2.config;
 
 import com.shoukailiang.community.oauth2.CustomAuthenticationSuccessHandler;
+import com.shoukailiang.community.oauth2.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,7 +21,7 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private UserDetailsServiceImpl userDetailsService;
 
 
     @Override

@@ -178,8 +178,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         QueryWrapper<SysUser> wrapper = new QueryWrapper<>();
         wrapper.eq("username", username);
         SysUser sysUser = baseMapper.selectOne(wrapper);
-        // 查询到则存在，存在 data=true 已被注册，不存在 data=false 未被注册
-        return ResultVOUtil.success(sysUser == null ? false : true);
+        boolean isExists = sysUser != null;
+        return ResultVOUtil.success(isExists);
     }
 
     @Override
@@ -190,7 +190,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         if (StringUtils.isEmpty(req.getPassword())) {
             return ResultVOUtil.error("密码不能为空，请重试");
         }
-//        log.debug(String.valueOf(req));
         if (StringUtils.isEmpty(req.getRepPassword())) {
             return ResultVOUtil.error("确认密码不能为空，请重试");
         }

@@ -52,7 +52,8 @@ public class AdvertServiceImpl extends ServiceImpl<AdvertMapper, Advert> impleme
         baseMapper.deleteById(id);
         // 3. 删除oss上的图片
         if(StringUtils.isNotEmpty(imageUrl)) {
-            AliyunUtil.delete(imageUrl, articleProperties.getAliyun()); }
+            AliyunUtil.delete(imageUrl, articleProperties.getAliyun());
+        }
         return ResultVOUtil.success();
     }
 
@@ -61,7 +62,7 @@ public class AdvertServiceImpl extends ServiceImpl<AdvertMapper, Advert> impleme
         QueryWrapper<Advert> wrapper = new QueryWrapper<>();
         wrapper.eq("position", position);
         wrapper.eq("status", 1); // 正常
-        wrapper.orderByAsc("sort"); // 升序
+        wrapper.orderByAsc("sort"); 
         return ResultVOUtil.success(baseMapper.selectList(wrapper));
     }
 }

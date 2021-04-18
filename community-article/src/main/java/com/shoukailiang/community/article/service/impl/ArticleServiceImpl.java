@@ -109,7 +109,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     /**
      * 更新点赞数，不需要更新时间
-     *
      * @param id
      * @param count 有增有减
      * @return
