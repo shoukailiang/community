@@ -9,6 +9,7 @@ import com.shoukailiang.community.util.base.ResultVOUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,6 +50,6 @@ public class ApiArticleController {
     @GetMapping("/search/{title}/{current}/{size}")
     public ResultVO search(
             @PathVariable("title") String title,@PathVariable("current") Long current,@PathVariable("size") Long size){
-        return articleService.queryPage(title,current,size);
+        return articleService.queryPage(StringUtils.trim(title),current,size);
     }
 }

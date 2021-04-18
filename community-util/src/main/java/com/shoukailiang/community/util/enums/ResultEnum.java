@@ -24,6 +24,10 @@ public enum ResultEnum {
     NOT_ROLE(307, "没有这个角色，非法操作！"),
     NOT_USER(308, "没有这个后台用户，非法操作！"),
 
+    NO_USER(309, "此用户不存在"),
+
+    USERNAME_ERROR(310,"用户名不能为空")
+
 
     ;
 

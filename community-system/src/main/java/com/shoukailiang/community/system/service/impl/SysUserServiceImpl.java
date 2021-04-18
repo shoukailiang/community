@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -150,7 +151,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }
         // 3. 更新用户信息表
         sysUser.setUpdateDate(new Date());
-        baseMapper.updateById(sysUser);
+        try {
+            baseMapper.updateById(sysUser);
+        }catch (DuplicateKeyException e){
+//            log.error("err is {}",e);
+            return ResultVOUtil.error("用户名，邮箱或手机不能重复");
+        }
         return ResultVOUtil.success();
     }
 
@@ -167,8 +173,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         QueryWrapper<SysUser> wrapper = new QueryWrapper<>();
         wrapper.eq("username", username);
         SysUser sysUser = baseMapper.selectOne(wrapper);
-        // 查询到则存在，存在 data=true 已被注册，不存在 data=false 未被注册
-        return ResultVOUtil.success(sysUser == null ? false : true);
+        return ResultVOUtil.success(sysUser != null);
     }
 
     @Override

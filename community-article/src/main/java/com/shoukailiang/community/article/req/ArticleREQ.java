@@ -16,6 +16,6 @@ import lombok.experimental.Accessors;
 public class ArticleREQ extends BaseRequest<Article> {
     @ApiModelProperty(value = "文章标题")
     private String title;
-    @ApiModelProperty(value = "0: 已删除, 1:未审核，2:已审核")
+    @ApiModelProperty(value = "0: 已删除, 1:未审核，2:审核通过，3：审核未通过")
     private Integer status;
 }
