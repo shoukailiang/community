@@ -10,7 +10,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 
-@EnableGlobalMethodSecurity(prePostEnabled = true) // 开启方法级别权限控制
 @EnableResourceServer // 标识为资源服务器，请求资源接口时，必须在请求头带个access_token
 @Configuration
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {

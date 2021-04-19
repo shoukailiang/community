@@ -22,15 +22,7 @@ public class JwtTokenStoreConfig {
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
         JwtAccessTokenConverter converter =
                 new JwtAccessTokenConverter();
-        // 采用非对称加密文件
-        KeyStoreKeyFactory factory = new KeyStoreKeyFactory(
-                new ClassPathResource("oauth2.jks"), "oauth2".toCharArray());
-        KeyPair oauth2 = factory.getKeyPair("oauth2");
-        // factory.getKeyPair
-        // 是 keytool -genkeypair -alias oauth2 -keyalg RSA -keypass oauth2 -keystore oauth2.jks -storepass oauth2
-        // 中的alias
-        converter.setKeyPair(oauth2);
-
+        converter.setSigningKey("shoukailiang");
         return converter;
     }
 

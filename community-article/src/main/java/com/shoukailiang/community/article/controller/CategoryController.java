@@ -18,11 +18,6 @@ public class CategoryController {
     @Autowired
     private ICategoryService categoryService;
 
-    /**
-     * 	分页查询，@RequestBody 请求体中的json数据
-     * @param req  分类名与状态查询和分页参数
-     * @return 会将对象转换成json
-     */
     @ApiOperation("根据分类名称与状态查询分类接口")
     @PostMapping("/search")
     public ResultVO search(@RequestBody CategoryREQ req){

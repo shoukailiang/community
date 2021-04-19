@@ -20,16 +20,7 @@ public class JwtTokenStoreConfig {
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        // 采用的是非对称加密，资源服务器要使用公钥解密 public.txt
-        ClassPathResource resource = new ClassPathResource("public.txt");
-        String publicKey = null;
-        try {
-            publicKey = IOUtils.toString(resource.getInputStream(), "UTF-8");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        converter.setVerifierKey(publicKey);
-
+        converter.setSigningKey("shoukailiang");
         // 将定义的转换器对象添加到jwt转换器中
         converter.setAccessTokenConverter(new CustomAccessTokenConverter());
         return converter;

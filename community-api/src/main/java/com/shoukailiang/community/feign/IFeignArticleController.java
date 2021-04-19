@@ -25,6 +25,6 @@ public interface IFeignArticleController {
 
 
     @ApiOperation("Feign接口-更新文章表和评论表中的用户信息")
-    @PutMapping("/feign/article/user") // 请求方式 put
+    @PutMapping("/feign/article/user")
     boolean updateUserInfo(@RequestBody UserInfoREQ req);
 }

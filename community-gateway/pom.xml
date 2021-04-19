@@ -11,7 +11,6 @@
 
     <artifactId>community-gateway</artifactId>
 
-    <!-- 加入依赖 -->
     <dependencies>
 
         <!-- gateway 路由网关依赖 webflux-->

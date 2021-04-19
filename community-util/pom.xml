@@ -24,7 +24,6 @@
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
-        <!--mybatis-plus启动器-->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
@@ -47,7 +46,7 @@
             <optional>true</optional>
         </dependency>
 
-        <!--lombok setter,getter-->
+        <!--lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -59,7 +58,6 @@
             <artifactId>swagger-spring-boot-starter</artifactId>
         </dependency>
 
-        <!-- aliyun -->
         <!-- aliyun oss-->
         <dependency>
             <groupId>com.aliyun.oss</groupId>
