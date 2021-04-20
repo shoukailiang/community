@@ -37,7 +37,7 @@ public class AuthService {
         ServiceInstance serviceInstance =
                 loadBalancerClient.choose("auth-server");
         if (serviceInstance == null) {
-            return ResultVOUtil.error("未找到有效认证服务器，请稍后重试");
+            return ResultVOUtil.error(ResultEnum.AUTH_SERVER_NOT_FOUND.getMessage());
         }
         // 请求刷新令牌url
         String refreshTokenUrl =

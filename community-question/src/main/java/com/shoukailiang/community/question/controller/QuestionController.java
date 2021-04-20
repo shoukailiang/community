@@ -11,6 +11,9 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -73,6 +76,21 @@ public class QuestionController {
     public ResultVO questionTotal() {
         return questionService.getQuestionTotal();
     }
+
+    @ApiOperation("测试security上下文是否能获取到用户信息")
+    @GetMapping("/ceshiuserInfo")
+    public ResultVO testUserInfo(){
+        // 从security上下文中获取认证信息
+        Authentication authentication
+                = SecurityContextHolder.getContext().getAuthentication();
+        OAuth2AuthenticationDetails details =
+                (OAuth2AuthenticationDetails)authentication.getDetails();
+
+        System.out.println(details);
+        return ResultVOUtil.success(details.toString());
+    }
+
+
 
 
 }
