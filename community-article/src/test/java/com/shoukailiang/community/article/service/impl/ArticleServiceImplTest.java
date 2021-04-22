@@ -15,11 +15,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.annotation.Resource;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ArticleServiceImplTest {
 
-    @Autowired
+    @Resource
     private ArticleMapper articleMapper;
     //激活ContiPerf
     @Rule
@@ -29,7 +31,7 @@ public class ArticleServiceImplTest {
     //指定调用次数/线程数
     @PerfTest(invocations = 100, threads = 20)
     //指定性能要求 每次执行的最长时间/平均时间/总时间
-    @Required(max = 200, average = 100, totalTime = 2000)
+    @Required(max = 1000, average = 250, totalTime = 2000)
     public void findArticleAndLabel() {
         ArticleListREQ req = new ArticleListREQ();
         req.setLabelId("2");

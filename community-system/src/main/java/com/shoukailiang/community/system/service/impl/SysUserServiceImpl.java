@@ -175,6 +175,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public ResultVO checkUsername(String username) {
+        if(StringUtils.isBlank(username)){
+            return ResultVOUtil.error("用户名不能为空，请重试");
+        }
         QueryWrapper<SysUser> wrapper = new QueryWrapper<>();
         wrapper.eq("username", username);
         SysUser sysUser = baseMapper.selectOne(wrapper);

@@ -1,6 +1,8 @@
 package com.shoukailiang.community.article.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.shoukailiang.community.article.mapper.ArticleMapper;
+import com.shoukailiang.community.entities.Article;
 import com.shoukailiang.community.entities.Comment;
 import com.shoukailiang.community.article.mapper.CommentMapper;
 import com.shoukailiang.community.article.service.ICommentService;
@@ -29,6 +31,9 @@ import java.util.List;
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements ICommentService {
 
 
+    @Autowired
+    private ArticleMapper articleMapper;
+
     /**
      * 通过文章id查询所有评论
      * @param articleId
@@ -37,7 +42,11 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     @Override
     public ResultVO findByArticleId(String articleId) {
         if(StringUtils.isBlank(articleId)){
-            ResultVOUtil.error("文章id不能为空");
+            return ResultVOUtil.error("文章id不能为空");
+        }
+        Article article = articleMapper.findArticleAndLabelById(articleId);
+        if(article==null){
+            return ResultVOUtil.error("文章不存在");
         }
         List<Comment> comments = baseMapper.findByArticleId(articleId);
 

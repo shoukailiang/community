@@ -79,7 +79,10 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
 
     @Override
     public ResultVO findById(String id) {
-        // 1. 查询问题详情与标签ids
+        if(StringUtils.isEmpty(id)){
+            return ResultVOUtil.error("id不能为空");
+        }
+        // 查询问题详情与标签ids
         Question question = baseMapper.findQuestionAndLabelIdsById(id);
         if (question == null) {
             return ResultVOUtil.error("未查询到相关问题信息");

@@ -28,6 +28,7 @@ import java.util.List;
  */
 @Service
 public class ReplayServiceImpl extends ServiceImpl<ReplayMapper, Replay> implements IReplayService {
+
     @Autowired
     private QuestionMapper questionMapper;
 
@@ -64,19 +65,6 @@ public class ReplayServiceImpl extends ServiceImpl<ReplayMapper, Replay> impleme
         }
         return ResultVOUtil.success();
     }
-    @Transactional
-    @Override
-    public ResultVO add(Replay replay) {
-        // 新增到回答表
-        boolean ok = this.save(replay);       // 更新问题表中的回答数量
-        if(ok) {
-            // 更新问题表中的回答数量
-            Question question = questionMapper.selectById(replay.getQuestionId());
-            question.setReply(question.getReply() + 1);
-            questionMapper.updateById(question);
-        }
-        return ResultVOUtil.success();
-    }
 
     /**
      * 递归方法
@@ -97,4 +85,19 @@ public class ReplayServiceImpl extends ServiceImpl<ReplayMapper, Replay> impleme
             }
         }
     }
+
+    @Transactional
+    @Override
+    public ResultVO add(Replay replay) {
+        // 新增到回答表
+        boolean ok = this.save(replay);       // 更新问题表中的回答数量
+        if(ok) {
+            // 更新问题表中的回答数量
+            Question question = questionMapper.selectById(replay.getQuestionId());
+            question.setReply(question.getReply() + 1);
+            questionMapper.updateById(question);
+        }
+        return ResultVOUtil.success();
+    }
+
 }
