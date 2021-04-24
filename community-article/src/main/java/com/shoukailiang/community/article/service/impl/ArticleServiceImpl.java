@@ -216,7 +216,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         queryWrapper.eq("status",2).eq("ispublic",1);
         queryWrapper.orderByDesc("update_date");
 
-
         Page<Article> articlePage = new Page<Article>().setCurrent(current).setSize(size);
         Page<Article> articlePage1 = baseMapper.selectPage(articlePage, queryWrapper);
         return ResultVOUtil.success(articlePage1);

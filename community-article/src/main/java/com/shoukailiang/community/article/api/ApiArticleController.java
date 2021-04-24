@@ -1,11 +1,8 @@
 package com.shoukailiang.community.article.api;
 
 import com.shoukailiang.community.article.req.ArticleListREQ;
-import com.shoukailiang.community.article.req.ArticleREQ;
-import com.shoukailiang.community.article.req.SearchREQ;
 import com.shoukailiang.community.article.service.IArticleService;
 import com.shoukailiang.community.util.base.ResultVO;
-import com.shoukailiang.community.util.base.ResultVOUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -49,7 +46,9 @@ public class ApiArticleController {
     @ApiOperation("前端文章搜索搜索")
     @GetMapping("/search/{title}/{current}/{size}")
     public ResultVO search(
-            @PathVariable("title") String title,@PathVariable("current") Long current,@PathVariable("size") Long size){
+            @PathVariable("title") String title,
+            @PathVariable("current") Long current,
+            @PathVariable("size") Long size){
         return articleService.queryPage(StringUtils.trim(title),current,size);
     }
 }

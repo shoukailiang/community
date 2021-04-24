@@ -2,7 +2,6 @@ package com.shoukailiang.community.article.api;
 
 import com.shoukailiang.community.article.service.IAdvertService;
 import com.shoukailiang.community.util.base.ResultVO;
-import com.shoukailiang.community.util.base.ResultVOUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -21,9 +20,8 @@ public class ApiAdvertController {
 
     @ApiOperation("查询指定广告位置下的所有广告信息接口")
     @ApiImplicitParam(name="position", value="广告位置编号", required=true)
-    @GetMapping("/show/{position}") // /advert/show/{position}
+    @GetMapping("/show/{position}") 
     public ResultVO show(@PathVariable("position") int position) {
         return advertService.findByPosition(position);
     }
-
 }

@@ -19,7 +19,7 @@ public class ApiQuestionController {
     private IQuestionService questionService;
 
     @ApiOperation("分页查询热门问答列表接口")
-    @PostMapping("/hot") // /api/question/hot
+    @PostMapping("/hot")
     public ResultVO findHostList(@RequestBody BaseRequest<Question> req) {
         return questionService.findHotList(req);
     }
@@ -36,22 +36,22 @@ public class ApiQuestionController {
         return questionService.findWaitList(page);
     }
 
-    @ApiImplicitParam(name="labelId", value="标签ID", required=true)
+    @ApiImplicitParam(name = "labelId", value = "标签ID", required = true)
     @ApiOperation("根据标签ID分页查询问答列表接口")
     @PostMapping("/list/{labelId}")
     public ResultVO findListByLabelId(@RequestBody BaseRequest<Question> req,
-                                          @PathVariable("labelId") String labelId) {
+                                      @PathVariable("labelId") String labelId) {
         return questionService.findListByLabelId(req, labelId);
     }
 
     @ApiOperation("查询问题详情接口")
-    @ApiImplicitParam(name="id", value="问题ID", required=true)
+    @ApiImplicitParam(name = "id", value = "问题ID", required = true)
     @GetMapping("/{id}")
     public ResultVO view(@PathVariable("id") String id) {
         return questionService.findById(id);
     }
 
-    @ApiImplicitParam(name="id", value="问题ID", required=true)
+    @ApiImplicitParam(name = "id", value = "问题ID", required = true)
     @ApiOperation("更新浏览次数")
     @PutMapping("/viewCount/{id}")
     public ResultVO updateViewCount(@PathVariable("id") String id) {

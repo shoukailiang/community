@@ -34,10 +34,13 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .and()
                 .authorizeRequests() // 请求的授权配置
                 // 将 swagger接口文档相关的url放行
-                .antMatchers("/v2/api-docs", "/v2/feign-docs",
+                .antMatchers(
+                        "/v2/api-docs",
+                        "/v2/feign-docs",
                         "/swagger-resources/configuration/ui",
                         "/swagger-resources", "/swagger-resources/configuration/security",
-                        "/swagger-ui.html", "/webjars/**").permitAll()
+                        "/swagger-ui.html", "/webjars/**"
+                ).permitAll()
                 // 放行以 /api 开头的请求接口
                 .antMatchers("/api/**").permitAll()
 

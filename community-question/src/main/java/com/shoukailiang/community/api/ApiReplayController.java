@@ -18,8 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class ApiReplayController {
     @Autowired
     private IReplayService replayService;
+
     @ApiOperation("通过问题ID递归查询所有评论")
-    @ApiImplicitParam(name="questionId", value="问题ID", required=true)
+    @ApiImplicitParam(name = "questionId", value = "问题ID", required = true)
     @GetMapping("/list/{questionId}")
     public ResultVO findByQuestionId(@PathVariable("questionId") String questionId) {
         return replayService.findByQuestionId(questionId);

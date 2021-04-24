@@ -45,7 +45,6 @@ public class LabelController {
     @ApiOperation("修改标签详情接口")
     @PutMapping
     public ResultVO view(@RequestBody Label label) {
-        // 重写updateTime
         iLabelService.updateById(label);
         return ResultVOUtil.success();
     }

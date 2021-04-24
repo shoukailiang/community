@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @Api(value = "分类管理接口,提供分类的增删改查",description = "分类管理接口,提供分类的增删改查")
-@RestController // 所有方法的返回值转换为 Json 字符串进行响应
+@RestController
 @RequestMapping("/category")
 public class CategoryController {
     @Autowired

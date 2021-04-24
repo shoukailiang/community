@@ -27,9 +27,6 @@ public class CommentController {
     @Autowired
     private ICommentService commentService;
 
-    @Autowired
-    private IFeignSystemController feignSystemController;
-
 
     @ApiImplicitParam(name="id", value="评论ID", required=true)
     @ApiOperation("删除评论接口")

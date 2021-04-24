@@ -1,6 +1,7 @@
 package com.shoukailiang.community.article.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.shoukailiang.community.article.req.AdvertREQ;
 import com.shoukailiang.community.entities.Advert;
 import com.shoukailiang.community.article.mapper.AdvertMapper;

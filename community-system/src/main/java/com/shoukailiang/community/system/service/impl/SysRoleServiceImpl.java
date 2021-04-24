@@ -29,6 +29,6 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         if(StringUtils.isNotEmpty(roleId)){
             return roleId;
         }
-        throw new CommunityException(ResultEnum.MENU_NO);
+        throw new CommunityException(ResultEnum.PERMISSION_NO);
     }
 }

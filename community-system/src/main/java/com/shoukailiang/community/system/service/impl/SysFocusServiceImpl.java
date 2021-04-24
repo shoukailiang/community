@@ -82,7 +82,6 @@ public class SysFocusServiceImpl extends ServiceImpl<SysFocusMapper, SysFocus> i
 
     @Override
     public List<FocusUser> findFansList(String id) {
-
         List<String> fans= baseMapper.selectFans(id);
         if(CollectionUtils.isEmpty(fans)){
             return null;

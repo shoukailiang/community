@@ -1,10 +1,9 @@
 package com.shoukailiang.community.filter;
 
 import com.nimbusds.jose.JWSObject;
+import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -22,15 +21,17 @@ import javax.annotation.Resource;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 
+
+@Slf4j
 @Component
 public class AccessTokenFilter implements GlobalFilter, Ordered {
-    Logger logger = LoggerFactory.getLogger(getClass());
-
 
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
+
     /**
      * 校验请求头中的令牌是否有效，查询redis中是否存在 ，不存在则无效jwt
+     *
      * @param exchange
      * @param chain
      * @return
@@ -46,7 +47,7 @@ public class AccessTokenFilter implements GlobalFilter, Ordered {
         String authorization = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
         String token = StringUtils.substringAfter(authorization, "Bearer ");
 
-        if(StringUtils.isEmpty(token)) {
+        if (StringUtils.isEmpty(token)) {
             // 如果为空，可能是白名单的请求，则直接放行
             return chain.filter(exchange);
         }
@@ -61,17 +62,17 @@ public class AccessTokenFilter implements GlobalFilter, Ordered {
             String jti = jsonObject.get("jti").toString();
             // 查询是否存在
             Object value = redisTemplate.opsForValue().get(jti);
-            if(value == null) {
-                logger.info("令牌已过期 {}", token);
+            if (value == null) {
+                log.info("令牌已过期 {}", token);
                 message = "您的身份已过期, 请重新认证!";
             }
 
         } catch (ParseException e) {
-            logger.error("解析令牌失败 {}", token);
+            log.error("解析令牌失败 {}", token);
             message = "无效令牌";
         }
 
-        if(message == null) {
+        if (message == null) {
             // 如果令牌存在，则通过
             return chain.filter(exchange);
         }
@@ -87,9 +88,9 @@ public class AccessTokenFilter implements GlobalFilter, Ordered {
         // 设置响应对象状态码 401
         response.setStatusCode(HttpStatus.UNAUTHORIZED);
         // 设置响应对象内容并且指定编码，否则在浏览器中会中文乱码
-        response.getHeaders().add(HttpHeaders.CONTENT_TYPE,  "application/json;charset=UTF-8");
+        response.getHeaders().add(HttpHeaders.CONTENT_TYPE, "application/json;charset=UTF-8");
         // 返回响应对象
-        return response.writeWith( Mono.just(buffer) );
+        return response.writeWith(Mono.just(buffer));
     }
 
     @Override
