@@ -41,7 +41,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 // 放行以 /api 开头的请求接口
                 .antMatchers("/api/**").permitAll()
 
-                // 所有请求都要有all范围权限（表oauth_client_details中的scope字段）
+                // 所有请求都要有all范围权限
                 // 如果上面放行了不会进入这里
                 .antMatchers("/**").access("#oauth2.hasScope('all')")
                 // 其他请求都要通过身份认证

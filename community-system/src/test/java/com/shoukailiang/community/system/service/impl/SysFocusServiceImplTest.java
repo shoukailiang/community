@@ -22,7 +22,7 @@ public class SysFocusServiceImplTest {
 
     @Test
     public void findFansList() {
-        List<String> strings = sysFocusMapper.selectFans(String.valueOf(9));
-        Assert.assertTrue(strings.size()>0);
+        List<String> sklFan = sysFocusMapper.selectFans(String.valueOf(9));
+        Assert.assertTrue(sklFan.size()>0);
     }
 }
