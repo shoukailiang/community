@@ -15,5 +15,4 @@ public class UriKeyResolver implements KeyResolver {
         // 针对微服务的每个请求进行限流
         return Mono.just(exchange.getRequest().getURI().getPath());
     }
-
 }

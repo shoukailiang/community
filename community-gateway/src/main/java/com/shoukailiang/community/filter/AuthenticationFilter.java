@@ -23,12 +23,7 @@ import java.nio.charset.StandardCharsets;
 public class AuthenticationFilter implements GlobalFilter, Ordered {
 
     private static final String[] white = { "/api/" };
-    /**
-     * 定义验证请求头是否带有 Authorization
-     * @param exchange
-     * @param chain
-     * @return
-     */
+
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         // 请求对象
@@ -40,7 +35,6 @@ public class AuthenticationFilter implements GlobalFilter, Ordered {
 
         // 公开api接口进行放行，无需认证
         if(StringUtils.indexOfAny(path, white) != -1) {
-            // 直接放行
             return chain.filter(exchange);
         }
 

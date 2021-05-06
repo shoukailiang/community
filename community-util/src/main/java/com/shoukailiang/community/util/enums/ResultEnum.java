@@ -15,7 +15,7 @@ public enum ResultEnum {
     AUTH_FAIL(1400, "认证失败"),
 
     // token异常
-    TOKEN_PAST(1401, "身份过期，请求重新登录！"),
+    TOKEN_PAST(1401, "缺少身份凭证信息"),
     TOKEN_ERROR(1402, "令牌错误"),
 
     HEADEA_ERROR(1403, "请求头错误"),

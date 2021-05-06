@@ -57,16 +57,12 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Transactional
     @Override
     public ResultVO updateOrSave(Article article) {
-        // id 不为空，是更新
         if (StringUtils.isNotEmpty(article.getId())) {
             // 更新，先删除文章标签中间表数据
             baseMapper.deleteArticleLabel(article.getId());
-            // 设置更新时间
             article.setUpdateDate(new Date());
         }
-        // 如果文章是不公开的，则之直接审核通过,否则待审核
-        // 0: 已删除, 1:未审核，2:审核通过，3：审核未通过
-
+        // 如果文章是不公开的，则直接审核通过,否则待审核
         if (article.getIspublic() == 0) { // 0：不公开，1：公开
             article.setStatus(ArticleStatusEnum.SUCCESS.getCode());
         } else {
@@ -140,7 +136,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         }
         Article article = baseMapper.selectById(id);
         if (article == null) {
-            return ResultVOUtil.error("文章不存在");
+            return ResultVOUtil.error("文章不存在,非法操作");
         }
         article.setViewCount(article.getViewCount() + 1);
         baseMapper.updateById(article);

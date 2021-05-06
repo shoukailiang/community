@@ -1,6 +1,7 @@
 package com.shoukailiang.community.api;
 
 import com.shoukailiang.community.entities.Question;
+import com.shoukailiang.community.question.req.QuestionByLabelIdREQ;
 import com.shoukailiang.community.question.service.IQuestionService;
 import com.shoukailiang.community.util.base.BaseRequest;
 import com.shoukailiang.community.util.base.ResultVO;
@@ -36,12 +37,10 @@ public class ApiQuestionController {
         return questionService.findWaitList(page);
     }
 
-    @ApiImplicitParam(name = "labelId", value = "标签ID", required = true)
     @ApiOperation("根据标签ID分页查询问答列表接口")
-    @PostMapping("/list/{labelId}")
-    public ResultVO findListByLabelId(@RequestBody BaseRequest<Question> req,
-                                      @PathVariable("labelId") String labelId) {
-        return questionService.findListByLabelId(req, labelId);
+    @PostMapping("/list")
+    public ResultVO findListByLabelId(@RequestBody QuestionByLabelIdREQ req) {
+        return questionService.findListByLabelId(req, req.getLabelId());
     }
 
     @ApiOperation("查询问题详情接口")

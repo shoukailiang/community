@@ -95,7 +95,6 @@ public class AccessTokenFilter implements GlobalFilter, Ordered {
 
     @Override
     public int getOrder() {
-        // 这个AccessTokenFilter过滤器在 AuthenticationFilter 之后执行
         return 10;
     }
 }
