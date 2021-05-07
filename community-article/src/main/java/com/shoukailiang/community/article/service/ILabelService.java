@@ -30,4 +30,9 @@ public interface ILabelService extends IService<Label> {
      */
     List<Label> findHotTag();
 
+    /**
+     * 删除标签
+     */
+    void removeById(String id);
+
 }

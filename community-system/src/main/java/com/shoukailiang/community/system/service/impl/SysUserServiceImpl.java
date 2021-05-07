@@ -138,22 +138,19 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Transactional
     @Override
     public ResultVO update(SysUser sysUser) {
-        // 1. 查询原用户信息
+        // 查询用户
         SysUser user = baseMapper.selectById(sysUser.getId());
-        if (user == null) {
+        if (null == user) {
             return ResultVOUtil.error("更新的用户不存在");
         }
-        // 2. 判断更新的信息中昵称和头像是否被改变
+        // 昵称和头像是否被改变
         if (!StringUtils.equals(sysUser.getNickName(), user.getNickName())
                 || !StringUtils.equals(sysUser.getImageUrl(), user.getImageUrl())) {
-            // 其中一个不相等，则更新用户信息
-            // 2.1 调用文章微服务接口更新用户信息
+            // 其中一个不相等，则更新用户信息，远程调用
             UserInfoREQ req = new UserInfoREQ(sysUser.getId(), sysUser.getNickName(), sysUser.getImageUrl());
             feignArticleController.updateUserInfo(req);
-            // 2.2 调用问答微服务接口更新用户信息
             feignQuestionController.updateUserInfo(req);
         }
-        // 3. 更新用户信息表
         sysUser.setUpdateDate(new Date());
         try {
             baseMapper.updateById(sysUser);

@@ -8,8 +8,11 @@ import com.shoukailiang.community.article.service.ILabelService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shoukailiang.community.util.base.ResultVO;
 import com.shoukailiang.community.util.base.ResultVOUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 
@@ -37,6 +40,7 @@ public class LabelServiceImpl extends ServiceImpl<LabelMapper, Label> implements
         return hotTagList;
     }
 
+
     /**
      * 重写更新时间
      * @param label
@@ -46,5 +50,16 @@ public class LabelServiceImpl extends ServiceImpl<LabelMapper, Label> implements
    public boolean updateById(Label label){
         label.setUpdateDate(new Date());
         return super.updateById(label);
+    }
+
+    @Resource
+    private LabelMapper labelMapper;
+
+
+    @Transactional
+    @Override
+    public void removeById(String id) {
+        baseMapper.deleteById(id);
+        labelMapper.deleteByLabelId(id);
     }
 }

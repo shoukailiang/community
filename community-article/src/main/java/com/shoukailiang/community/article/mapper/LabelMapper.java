@@ -31,4 +31,7 @@ public interface LabelMapper extends BaseMapper<Label> {
      * @return
      */
     List<Label> selectHotTag();
+
+
+    int deleteByLabelId(@Param("id") String id);
 }
