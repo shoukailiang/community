@@ -10,6 +10,7 @@ import java.io.Serializable;
 @Data
 @ApiModel("注册用户信息请求类")
 public class RegisterREQ implements Serializable {
+    private static final long serialVersionUID = 3719848921379703158L;
     @ApiModelProperty(value = "用户名", required = true)
     private String username;
     @ApiModelProperty(value = "密码", required = true)

@@ -40,7 +40,7 @@ public class ApiQuestionController {
     @ApiOperation("根据标签ID分页查询问答列表接口")
     @PostMapping("/list")
     public ResultVO findListByLabelId(@RequestBody QuestionByLabelIdREQ req) {
-        return questionService.findListByLabelId(req, req.getLabelId());
+        return questionService.findListByLabelId(req);
     }
 
     @ApiOperation("查询问题详情接口")

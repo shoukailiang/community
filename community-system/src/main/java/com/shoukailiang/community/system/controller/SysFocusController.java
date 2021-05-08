@@ -25,7 +25,7 @@ import java.util.List;
  */
 @Api(value = "用户关注接口", description = "用户关注接口")
 @RestController
-@RequestMapping("focus")
+@RequestMapping("/focus")
 public class SysFocusController {
 
     @Autowired

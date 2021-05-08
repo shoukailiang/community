@@ -7,6 +7,7 @@ import com.shoukailiang.community.entities.Question;
 import com.shoukailiang.community.feign.IFeignArticleController;
 import com.shoukailiang.community.feign.req.UserInfoREQ;
 import com.shoukailiang.community.question.mapper.QuestionMapper;
+import com.shoukailiang.community.question.req.QuestionByLabelIdREQ;
 import com.shoukailiang.community.question.req.QuestionUserREQ;
 import com.shoukailiang.community.question.service.IQuestionService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -69,11 +70,11 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
     }
 
     @Override
-    public ResultVO findListByLabelId(BaseRequest<Question> req, String labelId) {
-        if (StringUtils.isEmpty(labelId)) {
+    public ResultVO findListByLabelId(QuestionByLabelIdREQ req) {
+        if (StringUtils.isEmpty(req.getLabelId())) {
             return ResultVOUtil.success("标签ID不能为空");
         }
-        IPage<Question> data = baseMapper.findListByLabelId(req.getPage(), labelId);
+        IPage<Question> data = baseMapper.findListByLabelId(req.getPage(), req.getLabelId());
         return ResultVOUtil.success(data);
     }
 

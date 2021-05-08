@@ -12,6 +12,7 @@ import java.io.Serializable;
 @Accessors(chain = true)
 @ApiModel("校验密码请求参数")
 public class SysUserCheckPasswordREQ implements Serializable {
+    private static final long serialVersionUID = 7891717372226386555L;
     @ApiModelProperty(value = "用户ID", required = true)
     private String userId;
 

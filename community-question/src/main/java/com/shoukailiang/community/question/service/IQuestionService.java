@@ -3,6 +3,7 @@ package com.shoukailiang.community.question.service;
 import com.shoukailiang.community.entities.Question;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.shoukailiang.community.feign.req.UserInfoREQ;
+import com.shoukailiang.community.question.req.QuestionByLabelIdREQ;
 import com.shoukailiang.community.question.req.QuestionUserREQ;
 import com.shoukailiang.community.util.base.BaseRequest;
 import com.shoukailiang.community.util.base.ResultVO;
@@ -41,10 +42,9 @@ public interface IQuestionService extends IService<Question> {
     /**
      * 据标签id查询问答列表
      * @param req
-     * @param labelId
      * @return
      */
-    ResultVO findListByLabelId(BaseRequest<Question> req, String labelId);
+    ResultVO findListByLabelId(QuestionByLabelIdREQ req);
 
     /**
      * 根据问题ID查询问题详情与标签ids
