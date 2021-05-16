@@ -26,9 +26,7 @@ public class AuthenticationFilter implements GlobalFilter, Ordered {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        // 请求对象
         ServerHttpRequest request = exchange.getRequest();
-        // 响应对象
         ServerHttpResponse response = exchange.getResponse();
         // /question/api/question/1
         String path = request.getPath().pathWithinApplication().value();

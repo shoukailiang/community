@@ -38,9 +38,7 @@ public class AccessTokenFilter implements GlobalFilter, Ordered {
      */
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        // 请求对象
         ServerHttpRequest request = exchange.getRequest();
-        // 响应对象
         ServerHttpResponse response = exchange.getResponse();
 
         // 获取token
