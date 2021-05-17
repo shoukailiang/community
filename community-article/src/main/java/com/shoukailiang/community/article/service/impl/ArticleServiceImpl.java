@@ -3,10 +3,13 @@ package com.shoukailiang.community.article.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.shoukailiang.community.article.dto.ArticleDTO;
+import com.shoukailiang.community.article.mapper.LabelMapper;
 import com.shoukailiang.community.article.req.ArticleListREQ;
 import com.shoukailiang.community.article.req.ArticleREQ;
 import com.shoukailiang.community.article.req.ArticleUserREQ;
 import com.shoukailiang.community.article.req.SearchREQ;
+import com.shoukailiang.community.article.vo.ArticleVO;
 import com.shoukailiang.community.entities.Article;
 import com.shoukailiang.community.article.mapper.ArticleMapper;
 import com.shoukailiang.community.article.service.IArticleService;
@@ -18,9 +21,13 @@ import com.shoukailiang.community.util.enums.ArticleStatusEnum;
 import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -50,41 +57,45 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     public ResultVO findArticleAndLabel(String id) {
-        Article article = baseMapper.findArticleAndLabelById(id);
-        return ResultVOUtil.success(article);
+        ArticleVO articleVO = baseMapper.findArticleAndLabelById(id);
+        return ResultVOUtil.success(articleVO);
     }
+
+    @Resource
+    private LabelMapper labelMapper;
 
     @Transactional
     @Override
-    public ResultVO updateOrSave(Article article) {
+    public ResultVO updateOrSave(ArticleDTO articleDTO) {
         // id 不为空，是更新
-        if (StringUtils.isNotEmpty(article.getId())) {
+        if (StringUtils.isNotEmpty(articleDTO.getId())) {
             // 更新，先删除文章标签中间表数据
-            baseMapper.deleteArticleLabel(article.getId());
+            labelMapper.deleteArticleLabel(articleDTO.getId());
             // 设置更新时间
-            article.setUpdateDate(new Date());
+//            article.setUpdateDate(new Date());
         }
         // 如果文章是不公开的，则之直接审核通过,否则待审核
         // 0: 已删除, 1:未审核，2:审核通过，3：审核未通过
 
-        if (article.getIspublic() == 0) { // 0：不公开，1：公开
-            article.setStatus(ArticleStatusEnum.SUCCESS.getCode());
+        if (articleDTO.getIspublic() == 0) { // 0：不公开，1：公开
+            articleDTO.setStatus(ArticleStatusEnum.SUCCESS.getCode());
         } else {
-            article.setStatus(ArticleStatusEnum.WAIT.getCode());
+            articleDTO.setStatus(ArticleStatusEnum.WAIT.getCode());
         }
+        Article article = new Article();
+        BeanUtils.copyProperties(articleDTO,article);
         super.saveOrUpdate(article);  // 不能放最后，mp有id update,无id insert;新增结束后，会把id放到article中
         // 吧新增标签的数据放到中间表中
-        if (CollectionUtils.isNotEmpty(article.getLabelIds())) {
-            baseMapper.saveArticleLabel(article.getId(), article.getLabelIds());
+        if (CollectionUtils.isNotEmpty(articleDTO.getLabelIds())) {
+            labelMapper.saveArticleLabel(articleDTO.getId(), articleDTO.getLabelIds());
         }
-        return ResultVOUtil.success(article.getId());
+        return ResultVOUtil.success(articleDTO.getId());
     }
 
     @Override
     public ResultVO updateStatus(String id, ArticleStatusEnum statusEnum) {
         Article article = baseMapper.selectById(id);
         article.setStatus(statusEnum.getCode());
-        article.setUpdateDate(new Date());
         baseMapper.updateById(article);
         return ResultVOUtil.success();
     }

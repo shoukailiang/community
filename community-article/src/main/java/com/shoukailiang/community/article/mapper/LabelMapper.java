@@ -34,4 +34,21 @@ public interface LabelMapper extends BaseMapper<Label> {
      * @return
      */
     List<Label> selectHotTag();
+
+
+    /**
+     * 新增文章的标签（中间表）
+     * @param articleId
+     * @param labelIds
+     * @return
+     */
+    boolean saveArticleLabel(@Param("articleId") String articleId,@Param("labelIds") List<String> labelIds);
+
+    /**
+     * 通过文章id删除标签（中间表）。@Param 在xml配置文件中直接应用这个别名，理论上一个参数不用加，但为了统一，都加上了
+     *
+     * @param articleId
+     * @return
+     */
+    boolean deleteArticleLabel(@Param("articleId") String articleId);
 }

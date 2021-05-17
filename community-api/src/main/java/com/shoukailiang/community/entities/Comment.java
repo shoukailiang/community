@@ -1,10 +1,8 @@
 package com.shoukailiang.community.entities;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.util.Date;
-import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import java.util.List;
 
@@ -51,8 +49,10 @@ public class Comment implements Serializable {
     @ApiModelProperty(value = "评论内容")
     private String content;
 
+    @TableField(fill = FieldFill.INSERT)
     @ApiModelProperty(value = "创建时间")
     private Date createDate;
+
 
     @ApiModelProperty(value = "子评论集合")
     @TableField(exist = false)

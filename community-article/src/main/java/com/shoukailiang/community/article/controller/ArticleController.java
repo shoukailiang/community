@@ -1,6 +1,7 @@
 package com.shoukailiang.community.article.controller;
 
 
+import com.shoukailiang.community.article.dto.ArticleDTO;
 import com.shoukailiang.community.article.req.ArticleREQ;
 import com.shoukailiang.community.article.req.ArticleUserREQ;
 import com.shoukailiang.community.article.service.IArticleService;
@@ -52,14 +53,14 @@ public class ArticleController {
 
     @ApiOperation("修改文章信息接口")
     @PutMapping
-    public ResultVO update(@RequestBody Article article) {
-        return articleService.updateOrSave(article);
+    public ResultVO update(@RequestBody ArticleDTO articleDTO) {
+        return articleService.updateOrSave(articleDTO);
     }
 
     @ApiOperation("新增文章信息接口")
     @PostMapping
-    public ResultVO save(@RequestBody Article article) {
-        return articleService.updateOrSave(article);
+    public ResultVO save(@RequestBody ArticleDTO articleDTO) {
+        return articleService.updateOrSave(articleDTO);
     }
 
     @ApiImplicitParam(name = "id",value = "文章id",required = true)

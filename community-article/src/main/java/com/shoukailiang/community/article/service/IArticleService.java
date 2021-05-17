@@ -1,5 +1,6 @@
 package com.shoukailiang.community.article.service;
 
+import com.shoukailiang.community.article.dto.ArticleDTO;
 import com.shoukailiang.community.article.req.ArticleListREQ;
 import com.shoukailiang.community.article.req.ArticleREQ;
 import com.shoukailiang.community.article.req.ArticleUserREQ;
@@ -36,10 +37,10 @@ public interface IArticleService extends IService<Article> {
 
     /**
      * 修改或新增
-     * @param article
+     * @param articleDTO
      * @return
      */
-    ResultVO updateOrSave(Article article);
+    ResultVO updateOrSave(ArticleDTO articleDTO);
 
     /**
      * 修改文章状态

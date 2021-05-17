@@ -1,10 +1,8 @@
 package com.shoukailiang.community.entities;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.util.Date;
-import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import java.util.List;
 
@@ -54,8 +52,10 @@ public class Replay implements Serializable {
     @ApiModelProperty(value = "html问题内容")
     private String htmlContent;
 
+    @TableField(fill = FieldFill.INSERT)
     @ApiModelProperty(value = "创建时间")
     private Date createDate;
+
 
     @ApiModelProperty(value = "回答子评论")
     @TableField(exist = false)

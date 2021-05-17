@@ -22,4 +22,16 @@
             LEFT JOIN community_label ON community_article_label.label_id = community_label.id
         GROUP BY label_id ORDER BY count(label_id) desc limit 10
     </select>
+
+    <!--    separator会自动去掉最后一个，-->
+    <insert id="saveArticleLabel">
+        INSERT INTO community_article_label(id, article_id, label_id) VALUES
+        <foreach collection="labelIds" item="item" separator=",">
+            ('${@com.baomidou.mybatisplus.core.toolkit.IdWorker@getId()}', #{articleId}, #{item})
+        </foreach>
+    </insert>
+
+    <delete id="deleteArticleLabel">
+        DELETE FROM community_article_label where article_id = #{articleId}
+    </delete>
 </mapper>

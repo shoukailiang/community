@@ -1,10 +1,8 @@
 package com.shoukailiang.community.entities;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.util.Date;
-import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -39,12 +37,13 @@ public class Label implements Serializable {
     @ApiModelProperty(value = "标签名称")
     private String name;
 
+    @TableField(fill = FieldFill.INSERT)
     @ApiModelProperty(value = "创建时间")
     private Date createDate;
 
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     @ApiModelProperty(value = "更新时间")
     private Date updateDate;
-
 
     @ApiModelProperty(value = "分类名称，不是表中的字段，不需要传，只有在search接口中会使用到一次")
     @TableField(exist = false) // 不是表中的字段

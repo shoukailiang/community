@@ -18,7 +18,7 @@
     </select>
 
 
-    <resultMap id="ArticleAndLabelMap" type="Article">
+    <resultMap id="ArticleAndLabelMap" type="com.shoukailiang.community.article.vo.ArticleVO">
         <!--        映射主键-->
         <id column="id" property="id"/>
         <!--映射一对一-->
@@ -51,17 +51,9 @@
 
     </resultMap>
 
-    <delete id="deleteArticleLabel">
-        DELETE FROM community_article_label where article_id = #{articleId}
-    </delete>
-<!--    separator会自动去掉最后一个，-->
-    <insert id="saveArticleLabel">
-        INSERT INTO community_article_label(id, article_id, label_id) VALUES
-        <foreach collection="labelIds" item="item" separator=",">
-            ('${@com.baomidou.mybatisplus.core.toolkit.IdWorker@getId()}', #{articleId}, #{item})
-        </foreach>
-    </insert>
-    <select id="findListByLabelIdOrCategoryId" resultType="Article">
+
+
+    <select id="findListByLabelIdOrCategoryId" resultType="com.shoukailiang.community.article.dto.ArticleDTO">
         SELECT
             DISTINCT m3.*
         FROM

@@ -1,30 +1,25 @@
-package com.shoukailiang.community.entities;
+package com.shoukailiang.community.article.dto;
 
 import com.baomidou.mybatisplus.annotation.*;
-
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.io.Serializable;
-import java.util.List;
-
+import com.shoukailiang.community.entities.Label;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.List;
+
 /**
- * <p>
- * 文章信息表
- * </p>
- *
  * @author shoukailiang
- * @since 2021-02-06
+ * @version 1.0
+ * @date 2021/5/17 17:19
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("community_article")
-@ApiModel(value="Article对象", description="文章信息表")
-public class Article implements Serializable {
+@ApiModel(value="ArticleDTO对象", description="ArticleDTO对象")
+public class ArticleDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -68,11 +63,19 @@ public class Article implements Serializable {
     @ApiModelProperty(value = "0：不公开，1：公开")
     private Integer ispublic;
 
-    @TableField(fill = FieldFill.INSERT)
-    @ApiModelProperty(value = "创建时间")
-    private LocalDateTime createDate;
+    /**
+     * 当前分类下的所有标签的接口
+     */
+    @ApiModelProperty(value="文章下的标签集合")
+    @TableField(exist = false)
+    private List<Label> labelList;
 
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    @ApiModelProperty(value = "更新时间")
-    private LocalDateTime updateDate;
+    /**
+     * 前端拿到ids就能渲染
+     */
+    @ApiModelProperty(value="文章下的标签ID集合")
+    @TableField(exist = false)
+    private List<String> labelIds;
+
 }
+
