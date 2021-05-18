@@ -1,36 +1,22 @@
-package com.shoukailiang.community.entities;
+package com.shoukailiang.community.system.dto;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.IdType;
-
-import java.time.LocalDateTime;
-import java.util.Date;
-
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.time.LocalDateTime;
+
 /**
- * <p>
- * 用户信息表
- * </p>
- *
  * @author shoukailiang
- * @since 2021-02-11
+ * @version 1.0
+ * @date 2021/5/18 15:53
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value="SysUser对象", description="用户信息表")
-public class SysUser implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
+@ApiModel(value="SysUserDTO", description="SysUserDTO")
+public class SysUserDTO {
     @ApiModelProperty(value = "用户 ID")
-    @TableId(value = "id", type = IdType.ASSIGN_ID)
     private String id;
 
     @ApiModelProperty(value = "用户名")
@@ -63,17 +49,6 @@ public class SysUser implements Serializable {
     @ApiModelProperty(value = "注册邮箱")
     private String email;
 
-    @TableField(fill = FieldFill.INSERT)
-    @ApiModelProperty(value = "创建时间")
-    private LocalDateTime createDate;
-
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    @ApiModelProperty(value = "更新时间")
-    private LocalDateTime updateDate;
-
-    // TODO
     @ApiModelProperty(value = "密码更新时间")
     private LocalDateTime pwdUpdateDate;
-
-
 }

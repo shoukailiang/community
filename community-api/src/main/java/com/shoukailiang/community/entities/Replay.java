@@ -2,6 +2,7 @@ package com.shoukailiang.community.entities;
 
 import com.baomidou.mybatisplus.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.io.Serializable;
 import java.util.List;
@@ -54,11 +55,5 @@ public class Replay implements Serializable {
 
     @TableField(fill = FieldFill.INSERT)
     @ApiModelProperty(value = "创建时间")
-    private Date createDate;
-
-
-    @ApiModelProperty(value = "回答子评论")
-    @TableField(exist = false)
-    List<Replay> children;
-
+    private LocalDateTime createDate;
 }

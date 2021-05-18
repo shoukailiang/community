@@ -7,6 +7,7 @@ import com.shoukailiang.community.question.mapper.QuestionMapper;
 import com.shoukailiang.community.question.mapper.ReplayMapper;
 import com.shoukailiang.community.question.service.IReplayService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.shoukailiang.community.question.vo.ReplayVO;
 import com.shoukailiang.community.util.base.ResultVO;
 import com.shoukailiang.community.util.base.ResultVOUtil;
 import org.apache.commons.collections.CollectionUtils;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +30,8 @@ import java.util.List;
  */
 @Service
 public class ReplayServiceImpl extends ServiceImpl<ReplayMapper, Replay> implements IReplayService {
-    @Autowired
+
+    @Resource
     private QuestionMapper questionMapper;
 
     @Override
@@ -36,7 +39,7 @@ public class ReplayServiceImpl extends ServiceImpl<ReplayMapper, Replay> impleme
         if(StringUtils.isBlank(questionId)) {
             return ResultVOUtil.error("问题ID不能为空");
         }
-        List<Replay> list = baseMapper.findByQuestionId(questionId);
+        List<ReplayVO> list = baseMapper.findByQuestionId(questionId);
         return ResultVOUtil.success(list);
     }
 

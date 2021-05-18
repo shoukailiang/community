@@ -2,6 +2,7 @@ package com.shoukailiang.community.system.controller;
 
 
 import com.shoukailiang.community.entities.SysMenu;
+import com.shoukailiang.community.system.dto.SysMenuDTO;
 import com.shoukailiang.community.system.req.SysMenuREQ;
 import com.shoukailiang.community.system.service.ISysMenuService;
 import com.shoukailiang.community.util.base.ResultVO;
@@ -9,9 +10,11 @@ import com.shoukailiang.community.util.base.ResultVOUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -63,8 +66,9 @@ public class SysMenuController {
 
     @ApiOperation("修改菜单信息接口")
     @PutMapping // 请求地址 /menu
-    public ResultVO update(@RequestBody SysMenu sysMenu) {
-        sysMenu.setUpdateDate(new Date());
+    public ResultVO update(@RequestBody SysMenuDTO sysMenuDTO) {
+        SysMenu sysMenu = new SysMenu();
+        BeanUtils.copyProperties(sysMenuDTO,sysMenu);
         sysMenuService.updateById(sysMenu);
         return ResultVOUtil.success();
     }

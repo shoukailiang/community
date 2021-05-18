@@ -6,19 +6,23 @@ import com.shoukailiang.community.entities.Label;
 import com.shoukailiang.community.entities.Question;
 import com.shoukailiang.community.feign.IFeignArticleController;
 import com.shoukailiang.community.feign.req.UserInfoREQ;
+import com.shoukailiang.community.question.dto.QuestionDTO;
 import com.shoukailiang.community.question.mapper.QuestionMapper;
 import com.shoukailiang.community.question.req.QuestionUserREQ;
 import com.shoukailiang.community.question.service.IQuestionService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.shoukailiang.community.question.vo.QuestionVO;
 import com.shoukailiang.community.util.base.BaseRequest;
 import com.shoukailiang.community.util.base.ResultVO;
 import com.shoukailiang.community.util.base.ResultVOUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -80,16 +84,16 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
     @Override
     public ResultVO findById(String id) {
         // 1. 查询问题详情与标签ids
-        Question question = baseMapper.findQuestionAndLabelIdsById(id);
-        if (question == null) {
+        QuestionVO questionVO = baseMapper.findQuestionAndLabelIdsById(id);
+        if (questionVO == null) {
             return ResultVOUtil.error("未查询到相关问题信息");
         }
         //  Feign 程调用 Article 微服务查询标签信息
-        if (CollectionUtils.isNotEmpty(question.getLabelIds())) {
-            List<Label> labelListByIds = feignArticleController.getLabelListByIds(question.getLabelIds());
-            question.setLabelList(labelListByIds);
+        if (CollectionUtils.isNotEmpty(questionVO.getLabelIds())) {
+            List<Label> labelListByIds = feignArticleController.getLabelListByIds(questionVO.getLabelIds());
+            questionVO.setLabelList(labelListByIds);
         }
-        return ResultVOUtil.success(question);
+        return ResultVOUtil.success(questionVO);
     }
 
     @Override
@@ -109,18 +113,19 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
 
     @Transactional
     @Override
-    public ResultVO updateOrSave(Question question) {
+    public ResultVO updateOrSave(QuestionDTO questionDTO) {
         // 1. id 不为空，是更新操作
-        if (StringUtils.isNotEmpty(question.getId())) {
+        if (StringUtils.isNotEmpty(questionDTO.getId())) {
             // 更新：先删除问题标签中间表数据，再新增到中间表
-            baseMapper.deleteQuestionLabel(question.getId());
-            question.setUpdateDate(new Date());
+            baseMapper.deleteQuestionLabel(questionDTO.getId());
         }
         // 2. 更新或保存到文章信息表（不能放到最后，因为新增后，要返回新增id到question.id里）
+        Question question = new Question();
+        BeanUtils.copyProperties(questionDTO,question);
         super.saveOrUpdate(question);
         // 3. 新增到文章标签中间表
-        if (CollectionUtils.isNotEmpty(question.getLabelIds())) {
-            baseMapper.saveQuestionLabel(question.getId(), question.getLabelIds());
+        if (CollectionUtils.isNotEmpty(questionDTO.getLabelIds())) {
+            baseMapper.saveQuestionLabel(question.getId(), questionDTO.getLabelIds());
         }
 
         return ResultVOUtil.success(question.getId());
@@ -180,7 +185,6 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
     public ResultVO updateStatus(String id, Integer status) {
         Question question = baseMapper.selectById(id);
         question.setStatus(status);
-        question.setUpdateDate(new Date());
         baseMapper.updateById(question);
         return ResultVOUtil.success();
     }

@@ -1,35 +1,23 @@
-package com.shoukailiang.community.entities;
+package com.shoukailiang.community.question.dto;
 
-import com.baomidou.mybatisplus.annotation.*;
-
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.io.Serializable;
-import java.util.List;
-
-import io.swagger.annotations.ApiModel;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.shoukailiang.community.entities.Label;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.List;
+
 /**
- * <p>
- * 问题信息表
- * </p>
- *
  * @author shoukailiang
- * @since 2021-02-08
+ * @version 1.0
+ * @date 2021/5/18 15:05
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("community_question")
-@ApiModel(value="Question对象", description="问题信息表")
-public class Question implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
+public class QuestionDTO {
     @ApiModelProperty(value = "主键")
-    @TableId(value = "id", type = IdType.ASSIGN_ID)
     private String id;
 
     @ApiModelProperty(value = "发布者用户id")
@@ -62,11 +50,6 @@ public class Question implements Serializable {
     @ApiModelProperty(value = "状态，0：已删除， 1：未解决，2：已解决")
     private Integer status;
 
-    @TableField(fill = FieldFill.INSERT)
-    @ApiModelProperty(value = "创建时间")
-    private LocalDateTime createDate;
-
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    @ApiModelProperty(value = "更新时间")
-    private LocalDateTime updateDate;
+    @ApiModelProperty(value = "当前分类下的所有标签的id")
+    private List<String> labelIds;
 }

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.shoukailiang.community.entities.Question;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.shoukailiang.community.feign.req.UserInfoREQ;
+import com.shoukailiang.community.question.vo.QuestionVO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -31,7 +32,7 @@ public interface QuestionMapper extends BaseMapper<Question> {
      * @param id
      * @return
      */
-    Question findQuestionAndLabelIdsById(String id);
+    QuestionVO findQuestionAndLabelIdsById(String id);
 
     /**
      *  通过问题 id 删除问题标签中间表

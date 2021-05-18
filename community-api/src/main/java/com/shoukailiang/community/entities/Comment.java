@@ -2,6 +2,7 @@ package com.shoukailiang.community.entities;
 
 import com.baomidou.mybatisplus.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.io.Serializable;
 import java.util.List;
@@ -51,10 +52,5 @@ public class Comment implements Serializable {
 
     @TableField(fill = FieldFill.INSERT)
     @ApiModelProperty(value = "创建时间")
-    private Date createDate;
-
-
-    @ApiModelProperty(value = "子评论集合")
-    @TableField(exist = false)
-    List<Comment> children;
+    private LocalDateTime createDate;
 }

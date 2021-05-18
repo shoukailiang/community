@@ -1,6 +1,7 @@
 package com.shoukailiang.community.article.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.shoukailiang.community.article.vo.CommentVO;
 import com.shoukailiang.community.entities.Comment;
 import com.shoukailiang.community.article.mapper.CommentMapper;
 import com.shoukailiang.community.article.service.ICommentService;
@@ -39,7 +40,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         if(StringUtils.isBlank(articleId)){
             ResultVOUtil.error("文章id不能为空");
         }
-        List<Comment> comments = baseMapper.findByArticleId(articleId);
+        List<CommentVO> comments = baseMapper.findByArticleId(articleId);
 
         return ResultVOUtil.success(comments);
     }

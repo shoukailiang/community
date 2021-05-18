@@ -1,5 +1,6 @@
 package com.shoukailiang.community.article.mapper;
 
+import com.shoukailiang.community.article.vo.CommentVO;
 import com.shoukailiang.community.entities.Comment;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
@@ -20,5 +21,5 @@ public interface CommentMapper extends BaseMapper<Comment> {
      * @param articleId
      * @return
      */
-    List<Comment> findByArticleId(@Param("articleId") String articleId);
+    List<CommentVO> findByArticleId(@Param("articleId") String articleId);
 }

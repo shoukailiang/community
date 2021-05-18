@@ -2,6 +2,7 @@ package com.shoukailiang.community.question.controller;
 
 
 import com.shoukailiang.community.entities.Question;
+import com.shoukailiang.community.question.dto.QuestionDTO;
 import com.shoukailiang.community.question.req.QuestionUserREQ;
 import com.shoukailiang.community.question.service.IQuestionService;
 import com.shoukailiang.community.util.base.ResultVO;
@@ -31,14 +32,14 @@ public class QuestionController {
 
     @ApiOperation("新增问题信息接口")
     @PostMapping
-    public ResultVO save(@RequestBody Question question) {
+    public ResultVO save(@RequestBody QuestionDTO question) {
         ResultVO result = questionService.updateOrSave(question);
         return result;
     }
 
     @ApiOperation("修改问题信息接口")
     @PutMapping
-    public ResultVO update(@RequestBody Question question) {
+    public ResultVO update(@RequestBody QuestionDTO question) {
         ResultVO result = questionService.updateOrSave(question);
         return result;
     }

@@ -7,6 +7,7 @@ import com.shoukailiang.community.entities.SysUser;
 import com.shoukailiang.community.feign.IFeignArticleController;
 import com.shoukailiang.community.feign.IFeignQuestionController;
 import com.shoukailiang.community.feign.req.UserInfoREQ;
+import com.shoukailiang.community.system.dto.SysUserDTO;
 import com.shoukailiang.community.system.mapper.SysUserMapper;
 import com.shoukailiang.community.system.req.RegisterREQ;
 import com.shoukailiang.community.system.req.SysUserCheckPasswordREQ;
@@ -21,11 +22,14 @@ import com.shoukailiang.community.util.exception.CommunityException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -84,7 +88,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             return ResultVOUtil.error("用户不存在，删除失败");
         }
         sysUser.setIsEnabled(0);
-        sysUser.setUpdateDate(new Date());
         baseMapper.updateById(sysUser);
         return ResultVOUtil.success();
     }
@@ -137,7 +140,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }
         // 新密码加密
         sysUser.setPassword(passwordEncoder.encode(req.getNewPassword()));
-        sysUser.setUpdateDate(new Date());
+        sysUser.setPwdUpdateDate(LocalDateTime.now());
         baseMapper.updateById(sysUser);
         return ResultVOUtil.success();
     }
@@ -151,24 +154,25 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Transactional
     @Override
-    public ResultVO update(SysUser sysUser) {
+    public ResultVO update(SysUserDTO sysUserDTO) {
         // 1. 查询原用户信息
-        SysUser user = baseMapper.selectById(sysUser.getId());
+        SysUser user = baseMapper.selectById(sysUserDTO.getId());
         if (user == null) {
             return ResultVOUtil.error("更新的用户不存在");
         }
         // 2. 判断更新的信息中昵称和头像是否被改变
-        if (!StringUtils.equals(sysUser.getNickName(), user.getNickName())
-                || !StringUtils.equals(sysUser.getImageUrl(), user.getImageUrl())) {
+        if (!StringUtils.equals(sysUserDTO.getNickName(), user.getNickName())
+                || !StringUtils.equals(sysUserDTO.getImageUrl(), user.getImageUrl())) {
             // 其中一个不相等，则更新用户信息
             // 2.1 调用文章微服务接口更新用户信息
-            UserInfoREQ req = new UserInfoREQ(sysUser.getId(), sysUser.getNickName(), sysUser.getImageUrl());
+            UserInfoREQ req = new UserInfoREQ(sysUserDTO.getId(), sysUserDTO.getNickName(), sysUserDTO.getImageUrl());
             feignArticleController.updateUserInfo(req);
             // 2.2 调用问答微服务接口更新用户信息
             feignQuestionController.updateUserInfo(req);
         }
         // 3. 更新用户信息表
-        sysUser.setUpdateDate(new Date());
+        SysUser sysUser = new SysUser();
+        BeanUtils.copyProperties(sysUserDTO,sysUser);
         baseMapper.updateById(sysUser);
         return ResultVOUtil.success();
     }

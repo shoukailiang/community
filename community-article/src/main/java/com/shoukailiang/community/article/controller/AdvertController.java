@@ -1,6 +1,7 @@
 package com.shoukailiang.community.article.controller;
 
 
+import com.shoukailiang.community.article.dto.AdvertDTO;
 import com.shoukailiang.community.article.req.AdvertREQ;
 import com.shoukailiang.community.article.service.IAdvertService;
 import com.shoukailiang.community.entities.Advert;
@@ -9,10 +10,9 @@ import com.shoukailiang.community.util.base.ResultVOUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Date;
 
 /**
  * <p>
@@ -54,15 +54,18 @@ public class AdvertController {
 
     @ApiOperation("修改广告信息接口")
     @PutMapping
-    public ResultVO update(@RequestBody Advert advert) {
-        advert.setUpdateDate(new Date());
+    public ResultVO update(@RequestBody AdvertDTO advertDTO) {
+        Advert advert = new Advert();
+        BeanUtils.copyProperties(advertDTO,advert);
         advertService.updateById(advert);
         return ResultVOUtil.success();
     }
 
     @ApiOperation("新增广告信息接口")
     @PostMapping
-    public ResultVO save(@RequestBody Advert advert) {
+    public ResultVO save(@RequestBody AdvertDTO advertDTO) {
+        Advert advert = new Advert();
+        BeanUtils.copyProperties(advertDTO,advert);
         advertService.save(advert);
         return ResultVOUtil.success();
     }

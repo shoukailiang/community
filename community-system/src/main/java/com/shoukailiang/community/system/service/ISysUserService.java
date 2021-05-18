@@ -3,6 +3,7 @@ package com.shoukailiang.community.system.service;
 import com.shoukailiang.community.entities.SysMenu;
 import com.shoukailiang.community.entities.SysUser;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.shoukailiang.community.system.dto.SysUserDTO;
 import com.shoukailiang.community.system.req.RegisterREQ;
 import com.shoukailiang.community.system.req.SysUserCheckPasswordREQ;
 import com.shoukailiang.community.system.req.SysUserREQ;
@@ -68,7 +69,7 @@ public interface ISysUserService extends IService<SysUser> {
      * @param sysUser
      * @return
      */
-    ResultVO update(SysUser sysUser);
+    ResultVO update(SysUserDTO sysUserDTO);
 
     /**
      * 统计总用户数

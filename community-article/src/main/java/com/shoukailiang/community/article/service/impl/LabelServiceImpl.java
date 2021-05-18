@@ -2,6 +2,7 @@ package com.shoukailiang.community.article.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.shoukailiang.community.article.req.LabelREQ;
+import com.shoukailiang.community.article.vo.LabelVO;
 import com.shoukailiang.community.entities.Label;
 import com.shoukailiang.community.article.mapper.LabelMapper;
 import com.shoukailiang.community.article.service.ILabelService;
@@ -10,6 +11,7 @@ import com.shoukailiang.community.util.base.ResultVO;
 import com.shoukailiang.community.util.base.ResultVOUtil;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -26,7 +28,7 @@ public class LabelServiceImpl extends ServiceImpl<LabelMapper, Label> implements
 
     @Override
     public ResultVO queryPage(LabelREQ req) {
-        IPage<Label> page = baseMapper.queryPage(req.getPage(), req);
+        IPage<LabelVO> page = baseMapper.queryPage(req.getPage(), req);
         return ResultVOUtil.success(page);
     }
 
@@ -44,7 +46,6 @@ public class LabelServiceImpl extends ServiceImpl<LabelMapper, Label> implements
      */
     @Override
    public boolean updateById(Label label){
-        label.setUpdateDate(new Date());
         return super.updateById(label);
     }
 }

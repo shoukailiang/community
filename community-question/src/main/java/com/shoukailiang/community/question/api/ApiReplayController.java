@@ -1,8 +1,7 @@
-package com.shoukailiang.community.api;
+package com.shoukailiang.community.question.api;
 
 import com.shoukailiang.community.question.service.IReplayService;
 import com.shoukailiang.community.util.base.ResultVO;
-import com.shoukailiang.community.util.base.ResultVOUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;

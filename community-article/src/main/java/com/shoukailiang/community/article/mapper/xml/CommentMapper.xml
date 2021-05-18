@@ -11,7 +11,7 @@
     <select id="findByParentId" resultMap="commentResultMap" >
         SELECT * FROM community_comment WHERE parent_id = #{id}
     </select>
-    <resultMap id="commentResultMap" type="Comment">
+    <resultMap id="commentResultMap" type="com.shoukailiang.community.article.vo.CommentVO">
         <id column="id" property="id" />
         <result column="parent_id" property="parentId" />
         <result column="user_id" property="userId" />
@@ -24,7 +24,7 @@
                 column 传到子查询中
                 一对多映射
           -->
-        <collection property="children" javaType="list" ofType="Comment"
+        <collection property="children" javaType="list" ofType="com.shoukailiang.community.article.vo.CommentVO"
                     column="id" select="findByParentId"/>
     </resultMap>
 </mapper>

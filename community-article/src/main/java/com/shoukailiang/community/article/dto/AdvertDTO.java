@@ -1,33 +1,23 @@
-package com.shoukailiang.community.entities;
+package com.shoukailiang.community.article.dto;
 
-import com.baomidou.mybatisplus.annotation.*;
-
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * <p>
- * 广告信息表
- * </p>
- *
  * @author shoukailiang
- * @since 2021-02-08
+ * @version 1.0
+ * @date 2021/5/17 18:01
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("community_advert")
-@ApiModel(value="Advert对象", description="广告信息表")
-public class Advert implements Serializable {
+@ApiModel(value="AdvertDTO对象", description="AdvertDTO对象")
+public class AdvertDTO {
 
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "主键")
-    @TableId(value = "id", type = IdType.ASSIGN_ID)
     private String id;
 
     @ApiModelProperty(value = "广告标题")
@@ -50,14 +40,4 @@ public class Advert implements Serializable {
 
     @ApiModelProperty(value = "排序")
     private Integer sort;
-
-    @TableField(fill = FieldFill.INSERT)
-    @ApiModelProperty(value = "创建时间")
-    private LocalDateTime createDate;
-
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    @ApiModelProperty(value = "更新时间")
-    private LocalDateTime updateDate;
-
-
 }

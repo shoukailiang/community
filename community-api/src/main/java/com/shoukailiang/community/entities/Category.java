@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -52,19 +53,12 @@ public class Category implements Serializable {
      */
     @TableField(fill = FieldFill.INSERT)
     @ApiModelProperty(value = "创建时间")
-    private Date createDate;
+    private LocalDateTime createDate;
 
     /**
      * 更新时间
      */
     @TableField(fill = FieldFill.INSERT_UPDATE)
     @ApiModelProperty(value = "更新时间")
-    private Date updateDate;
-
-    /**
-     * 当前分类下的所有标签的接口
-     */
-    @ApiModelProperty(value="分类下的标签集合")
-    @TableField(exist = false)
-    private List<Label> labelList;
+    private LocalDateTime updateDate;
 }

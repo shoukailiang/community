@@ -24,7 +24,6 @@ public class ArticleDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "主键")
-    @TableId(value = "id", type = IdType.ASSIGN_ID)
     private String id;
 
     @ApiModelProperty(value = "发布者用户id")
@@ -62,13 +61,6 @@ public class ArticleDTO implements Serializable {
 
     @ApiModelProperty(value = "0：不公开，1：公开")
     private Integer ispublic;
-
-    /**
-     * 当前分类下的所有标签的接口
-     */
-    @ApiModelProperty(value="文章下的标签集合")
-    @TableField(exist = false)
-    private List<Label> labelList;
 
     /**
      * 前端拿到ids就能渲染

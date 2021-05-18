@@ -21,7 +21,7 @@
         WHERE q.id = #{id}
     </select>
 
-    <resultMap id="QuestionAndLabelIdsMap" type="Question">
+    <resultMap id="QuestionAndLabelIdsMap" type="com.shoukailiang.community.question.vo.QuestionVO">
         <!--映射主键-->
         <id column="id" property="id"/>
         <!--映射一对一-->

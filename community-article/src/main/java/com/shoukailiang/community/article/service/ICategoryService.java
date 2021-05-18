@@ -2,6 +2,7 @@ package com.shoukailiang.community.article.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.shoukailiang.community.article.req.CategoryREQ;
+import com.shoukailiang.community.article.vo.CategoryVO;
 import com.shoukailiang.community.entities.Category;
 import com.shoukailiang.community.util.base.ResultVO;
 import com.shoukailiang.community.util.base.ResultVOUtil;
@@ -28,4 +29,7 @@ public interface ICategoryService extends IService<Category> {
      * @return
      */
     ResultVO findCategoryAndLabel();
+
+
+    CategoryVO getById(String id);
 }

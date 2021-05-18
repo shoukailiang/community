@@ -2,6 +2,7 @@ package com.shoukailiang.community.entities;
 
 import com.baomidou.mybatisplus.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.io.Serializable;
 
@@ -39,13 +40,10 @@ public class Label implements Serializable {
 
     @TableField(fill = FieldFill.INSERT)
     @ApiModelProperty(value = "创建时间")
-    private Date createDate;
+    private LocalDateTime createDate;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
     @ApiModelProperty(value = "更新时间")
-    private Date updateDate;
+    private LocalDateTime updateDate;
 
-    @ApiModelProperty(value = "分类名称，不是表中的字段，不需要传，只有在search接口中会使用到一次")
-    @TableField(exist = false) // 不是表中的字段
-    private String categoryName;
 }

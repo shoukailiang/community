@@ -6,12 +6,15 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shoukailiang.community.article.mapper.CategoryMapper;
 import com.shoukailiang.community.article.req.CategoryREQ;
 import com.shoukailiang.community.article.service.ICategoryService;
+import com.shoukailiang.community.article.vo.CategoryVO;
 import com.shoukailiang.community.entities.Category;
 import com.shoukailiang.community.util.base.ResultVO;
 import com.shoukailiang.community.util.base.ResultVOUtil;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -38,7 +41,6 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
 
     @Override
     public boolean updateById(Category category) {
-        category.setUpdateDate(new Date());
         return super.updateById(category);// 调用父类的更新
     }
 
@@ -52,7 +54,15 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
 
     @Override
     public ResultVO findCategoryAndLabel() {
-        List<Category> categoryAndLabel = baseMapper.findCategoryAndLabel();
+        List<CategoryVO> categoryAndLabel = baseMapper.findCategoryAndLabel();
         return ResultVOUtil.success(categoryAndLabel);
+    }
+
+    @Override
+    public CategoryVO getById(String id) {
+        Category category = baseMapper.selectById(id);
+        CategoryVO categoryVO = new CategoryVO();
+        BeanUtils.copyProperties(category,categoryVO);
+        return categoryVO;
     }
 }

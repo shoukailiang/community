@@ -2,6 +2,7 @@ package com.shoukailiang.community.question.mapper;
 
 import com.shoukailiang.community.entities.Replay;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.shoukailiang.community.question.vo.ReplayVO;
 
 import java.util.List;
 
@@ -19,5 +20,5 @@ public interface ReplayMapper extends BaseMapper<Replay> {
      * @param questionId
      * @return
      */
-    List<Replay> findByQuestionId(String questionId);
+    List<ReplayVO> findByQuestionId(String questionId);
 }

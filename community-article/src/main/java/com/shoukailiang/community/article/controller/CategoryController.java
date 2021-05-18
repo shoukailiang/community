@@ -1,13 +1,16 @@
 package com.shoukailiang.community.article.controller;
 
+import com.shoukailiang.community.article.dto.CategoryDTO;
 import com.shoukailiang.community.article.req.CategoryREQ;
 import com.shoukailiang.community.article.service.ICategoryService;
+import com.shoukailiang.community.article.vo.CategoryVO;
 import com.shoukailiang.community.entities.Category;
 import com.shoukailiang.community.util.base.ResultVO;
 import com.shoukailiang.community.util.base.ResultVOUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,18 +36,22 @@ public class CategoryController {
     @ApiImplicitParam(name = "id",value = "类别id",required = true)
     @GetMapping("/{id}")
     public ResultVO view(@PathVariable("id") String id){
-        Category category = categoryService.getById(id);
-        return ResultVOUtil.success(category);
+        CategoryVO categoryVO = categoryService.getById(id);
+        return ResultVOUtil.success(categoryVO);
     }
     @ApiOperation("修改类别详情接口")
     @PutMapping   //category
-    public ResultVO update(@RequestBody Category category){
+    public ResultVO update(@RequestBody CategoryDTO categoryDTO){
+        Category category = new Category();
+        BeanUtils.copyProperties(categoryDTO,category);
         categoryService.updateById(category);
         return ResultVOUtil.success();
     }
     @ApiOperation("新增类别详情接口")
     @PostMapping //category
-    public ResultVO save(@RequestBody Category category){
+    public ResultVO save(@RequestBody CategoryDTO categoryDTO){
+        Category category = new Category();
+        BeanUtils.copyProperties(categoryDTO,category);
         categoryService.save(category);
         return ResultVOUtil.success();
     }

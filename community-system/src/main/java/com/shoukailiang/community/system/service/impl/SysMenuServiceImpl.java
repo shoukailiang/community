@@ -7,11 +7,14 @@ import com.shoukailiang.community.system.mapper.SysMenuMapper;
 import com.shoukailiang.community.system.req.SysMenuREQ;
 import com.shoukailiang.community.system.service.ISysMenuService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.shoukailiang.community.system.vo.SysMenuVO;
 import com.shoukailiang.community.util.base.ResultVO;
 import com.shoukailiang.community.util.base.ResultVOUtil;
 import com.shoukailiang.community.util.enums.ResultEnum;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanUtils;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,7 +45,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         // 获取所有菜单
         List<SysMenu> menuList = baseMapper.selectList(wrapper);
         // 封装树状菜单并响应
-        List<SysMenu> data = this.buildTree(menuList);
+        List<SysMenuVO> data = this.buildTree(menuList);
         return ResultVOUtil.success(data);
     }
 
@@ -53,17 +56,19 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      * @param menuList 所有菜单（目录，菜单，按钮）
      * @return
      */
-    private List<SysMenu> buildTree(List<SysMenu> menuList) {
+    private List<SysMenuVO> buildTree(List<SysMenu> menuList) {
         // 1. 获取根菜单
-        List<SysMenu> rootMenuList = new ArrayList<>();
+        List<SysMenuVO> rootMenuList = new ArrayList<>();
         for (SysMenu menu : menuList) {
             // 如果 m.parentId 等于 0 就是根菜单
             if (menu.getParentId().equals("0")) {
-                rootMenuList.add(menu);
+                SysMenuVO sysMenuVO = new SysMenuVO();
+                BeanUtils.copyProperties(menu,sysMenuVO);
+                rootMenuList.add(sysMenuVO);
             }
         }
         // 2. 根菜单下的子菜单
-        for (SysMenu menu : rootMenuList) {
+        for (SysMenuVO menu : rootMenuList) {
             childrenMenu(menuList, menu);
         }
         // 3. 返回根菜单，因为根菜单中封装了子菜单
@@ -79,7 +84,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      * @param menu     父菜单
      * @return
      */
-    private SysMenu childrenMenu(List<SysMenu> menuList, SysMenu menu) {
+    private SysMenu childrenMenu(List<SysMenu> menuList, SysMenuVO menu) {
         // 封装菜单的 parentId = id 子菜单集合
         List<SysMenu> children = new ArrayList<>();
         // 每次都迭代所有菜单，判断是否为 menu 的子菜单
@@ -87,7 +92,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             // 如果 m.parentId 等于 id 则就是它的子菜单
             if (m.getParentId().equals(menu.getId())) {
                 // 是子菜单，则递归去找这个菜单的子菜单
-                final SysMenu e = childrenMenu(menuList, m);
+                SysMenuVO sysMenuVO = new SysMenuVO();
+                BeanUtils.copyProperties(m,sysMenuVO);
+                final SysMenu e = childrenMenu(menuList, sysMenuVO);
                 children.add(e);
             }
         }
@@ -133,7 +140,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         }
 
         // 3. 封装树状菜单
-        List<SysMenu> menuTreeList = this.buildTree(dirMenuList);
+        List<SysMenuVO> menuTreeList = this.buildTree(dirMenuList);
         // 4. 响应数据
         Map<String, Object> data = new HashMap<>();
         data.put("menuTreeList", menuTreeList);

@@ -3,6 +3,7 @@ package com.shoukailiang.community.question.service;
 import com.shoukailiang.community.entities.Question;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.shoukailiang.community.feign.req.UserInfoREQ;
+import com.shoukailiang.community.question.dto.QuestionDTO;
 import com.shoukailiang.community.question.req.QuestionUserREQ;
 import com.shoukailiang.community.util.base.BaseRequest;
 import com.shoukailiang.community.util.base.ResultVO;
@@ -62,10 +63,10 @@ public interface IQuestionService extends IService<Question> {
 
     /**
      * 修改或者新增文章数据
-     * @param question
+     * @param questionDTO
      * @return
      */
-    ResultVO updateOrSave(Question question);
+    ResultVO updateOrSave(QuestionDTO questionDTO);
 
     /**
      * 假删除，通过 问题id 修改状态为 0 ，表示已删

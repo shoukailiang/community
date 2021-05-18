@@ -2,6 +2,7 @@ package com.shoukailiang.community.article.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.shoukailiang.community.article.req.LabelREQ;
+import com.shoukailiang.community.article.vo.LabelVO;
 import com.shoukailiang.community.entities.Label;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
@@ -26,7 +27,7 @@ public interface LabelMapper extends BaseMapper<Label> {
      * @param req
      * @return
      */
-    IPage<Label> queryPage(IPage<Label> page, @Param("req") LabelREQ req);
+    IPage<LabelVO> queryPage(IPage<Label> page, @Param("req") LabelREQ req);
 
 
     /**

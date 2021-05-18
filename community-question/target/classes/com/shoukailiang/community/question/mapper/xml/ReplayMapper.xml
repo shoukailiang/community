@@ -12,7 +12,7 @@
         SELECT * FROM community_replay WHERE parent_id = #{id}
     </select>
 
-    <resultMap id="replayResultMap" type="Replay">
+    <resultMap id="replayResultMap" type="com.shoukailiang.community.question.vo.ReplayVO">
         <id column="id" property="id" />
         <result column="parent_id" property="parentId" />
         <result column="user_id" property="userId" />

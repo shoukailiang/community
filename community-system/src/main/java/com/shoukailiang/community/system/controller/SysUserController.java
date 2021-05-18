@@ -2,6 +2,7 @@ package com.shoukailiang.community.system.controller;
 
 
 import com.shoukailiang.community.entities.SysUser;
+import com.shoukailiang.community.system.dto.SysUserDTO;
 import com.shoukailiang.community.system.req.RegisterREQ;
 import com.shoukailiang.community.system.req.SysUserCheckPasswordREQ;
 import com.shoukailiang.community.system.req.SysUserREQ;
@@ -13,10 +14,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -71,10 +74,13 @@ public class SysUserController {
 
     @ApiOperation("新增用户信息接口")
     @PostMapping // 请求地址 /user
-    public ResultVO save(@RequestBody SysUser sysUser) {
+    public ResultVO save(@RequestBody SysUserDTO sysUserDTO) {
+        SysUser sysUser = new SysUser();
+        BeanUtils.copyProperties(sysUserDTO,sysUser);
         // 密码加密处理
         String password = passwordEncoder.encode(sysUser.getPassword());
         sysUser.setPassword(password);
+        sysUser.setPwdUpdateDate(LocalDateTime.now());
         // 新增
         sysUserService.save(sysUser);
         return ResultVOUtil.success();
@@ -101,8 +107,8 @@ public class SysUserController {
 
     @ApiOperation("更新用户信息接口")
     @PutMapping
-    public ResultVO update(@RequestBody SysUser sysUser) {
-        return sysUserService.update(sysUser);
+    public ResultVO update(@RequestBody SysUserDTO sysUserDTO) {
+        return sysUserService.update(sysUserDTO);
     }
 
 
@@ -111,8 +117,5 @@ public class SysUserController {
     public ResultVO userTotal() {
         return sysUserService.getUserTotal();
     }
-
-
-
 
 }

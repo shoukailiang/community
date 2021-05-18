@@ -2,6 +2,7 @@ package com.shoukailiang.community.system.controller;
 
 
 import com.shoukailiang.community.entities.SysRole;
+import com.shoukailiang.community.system.dto.SysRoleDTO;
 import com.shoukailiang.community.system.req.SysRoleREQ;
 import com.shoukailiang.community.system.service.ISysRoleService;
 import com.shoukailiang.community.util.base.ResultVO;
@@ -10,9 +11,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -40,7 +43,9 @@ public class SysRoleController {
 
     @ApiOperation("新增角色信息接口")
     @PostMapping
-    public ResultVO save(@RequestBody SysRole sysRole) {
+    public ResultVO save(@RequestBody SysRoleDTO sysRoleDTO) {
+        SysRole sysRole = new SysRole();
+        BeanUtils.copyProperties(sysRoleDTO,sysRole);
         sysRoleService.save(sysRole);
         return ResultVOUtil.success();
     }
@@ -54,8 +59,9 @@ public class SysRoleController {
 
     @ApiOperation("修改角色信息接口")
     @PutMapping
-    public ResultVO update(@RequestBody SysRole sysRole) {
-        sysRole.setUpdateDate(new Date());
+    public ResultVO update(@RequestBody SysRoleDTO sysRoleDTO) {
+        SysRole sysRole = new SysRole();
+        BeanUtils.copyProperties(sysRoleDTO,sysRole);
         sysRoleService.updateById(sysRole);
         return ResultVOUtil.success();
     }

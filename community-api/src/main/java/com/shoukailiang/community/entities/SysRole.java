@@ -2,6 +2,8 @@ package com.shoukailiang.community.entities;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -39,11 +41,9 @@ public class SysRole implements Serializable {
 
     @TableField(fill = FieldFill.INSERT)
     @ApiModelProperty(value = "创建时间")
-    private Date createDate;
+    private LocalDateTime createDate;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
     @ApiModelProperty(value = "更新时间")
-    private Date updateDate;
-
-
+    private LocalDateTime updateDate;
 }
