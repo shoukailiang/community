@@ -34,8 +34,8 @@
         <result column="thumhup" property="thumhup"/>
         <result column="status" property="status"/>
         <result column="ispublic" property="ispublic"/>
-        <result column="create_date" property="createDate"/>
-        <result column="update_date" property="updateDate"/>
+        <result column="gmt_create" property="gmtCreate"/>
+        <result column="gmt_modified" property="gmtModified"/>
         <!--一对多 labelList属性  ofType 集合内部的类型-->
         <collection property="labelIds" javaType="list" ofType="string">
             <!-- 映射主键 -->
@@ -67,7 +67,7 @@
         <if test="req.categoryId !=null and req.categoryId != ''">
             AND m1.category_id = #{req.categoryId}
         </if>
-            ORDER BY m3.update_date DESC
+            ORDER BY m3.gmt_modified DESC
     </select>
     <select id="selectCategoryTotal" resultType="map">
         SELECT `name`, `value` FROM v_category_total

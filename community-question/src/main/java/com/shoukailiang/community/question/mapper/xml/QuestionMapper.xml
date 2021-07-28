@@ -12,7 +12,7 @@
                 LEFT JOIN community_question_label m2 ON m1.id = m2.question_id WHERE
             m1.`status` != 0
              AND m2.label_id = #{labelId}
-        ORDER BY m1.update_date DESC
+        ORDER BY m1.gmt_modified DESC
     </select>
     <select id="findQuestionAndLabelIdsById" resultMap="QuestionAndLabelIdsMap">
         SELECT q.*, ql.label_id
@@ -35,8 +35,8 @@
         <result column="thumhup" property="thumhup"/>
         <result column="reply" property="reply"/>
         <result column="status" property="status"/>
-        <result column="create_date" property="createDate"/>
-        <result column="update_date" property="updateDate"/>
+        <result column="gmt_create" property="gmtCreate"/>
+        <result column="gmt_modified" property="gmtModified"/>
         <!--封装标签ID集合-->
         <collection property="labelIds" javaType="list" ofType="string" >
             <id column="label_id" property="id"/>

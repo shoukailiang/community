@@ -41,7 +41,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             wrapper.like("name", req.getName());
         }
         // sort 升序
-        wrapper.orderByAsc("sort").orderByDesc("update_date");
+        wrapper.orderByAsc("sort").orderByDesc("gmt_modified");
         // 获取所有菜单
         List<SysMenu> menuList = baseMapper.selectList(wrapper);
         // 封装树状菜单并响应

@@ -56,7 +56,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
     public ResultVO findNewList(BaseRequest<Question> req) {
         QueryWrapper<Question> wrapper = new QueryWrapper<>();
         wrapper.in("status", Arrays.asList(1, 2));
-        wrapper.orderByDesc("update_date");
+        wrapper.orderByDesc("gmt_modified");
         IPage<Question> data = baseMapper.selectPage(req.getPage(), wrapper);
         return ResultVOUtil.success(data);
     }
@@ -67,7 +67,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         wrapper.in("status", Arrays.asList(1, 2));
         // 查询回复数为0，按  问题创建时间 降序排列
         wrapper.eq("reply", 0);
-        wrapper.orderByDesc("create_date");
+        wrapper.orderByDesc("gmt_create");
         IPage<Question> data = baseMapper.selectPage(req.getPage(), wrapper);
         return ResultVOUtil.success(data);
     }
@@ -167,7 +167,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         // 根据用户id查询
         wrapper.eq("user_id", req.getUserId());
         // 排序
-        wrapper.orderByDesc("update_date");
+        wrapper.orderByDesc("gmt_modified");
         IPage<Question> data = baseMapper.selectPage(req.getPage(), wrapper);
         return ResultVOUtil.success(data);
     }

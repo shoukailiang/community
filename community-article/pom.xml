@@ -53,7 +53,10 @@
             <version>2.1.0</version>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>p6spy</groupId>
+            <artifactId>p6spy</artifactId>
+        </dependency>
     </dependencies>
     <!-- 打包插件 -->
     <build>

@@ -18,13 +18,13 @@ import java.util.Scanner;
 public class CodeGenerator {
 
     // 生成的代码放到哪个工程中
-    private static String PROJECT_NAME = "community-system";
+    private static String PROJECT_NAME = "community-edu";
 
     // 数据库名称
-    private static String DATABASE_NAME = "community_system";
+    private static String DATABASE_NAME = "community_edu";
 
     // 子包名
-    private static String MODULE_NAME = "system";
+    private static String MODULE_NAME = "edu";
 
     public static void main(String[] args) {
         // 代码生成器

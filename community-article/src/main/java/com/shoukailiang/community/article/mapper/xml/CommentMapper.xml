@@ -5,7 +5,7 @@
     <select id="findByArticleId" resultMap="commentResultMap">
         SELECT * FROM community_comment WHERE parent_id = -1
         AND article_id = #{articleId}
-        ORDER BY create_date DESC
+        ORDER BY gmt_create DESC
     </select>
     <!--递归查询子评论，将每一条评论的id作为parent_id来查询子评论-->
     <select id="findByParentId" resultMap="commentResultMap" >
@@ -19,7 +19,7 @@
         <result column="user_image" property="userImage" />
         <result column="article_id" property="articleId" />
         <result column="content" property="content" />
-        <result column="create_date" property="createDate" />
+        <result column="gmt_create" property="gmtCreate" />
         <!--    property对应属性
                 column 传到子查询中
                 一对多映射

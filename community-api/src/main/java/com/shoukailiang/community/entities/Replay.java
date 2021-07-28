@@ -55,5 +55,6 @@ public class Replay implements Serializable {
 
     @TableField(fill = FieldFill.INSERT)
     @ApiModelProperty(value = "创建时间")
-    private LocalDateTime createDate;
+    private LocalDateTime gmtCreate;
+
 }

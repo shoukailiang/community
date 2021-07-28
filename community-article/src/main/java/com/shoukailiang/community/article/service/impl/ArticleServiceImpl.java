@@ -50,7 +50,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         if (StringUtils.isNotEmpty(req.getTitle())) {
             queryWrapper.like("title", req.getTitle());
         }
-        queryWrapper.orderByDesc("update_date");
+        queryWrapper.orderByDesc("gmt_modified");
 
         return ResultVOUtil.success(baseMapper.selectPage(req.getPage(), queryWrapper));
     }
@@ -72,7 +72,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             // 更新，先删除文章标签中间表数据
             labelMapper.deleteArticleLabel(articleDTO.getId());
             // 设置更新时间
-//            article.setUpdateDate(new Date());
+//            article.setgmtModified(new Date());
         }
         // 如果文章是不公开的，则之直接审核通过,否则待审核
         // 0: 已删除, 1:未审核，2:审核通过，3：审核未通过
@@ -112,7 +112,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             articleQueryWrapper.eq("ispublic", req.getIsPublic());
         }
         // 排序
-        articleQueryWrapper.orderByDesc("update_date");
+        articleQueryWrapper.orderByDesc("gmt_modified");
         IPage<Article> page = baseMapper.selectPage(req.getPage(), articleQueryWrapper);
         return ResultVOUtil.success(page);
 
@@ -226,7 +226,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             queryWrapper.like("title", title).or().like("nick_name",title);
         }
         queryWrapper.eq("status",2).eq("ispublic",1);
-        queryWrapper.orderByDesc("update_date");
+        queryWrapper.orderByDesc("gmt_modified");
 
 
         Page<Article> articlePage = new Page<Article>().setCurrent(current).setSize(size);

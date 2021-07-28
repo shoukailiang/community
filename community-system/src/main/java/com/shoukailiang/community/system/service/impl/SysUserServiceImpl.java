@@ -55,7 +55,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         if (StringUtils.isNotEmpty(req.getMobile())) {
             wrapper.like("mobile", req.getMobile());
         }
-        wrapper.orderByDesc("update_date");
+        wrapper.orderByDesc("gmt_modified");
         IPage<SysUser> data = baseMapper.selectPage(req.getPage(), wrapper);
         return ResultVOUtil.success(data);
     }

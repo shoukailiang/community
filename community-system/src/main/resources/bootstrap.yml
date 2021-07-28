@@ -9,4 +9,4 @@ spring:
         server-addr: localhost:8848 # 配置中心地址
         file-extension: yml # 配置中心的配置格式 system-server.yml
   profiles:
-    active: prod
+    active: dev

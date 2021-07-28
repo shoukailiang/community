@@ -53,11 +53,9 @@ public class Advert implements Serializable {
 
     @TableField(fill = FieldFill.INSERT)
     @ApiModelProperty(value = "创建时间")
-    private LocalDateTime createDate;
+    private LocalDateTime gmtCreate;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
     @ApiModelProperty(value = "更新时间")
-    private LocalDateTime updateDate;
-
-
+    private LocalDateTime gmtModified;
 }

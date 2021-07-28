@@ -36,7 +36,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         if (StringUtils.isNotEmpty(req.getName())) {
             wrapper.like("name", req.getName());
         }
-        wrapper.orderByAsc("update_date");
+        wrapper.orderByAsc("gmt_modified");
         IPage<SysRole> sysRoleIPage = baseMapper.selectPage(req.getPage(), wrapper);
         return ResultVOUtil.success(sysRoleIPage);
     }
