@@ -1,4 +1,4 @@
-package com.shoukailiang.community.question.config;
+package com.shoukailiang.community.edu.config;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @EnableTransactionManagement  // 开启事务管理
-@MapperScan("com.shoukailiang.community.question.mapper")// 扫描Mapper接口
+@MapperScan("com.shoukailiang.community.edu.mapper")// 扫描Mapper接口
 @Configuration
 public class MybatisPlusConfig {
     /**

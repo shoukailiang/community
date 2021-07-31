@@ -1,0 +1,50 @@
+swagger:
+  title: IT Alley系统接口文档
+  description: IT Alley系统-教育板块
+  exclude-path: /error # 剔除请求,spring boot 默认会有这个请求，将它不显示在文档中
+
+server:
+  port: 8005
+  servlet:
+    context-path: /edu # 上下文件路径，请求前缀 ip:port/article
+
+spring:
+  application:
+    name: edu-server # 应用名
+    # redis配置
+    redis:
+      host: localhost
+      port: 6379
+      password:
+  # 数据源配置
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://127.0.0.1:3306/community_edu?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8&allowMultiQueries=true
+    #mysql8版本以上驱动包指定新的驱动类
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    #   数据源其他配置, 在 DruidConfig配置类中手动绑定
+    initialSize: 8
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+
+  # nacos
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848 # 服务注册中心地址
+
+mybatis-plus:
+  # community-api中，edu已经依赖了api
+  type-aliases-package: com.shoukailiang.community.entities
+  # xxxMapper.xml 路径 com/shoukailiang/community/article/mapper/xml/CategoryMapper.xml
+  mapper-locations: classpath*:com/shoukailiang/community/edu/mapper/**/*.xml
+
+# 日志级别，会打印sql语句
+logging:
+  level:
+    com.shoukailiang.community.edu.mapper: debug
