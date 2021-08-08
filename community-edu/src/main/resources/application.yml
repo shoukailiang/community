@@ -4,7 +4,7 @@ swagger:
   exclude-path: /error # 剔除请求,spring boot 默认会有这个请求，将它不显示在文档中
 
 server:
-  port: 8005
+  port: 8004
   servlet:
     context-path: /edu # 上下文件路径，请求前缀 ip:port/article
 
@@ -37,6 +37,9 @@ spring:
     nacos:
       discovery:
         server-addr: localhost:8848 # 服务注册中心地址
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
 
 mybatis-plus:
   # community-api中，edu已经依赖了api

@@ -1,7 +1,7 @@
 package com.shoukailiang.community.edu.service;
 
-import com.shoukailiang.community.entities.EduTeacher;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.shoukailiang.community.entities.SysUser;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author shoukailiang
  * @since 2021-07-31
  */
-public interface IEduTeacherService extends IService<EduTeacher> {
+public interface IEduTeacherService extends IService<SysUser> {
 
 }

@@ -1,9 +1,9 @@
 package com.shoukailiang.community.edu.service.impl;
 
-import com.shoukailiang.community.entities.EduTeacher;
 import com.shoukailiang.community.edu.mapper.EduTeacherMapper;
 import com.shoukailiang.community.edu.service.IEduTeacherService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.shoukailiang.community.entities.SysUser;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2021-07-31
  */
 @Service
-public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeacher> implements IEduTeacherService {
+public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, SysUser> implements IEduTeacherService {
 
 }

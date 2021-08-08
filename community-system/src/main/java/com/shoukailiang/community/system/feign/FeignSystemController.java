@@ -40,4 +40,14 @@ public class FeignSystemController implements IFeignSystemController {
     public List<SysMenu> findMenuListByUserId(String userId) {
         return sysMenuService.findByUserId(userId);
     }
+
+    /**
+     * 查询所有讲师
+     * @return
+     */
+    @Override
+    public List<SysUser> findAllTeachers() {
+        List<SysUser> list = sysUserService.findTeachersByRoleId();
+        return list;
+    }
 }

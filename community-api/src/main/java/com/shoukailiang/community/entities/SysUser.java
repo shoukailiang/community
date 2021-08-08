@@ -63,6 +63,12 @@ public class SysUser implements Serializable {
     @ApiModelProperty(value = "注册邮箱")
     private String email;
 
+    @ApiModelProperty(value = "个人简介")
+    private String introduce;
+
+    @ApiModelProperty(value = "头衔（0：大众，1：高级讲师，2：首席讲师）")
+    private Integer level;
+
     @TableField(fill = FieldFill.INSERT)
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime gmtCreate;

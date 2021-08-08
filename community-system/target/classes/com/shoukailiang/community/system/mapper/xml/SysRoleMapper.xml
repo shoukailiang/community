@@ -14,6 +14,7 @@
         FROM sys_role_menu
         WHERE role_id = #{id}
     </select>
+
     <!--  新增角色菜单权限数据
           foreach 标签：item "每个元素"， index "索引"， separator 标签体中整体内容以逗号分隔：(1, 1) , (1, 2)
       -->
@@ -25,4 +26,10 @@
             )
         </foreach>
     </insert>
+
+    <select id="findTeachersByRoleId" resultType="com.shoukailiang.community.system.dto.SysUserDTO">
+        select * from sys_user u,sys_role r,sys_user_role ur
+        where u.id = ur.user_id and r.id = ur.role_id and r.id = #{roleId}
+    </select>
+
 </mapper>

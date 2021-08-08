@@ -2,6 +2,7 @@ package com.shoukailiang.community.system.mapper;
 
 import com.shoukailiang.community.entities.SysRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.shoukailiang.community.entities.SysUser;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -37,4 +38,12 @@ public interface SysRoleMapper extends BaseMapper<SysRole> {
      * @return
      */
     boolean saveRoleMenu(@Param("roleId") String roleId, @Param("menuIds") List<String> menuIds);
+
+    /**
+     * 根据roleID查找所有的老师
+     * @param roleId
+     * @return
+     */
+    // TODO 将来准备优化
+    List<SysUser> findTeachersByRoleId(@Param("roleId") String roleId);
 }

@@ -1,4 +1,4 @@
-package com.shoukailiang.community.util.properties;
+package com.shoukailiang.community.oss.properties;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,8 +11,8 @@ import java.io.Serializable;
 @Getter
 @Component
 // application.yml中
-@ConfigurationProperties(prefix = "community.article")
-public class ArticleProperties implements Serializable {
+@ConfigurationProperties(prefix = "community.oss")
+public class OssProperties implements Serializable {
     // 会将 community.article.aliyun 绑定到 AliyunProperties 对象上。
     private AliyunProperties aliyun;
 }

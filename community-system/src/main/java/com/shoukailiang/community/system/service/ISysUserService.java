@@ -66,7 +66,7 @@ public interface ISysUserService extends IService<SysUser> {
 
     /**
      * 更新用户信息
-     * @param sysUser
+     * @param
      * @return
      */
     ResultVO update(SysUserDTO sysUserDTO);
@@ -98,5 +98,9 @@ public interface ISysUserService extends IService<SysUser> {
      */
     SysUser findByUsername(String username);
 
-
+    /**
+     * 查找所有的讲师
+     * @return
+     */
+    List<SysUser> findTeachersByRoleId();
 }

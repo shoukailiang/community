@@ -7,6 +7,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="community-oss" />
         <module name="community-oauth2" />
         <module name="community-api" />
         <module name="community-question" />
@@ -18,6 +19,7 @@
         <module name="community-generator" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel target="11" />
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
@@ -27,6 +29,7 @@
       <module name="community-gateway" options="-parameters" />
       <module name="community-generator" options="-parameters" />
       <module name="community-oauth2" options="-parameters" />
+      <module name="community-oss" options="-parameters" />
       <module name="community-question" options="-parameters" />
       <module name="community-system" options="-parameters" />
       <module name="community-util" options="-parameters" />

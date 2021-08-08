@@ -23,4 +23,8 @@ public interface IFeignSystemController {
     @GetMapping("/api/feign/menu/{userId}")
     List<SysMenu> findMenuListByUserId(@PathVariable("userId") String userId);
 
+    @ApiOperation("Feign接口-查询所有的讲师")
+    @GetMapping("/api/feign/edu/findAllTeacher")
+    List<SysUser> findAllTeachers();
+
 }

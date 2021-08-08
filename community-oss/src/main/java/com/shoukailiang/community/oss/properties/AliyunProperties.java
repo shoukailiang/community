@@ -1,6 +1,7 @@
-package com.shoukailiang.community.util.properties;
+package com.shoukailiang.community.oss.properties;
 
 import lombok.Data;
+import org.springframework.beans.factory.InitializingBean;
 
 import java.io.Serializable;
 

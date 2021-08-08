@@ -1,8 +1,7 @@
 package com.shoukailiang.community.edu.mapper;
 
-import com.shoukailiang.community.entities.EduTeacher;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Mapper;
+import com.shoukailiang.community.entities.SysUser;
 
 /**
  * <p>
@@ -12,6 +11,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @author shoukailiang
  * @since 2021-07-31
  */
-public interface EduTeacherMapper extends BaseMapper<EduTeacher> {
+public interface EduTeacherMapper extends BaseMapper<SysUser> {
 
 }

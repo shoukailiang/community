@@ -40,6 +40,12 @@ public class SysUserDTO {
     @ApiModelProperty(value = "昵称")
     private String nickName;
 
+    @ApiModelProperty(value = "个人简介")
+    private String introduce;
+
+    @ApiModelProperty(value = "头衔（0：大众，1：高级讲师，2：首席讲师）")
+    private Integer level;
+
     @ApiModelProperty(value = "头像url")
     private String imageUrl;
 

@@ -6,7 +6,21 @@
 
     <select id="findArticleAndLabelById" resultMap="ArticleAndLabelMap">
         SELECT
-            m1.*,
+            m1.id,
+            m1.user_id,
+            m1.nick_name,
+            m1.user_image,
+            m1.title,
+            m1.summary,
+            m1.image_url,
+            m1.md_content,
+            m1.html_content,
+            m1.view_count,
+            m1.thumhup,
+            m1.status,
+            m1.ispublic,
+            m1.gmt_create,
+            m1.gmt_modified,
             m3.id label_id,
             m3.`name` label_name
         FROM
@@ -55,7 +69,22 @@
 
     <select id="findListByLabelIdOrCategoryId" resultType="com.shoukailiang.community.article.dto.ArticleDTO">
         SELECT
-            DISTINCT m3.*
+            DISTINCT
+                m3.id,
+                m3.user_id,
+                m3.nick_name,
+                m3.user_image,
+                m3.title,
+                m3.summary,
+                m3.image_url,
+                m3.md_content,
+                m3.html_content,
+                m3.view_count,
+                m3.thumhup,
+                m3.status,
+                m3.ispublic,
+                m3.gmt_create,
+                m3.gmt_modified
         FROM
         community_label m1
             JOIN community_article_label m2 ON m1.id = m2.label_id

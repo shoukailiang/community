@@ -8,6 +8,7 @@ import com.shoukailiang.community.feign.IFeignArticleController;
 import com.shoukailiang.community.feign.IFeignQuestionController;
 import com.shoukailiang.community.feign.req.UserInfoREQ;
 import com.shoukailiang.community.system.dto.SysUserDTO;
+import com.shoukailiang.community.system.mapper.SysRoleMapper;
 import com.shoukailiang.community.system.mapper.SysUserMapper;
 import com.shoukailiang.community.system.req.RegisterREQ;
 import com.shoukailiang.community.system.req.SysUserCheckPasswordREQ;
@@ -229,6 +230,15 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         QueryWrapper queryWrapper = new QueryWrapper();
         queryWrapper.eq("username", username);
         return baseMapper.selectOne(queryWrapper);
+    }
+
+    @Autowired
+    private SysRoleMapper sysRoleMapper;
+
+    @Override
+    public List<SysUser> findTeachersByRoleId() {
+        List<SysUser> teachersByRoleId = sysRoleMapper.findTeachersByRoleId("1422181437532053506");
+        return teachersByRoleId;
     }
 
 
