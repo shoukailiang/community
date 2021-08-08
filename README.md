@@ -1,9 +1,9 @@
 # community
 > 基于微服务的社区
 
-包含 文章微服务，问答微服务，系统微服务，授权微服务，教育微服务（开发中...）
+包含 文章微服务，问答微服务，系统微服务，授权微服务,oss微服务，教育微服务（开发中...）
 # 技术栈
-> jdk11
+> jdk11+mysql5.7
 SpringBoot 2.3.2.RELEASE,SpringCloud Hoxton.SR7,nacos 1.3.2
 # 前端
 基于vue开发 https://github.com/shoukailiang/vue-community
