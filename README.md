@@ -11,6 +11,9 @@ SpringBoot 2.3.2.RELEASE,SpringCloud Hoxton.SR7,nacos 1.3.2
 # 后台管理
 基于vue开发 https://github.com/shoukailiang/vue-element-community-admin
 
+# 单点登录
+基于vue 开发 https://github.com/shoukailiang/vue-auth-center
+
 # 配置文件
 - 都放在nacos的配置中心了，所以本地的yml全注释了
 - bootstrap.yml是nacos 启动需要加载的
